@@ -9,7 +9,7 @@ function InstagramLink({ isNotMobile }: InstagramProps) {
     <aside>
       <a href="https://www.instagram.com/heywemake/" target="_blank">
         <Container>
-          <InstagramLogo src="/instagram.svg" />
+          <InstagramLogo src="/instagram-icon.svg" />
           {isNotMobile && (
             <Wrapper>
               <span>#wemakewednesday</span>
