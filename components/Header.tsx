@@ -34,6 +34,7 @@ function Header({ isNotMobile }: HeaderProps) {
 export default Header;
 
 const Container = styled.header`
+  z-index: 10;
   position: fixed;
   width: 100%;
   display: grid;
