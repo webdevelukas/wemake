@@ -54,9 +54,6 @@ const Wrapper = styled.div`
   span {
     font-size: 0.75rem;
   }
-  b {
-    font-size: 1.25rem;
-  }
 `;
 
 const InstagramLogo = styled.img`
