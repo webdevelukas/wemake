@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export default function Home() {
+export default function About() {
   return (
     <>
       <Wrapper />
-      <Span>Hey, we make.</Span>
+      <Span>Hey, about we make.</Span>
     </>
   );
 }
