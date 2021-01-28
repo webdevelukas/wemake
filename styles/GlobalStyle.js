@@ -9,10 +9,10 @@ const GlobalStyle = createGlobalStyle`
   html {
     --color-text: white;
     --color-primary: rgb(6,15,20);
-    --breakpoint: 850px;
+    --font-family-primary: Arial, Helvetica, sans-serif;
   }
   html {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-family-primary);
     font-size: 16px;
     color: var(--color-text);
   }
