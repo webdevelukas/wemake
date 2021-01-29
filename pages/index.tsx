@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import NextImage from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import elementIsInView from "services/elementIsInView";
 
 const video = {
   mp4: { url: "/placeholder.mp4" },
@@ -36,6 +37,24 @@ export default function Home() {
     index: -1,
   });
 
+  useEffect(() => {
+    const galleryItems = Array.from(
+      document.getElementsByClassName("gallery-item")
+    );
+
+    function addClassOnElementInView() {
+      galleryItems.forEach((galleryItem) => {
+        if (elementIsInView(galleryItem)) {
+          galleryItem.classList.add("is-or-was-visible");
+        }
+      });
+
+      window.requestAnimationFrame(addClassOnElementInView);
+    }
+
+    addClassOnElementInView();
+  });
+
   return (
     <>
       <Video autoPlay loop muted playsInline>
@@ -48,9 +67,10 @@ export default function Home() {
           quality={100}
         />
       </Video>
-      <VideoGallery>
+      <VideoGallery id="work">
         {placeholderImages.map((image, index) => (
           <Preview
+            className="gallery-item"
             key={index}
             onMouseEnter={() => setPreview({ show: true, index: index })}
             onMouseLeave={() => setPreview({ show: false, index: index })}
@@ -98,7 +118,8 @@ const VideoGallery = styled.article`
   grid-auto-rows: auto;
   grid-auto-flow: row;
   grid-gap: 8vmax;
-  margin: 8rem auto;
+  margin: 2rem auto 0;
+  padding: 8rem 0;
 `;
 
 const Wrapper = styled.div`
@@ -119,8 +140,21 @@ const Title = styled.span`
 
 const Preview = styled.div`
   position: relative;
-  background: purple;
   min-height: 20vmax;
+
+  &.is-or-was-visible {
+    transform: translateY(200px);
+    animation: slide-in 1.2s ease forwards;
+  }
+  &.is-or-was-visible:nth-child(odd) {
+    animation-duration: 1s;
+  }
+
+  @keyframes slide-in {
+    to {
+      transform: translateY(0);
+    }
+  }
 
   :nth-of-type(1) {
     margin: 0 2rem 0 -2rem;
