@@ -6,17 +6,18 @@ const GlobalStyle = createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
+
   html {
     --color-text: white;
     --color-primary: rgb(6,15,20);
     --font-family-primary: Arial, Helvetica, sans-serif;
     --font-family-secondary: 'Times New Roman', Times, serif;
-  }
-  html {
+
     font-family: var(--font-family-primary);
     font-size: 16px;
     color: var(--color-text);
   }
+  
   body {
     padding: 0;
     margin: 0;
