@@ -10,6 +10,7 @@ const GlobalStyle = createGlobalStyle`
     --color-text: white;
     --color-primary: rgb(6,15,20);
     --font-family-primary: Arial, Helvetica, sans-serif;
+    --font-family-secondary: 'Times New Roman', Times, serif;
   }
   html {
     font-family: var(--font-family-primary);
@@ -23,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: var(--font-family-secondary);
     color: var(--color-text);
     text-decoration: none;
     cursor: pointer;
@@ -31,6 +32,10 @@ const GlobalStyle = createGlobalStyle`
     &.active {
       font-style: italic;
     }
+  }
+
+  p {
+    margin: 0;
   }
 `;
 
