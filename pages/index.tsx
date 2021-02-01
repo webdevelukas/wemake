@@ -75,11 +75,11 @@ export default function Home() {
             onMouseEnter={() => setPreview({ show: true, index: index })}
             onMouseLeave={() => setPreview({ show: false, index: index })}
           >
-            <Wrapper>
+            <VideoDescription>
               <p>
                 <Title>Virtual Exhibition </Title> | Company
               </p>
-            </Wrapper>
+            </VideoDescription>
             {preview.show && preview.index === index && (
               <PreviewVideo autoPlay loop muted playsInline>
                 <source src={video.webm?.url} type="video/webm" />
@@ -112,25 +112,40 @@ const PreviewVideo = styled.video`
 `;
 
 const VideoGallery = styled.article`
-  width: 54vmax;
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-gap: 8vmax;
-  margin: 2rem auto 0;
-  padding: 8rem 0;
+  grid-gap: 6rem;
+  margin: 8rem auto;
+
+  @media screen and (min-width: 820px) {
+    width: 54vmax;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: auto;
+    grid-auto-flow: row;
+    grid-gap: 8vmax;
+    padding: 8rem 0;
+  }
 `;
 
-const Wrapper = styled.div`
+const VideoDescription = styled.div`
   position: absolute;
-  max-width: 20vmax;
-  transform: rotate(-90deg) translate(-50%, -50%);
-  transform-origin: bottom left;
   text-align: center;
-  bottom: 50%;
   font-size: 0.9rem;
   z-index: 10;
+  top: -2rem;
+  width: 100%;
+
+  @media screen and (min-width: 820px) {
+    transform: rotate(-90deg) translate(-50%, -50%);
+    transform-origin: bottom left;
+    bottom: 50%;
+    max-width: 20vmax;
+    top: unset;
+    width: unset;
+  }
 `;
 
 const Title = styled.span`
@@ -140,11 +155,11 @@ const Title = styled.span`
 
 const Preview = styled.div`
   position: relative;
-  min-height: 20vmax;
+  min-height: 60vw;
+  transform: translateY(200px);
 
   &.is-or-was-visible {
-    transform: translateY(200px);
-    animation: slide-in 1.2s ease forwards;
+    animation: slide-in 0.8s ease forwards;
   }
   &.is-or-was-visible:nth-child(odd) {
     animation-duration: 1s;
@@ -156,46 +171,50 @@ const Preview = styled.div`
     }
   }
 
-  :nth-of-type(1) {
-    margin: 0 2rem 0 -2rem;
-  }
+  @media screen and (min-width: 820px) {
+    min-height: 20vmax;
 
-  :nth-of-type(2) {
-    grid-row: span 2;
-    margin: -4rem -1rem 4rem 1rem;
-  }
+    :nth-of-type(1) {
+      margin: 0 2rem 0 -2rem;
+    }
 
-  :nth-of-type(3) {
-  }
+    :nth-of-type(2) {
+      grid-row: span 2;
+      margin: -4rem -1rem 4rem 1rem;
+    }
 
-  :nth-of-type(4) {
-    grid-column: span 2;
-    min-height: 30vmax;
-  }
+    :nth-of-type(3) {
+    }
 
-  :nth-of-type(5) {
-    margin: -1rem 2rem 1rem -2rem;
-  }
+    :nth-of-type(4) {
+      grid-column: span 2;
+      min-height: 30vmax;
+    }
 
-  :nth-of-type(6) {
-    margin: 0 -4rem 0 4rem;
-  }
+    :nth-of-type(5) {
+      margin: -1rem 2rem 1rem -2rem;
+    }
 
-  :nth-of-type(7) {
-    margin: -1rem 0 1rem 0;
-  }
+    :nth-of-type(6) {
+      margin: 0 -4rem 0 4rem;
+    }
 
-  :nth-of-type(8) {
-    grid-row: span 2;
-    margin: 0 -2rem 0 2rem;
-  }
+    :nth-of-type(7) {
+      margin: -1rem 0 1rem 0;
+    }
 
-  :nth-of-type(9) {
-    margin: 0 4rem 0 -4rem;
-  }
+    :nth-of-type(8) {
+      grid-row: span 2;
+      margin: 0 -2rem 0 2rem;
+    }
 
-  :nth-of-type(10) {
-    grid-column: span 2;
-    min-height: 30vmax;
+    :nth-of-type(9) {
+      margin: 0 4rem 0 -4rem;
+    }
+
+    :nth-of-type(10) {
+      grid-column: span 2;
+      min-height: 30vmax;
+    }
   }
 `;
