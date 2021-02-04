@@ -6,16 +6,18 @@ const GlobalStyle = createGlobalStyle`
   *::after {
     box-sizing: border-box;
   }
+
   html {
     --color-text: white;
     --color-primary: rgb(6,15,20);
-    --breakpoint: 850px;
-  }
-  html {
-    font-family: Arial, Helvetica, sans-serif;
+    --font-family-primary: Arial, Helvetica, sans-serif;
+    --font-family-secondary: 'Times New Roman', Times, serif;
+
+    font-family: var(--font-family-primary);
     font-size: 16px;
     color: var(--color-text);
   }
+  
   body {
     padding: 0;
     margin: 0;
@@ -23,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    font-family: 'Times New Roman', Times, serif;
+    font-family: var(--font-family-secondary);
     color: var(--color-text);
     text-decoration: none;
     cursor: pointer;
@@ -31,6 +33,10 @@ const GlobalStyle = createGlobalStyle`
     &.active {
       font-style: italic;
     }
+  }
+
+  p {
+    margin: 0;
   }
 `;
 

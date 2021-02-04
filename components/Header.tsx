@@ -18,7 +18,7 @@ function Header({ isNotMobile }: HeaderProps) {
       </NextLink>
       <Navigation role="navigation">
         {isNotMobile && (
-          <NextLink href="/">
+          <NextLink href="/#work">
             <a className={pathname === "/" ? "active" : ""}>Work</a>
           </NextLink>
         )}
@@ -34,16 +34,18 @@ function Header({ isNotMobile }: HeaderProps) {
 export default Header;
 
 const Container = styled.header`
+  z-index: 10;
   position: fixed;
   width: 100%;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto auto;
   justify-items: end;
   align-items: center;
-  padding: 8vw;
+  justify-content: space-between;
+  padding: 8vw 8vw 0;
 
   @media screen and (min-width: 600px) {
-    padding: 3rem;
+    padding: 3rem 3rem 0;
   }
 `;
 
