@@ -121,10 +121,6 @@ const Video = styled.video`
 `;
 
 const TextContainer = styled.div`
-  h1 {
-    font-family: var(--font-family-secondary);
-  }
-
   @media screen and (min-width: 600px) {
     width: 80vw;
     margin: 0 auto;
@@ -132,15 +128,5 @@ const TextContainer = styled.div`
 
   @media screen and (min-width: 820px) {
     max-width: 1200px;
-
-    h1 {
-      font-size: 3rem;
-    }
-    h2 {
-      font-size: 2rem;
-    }
-    p {
-      font-size: 1.2rem;
-    }
   }
 `;
