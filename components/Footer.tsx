@@ -43,6 +43,5 @@ const Mail = styled.b`
   font-size: 1.3rem;
   transform: rotate(-1deg);
   margin-bottom: 1rem;
-
   font-style: italic;
 `;

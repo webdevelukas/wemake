@@ -1,10 +1,12 @@
+import dynamic from "next/dynamic";
 import useMediaQuery from "hooks/useMediaQuery";
 import Header from "./Header";
-import Footer from "./Footer";
 import InstagramLink from "./InstagramLink";
 import styled from "styled-components";
 import useScrollPosition from "hooks/useScrollPosition";
 import { useEffect, useState } from "react";
+
+const Footer = dynamic(() => import("./Footer"));
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -37,7 +39,6 @@ function MainLayout({ children }: MainLayoutProps) {
         showContact={showContact}
         setShowContact={setShowContact}
       />
-
       <ContactOverlay showContact={showContact}>
         <Button onClick={() => setShowContact(false)}>X Close</Button>
         <GridContainer>
