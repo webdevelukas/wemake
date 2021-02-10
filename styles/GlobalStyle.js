@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
     --color-primary: rgb(6,15,20);
     --color-primary-transparent: rgb(6,15,20,0.9);
     --font-family-primary: Arial, Helvetica, sans-serif;
-    --font-family-secondary: 'Times New Roman', Times, serif;
+    --font-family-secondary: 'Spectral SC', serif;
 
     font-family: var(--font-family-primary);
     font-size: 16px;
@@ -44,6 +44,7 @@ const GlobalStyle = createGlobalStyle`
 
   h1, h2 {
     font-family: var(--font-family-secondary);
+    text-transform: uppercase;
   }
 
   h1 {
@@ -62,6 +63,10 @@ const GlobalStyle = createGlobalStyle`
     @media screen and (min-width: 820px) {
       font-size: 2rem;
     }
+  }
+
+  small {
+    font-size: 0.8rem;
   }
 `;
 
