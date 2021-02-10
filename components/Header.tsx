@@ -72,6 +72,7 @@ const Navigation = styled.nav`
   grid-auto-columns: auto;
   grid-auto-flow: column;
   grid-column-gap: 5vw;
+  text-transform: uppercase;
 
   @media screen and (min-width: 600px) {
     grid-column-gap: 2rem;
