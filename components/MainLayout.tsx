@@ -22,6 +22,7 @@ function MainLayout({ children }: MainLayoutProps) {
 
     if (typeof window !== "undefined" && showContact) {
       body.style.position = "fixed";
+      body.style.overflowY = "scroll";
       body.style.top = `-${scrollPosition}px`;
     }
     if (typeof window !== "undefined" && !showContact) {
@@ -74,7 +75,7 @@ const ContactOverlay = styled.div<{ showContact: boolean }>`
   background-color: var(--color-primary-transparent);
   max-height: ${({ showContact }) => (showContact ? "100%" : 0)};
   transition: all 0.3s ease-in-out;
-  overflow-y: auto;
+  overflow-y: scroll;
 `;
 
 const Button = styled.a`
