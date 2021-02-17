@@ -5,10 +5,9 @@ import { useRouter } from "next/dist/client/router";
 type HeaderProps = {
   isNotMobile: boolean;
   setShowContact: (showContact: boolean) => void;
-  showContact: boolean;
 };
 
-function Header({ isNotMobile, showContact, setShowContact }: HeaderProps) {
+function Header({ isNotMobile, setShowContact }: HeaderProps) {
   const { pathname } = useRouter();
 
   return (
@@ -28,7 +27,7 @@ function Header({ isNotMobile, showContact, setShowContact }: HeaderProps) {
           <a className={pathname === "/about" ? "active" : ""}>About</a>
         </NextLink>
         <a
-          className={pathname === "/contact" || showContact ? "active" : ""}
+          className={pathname === "/contact" ? "active" : ""}
           onClick={() => setShowContact(true)}
         >
           Contact
