@@ -35,11 +35,7 @@ function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <>
-      <Header
-        isNotMobile={isNotMobile}
-        showContact={showContact}
-        setShowContact={setShowContact}
-      />
+      <Header isNotMobile={isNotMobile} setShowContact={setShowContact} />
       <ContactOverlay showContact={showContact}>
         <Button onClick={() => setShowContact(false)}>X Close</Button>
         <GridContainer>
