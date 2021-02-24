@@ -39,12 +39,14 @@ const GlobalStyle = createGlobalStyle`
 
   p {
     margin: 0;
-    font-size: 1.2rem;
+    font-size:1rem;
+
+    @media screen and (min-width: 820px) {
+    font-size: 1.2rem;}
   }
 
-  h1, h2 {
+  h1, h2, h3 {
     font-family: var(--font-family-secondary);
-    text-transform: uppercase;
   }
 
   h1 {
@@ -62,6 +64,14 @@ const GlobalStyle = createGlobalStyle`
 
     @media screen and (min-width: 820px) {
       font-size: 2rem;
+    }
+  }
+
+  h3 {
+    font-size: 2rem;
+
+    @media screen and (min-width: 820px) {
+      font-size: 1.6rem;
     }
   }
 
