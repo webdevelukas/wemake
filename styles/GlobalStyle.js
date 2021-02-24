@@ -72,7 +72,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     @media screen and (min-width: 820px) {
-      font-size: 2rem;
+      font-size: 2.2rem;
     }
   }
 
@@ -85,7 +85,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     @media screen and (min-width: 820px) {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
     }
   }
 
