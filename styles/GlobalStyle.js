@@ -50,9 +50,13 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 3.8rem;
+    font-size: 14vmin;
     line-height: 1.1;
-    margin-bottom: 2rem;
+    margin: 8vmin 0 4vmin;
+
+    @media screen and (min-width: 420px) {
+      font-size: 10vmin;
+    }
 
     @media screen and (min-width: 820px) {
       font-size: 4rem;
@@ -60,7 +64,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    font-size: 2.8rem;
+    font-size: 10vmin;
+    margin: 6vmin 0 3vmin;
+
+    @media screen and (min-width: 420px) {
+      font-size: 8vmin;
+    }
 
     @media screen and (min-width: 820px) {
       font-size: 2rem;
@@ -68,7 +77,12 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h3 {
-    font-size: 2rem;
+    font-size: 8vmin;
+    margin: 4vmin 0 2vmin;
+
+    @media screen and (min-width: 420px) {
+      font-size: 6vmin;
+    }
 
     @media screen and (min-width: 820px) {
       font-size: 1.6rem;
