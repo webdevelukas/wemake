@@ -1,6 +1,12 @@
 import styled from "styled-components";
 import NextImage from "next/image";
 import { GetStaticPaths, GetStaticProps } from "next";
+import dynamic from "next/dynamic";
+import { useState } from "react";
+
+const ContactOverlay = dynamic(
+  () => import("./../../components/ContactOverlay")
+);
 
 type ProjectPageProps = {
   headImage: {
@@ -16,8 +22,14 @@ export default function ProjectPage({
   placeholderImages,
   randomMargin,
 }: ProjectPageProps) {
+  const [showContact, setShowContact] = useState<boolean>(false);
+
   return (
     <>
+      <ContactOverlay
+        showContact={showContact}
+        setShowContact={setShowContact}
+      />
       <Picture>
         <NextImage
           src={headImage.url}
@@ -78,6 +90,9 @@ export default function ProjectPage({
             </ImageTextSection>
           ))}
         </Section>
+        <CallToAction>
+          You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
+        </CallToAction>
       </Article>
     </>
   );
@@ -260,3 +275,23 @@ const VideoDescription = styled.div`
 `;
 
 const TextWrapper = styled.div``;
+
+const CallToAction = styled.p`
+  font-weight: bold;
+  font-size: 14vmin;
+  line-height: 1.1;
+  margin: 20vmin auto;
+
+  @media screen and (min-width: 420px) {
+    font-size: 10vmin;
+  }
+
+  @media screen and (min-width: 820px) {
+    font-size: 4rem;
+  }
+
+  a {
+    font-style: italic;
+    font-weight: lighter;
+  }
+`;
