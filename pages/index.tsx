@@ -64,6 +64,7 @@ export default function Home() {
           src={fallbackImage.url}
           alt={fallbackImage.alt}
           layout="fill"
+          objectFit="cover"
           quality={100}
         />
       </Video>
