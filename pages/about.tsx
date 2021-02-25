@@ -75,9 +75,6 @@ export default function About({ teamMembers }: AboutProps) {
           </small>
         </p>
       </TextContainer>
-      <TextContainer>
-        <h2>Follow us on Instagram</h2>
-      </TextContainer>
     </PageWrapper>
   );
 }
