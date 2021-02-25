@@ -13,14 +13,12 @@ type ProjectPageProps = {
     url: string;
     alt: string;
   };
-  placeholderImages: [{ url: string; text?: string }];
-  randomMargin: number;
+  placeholderImages: [{ url: string; text?: string; randomMargin: number }];
 };
 
 export default function ProjectPage({
   headImage,
   placeholderImages,
-  randomMargin,
 }: ProjectPageProps) {
   const [showContact, setShowContact] = useState<boolean>(false);
 
@@ -65,30 +63,33 @@ export default function ProjectPage({
           </TextWrapper>
         </ImagesTextSection>
         <Section>
-          {placeholderImages.slice(3).map((image, index) => (
-            <ImageTextSection
-              key={index}
-              withText={Boolean(image.text)}
-              randomMargin={randomMargin}
-            >
-              <ImageContainer>
-                <VideoDescription>
-                  {index + 1} - Virtual Exhibition
-                </VideoDescription>
-                <NextImage src={image.url} layout="fill" objectFit="cover" />
-              </ImageContainer>
-              {image.text && (
-                <TextWrapper>
-                  <h3>Teaser</h3>
-                  <p>
-                    Mit dem Projekt “Udsilauri-Zwillinge für Eliteschule
-                    Stuttgart” unterstützt Ihr sowohl die sportliche als auch
-                    schulische Laufbahn der Brüder George und Daniel Udsilauri.
-                  </p>
-                </TextWrapper>
-              )}
-            </ImageTextSection>
-          ))}
+          {placeholderImages
+            .slice(3)
+            .map(({ url, text, randomMargin }, index) => (
+              <ImageTextSection
+                key={index}
+                withText={Boolean(text)}
+                randomMargin={randomMargin}
+              >
+                <ImageContainer>
+                  <VideoDescription>
+                    {index + 1} - Virtual Exhibition
+                  </VideoDescription>
+                  <NextImage src={url} layout="fill" objectFit="cover" />
+                </ImageContainer>
+                {text && (
+                  <TextWrapper>
+                    <h3>Teaser</h3>
+                    <p>
+                      Mit dem Projekt “Udsilauri-Zwillinge für Eliteschule
+                      Stuttgart” unterstützt Ihr sowohl die sportliche als auch
+                      schulische Laufbahn der Brüder George und Daniel
+                      Udsilauri.
+                    </p>
+                  </TextWrapper>
+                )}
+              </ImageTextSection>
+            ))}
         </Section>
         <CallToAction>
           You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
@@ -117,13 +118,15 @@ export const getStaticProps: GetStaticProps = async () => {
     { url: "/placeholder/10.jpg", text: "Hallo" },
   ];
 
-  const randomMargin = Math.random() * 5;
+  placeholderImages.map((placeholderImage) => {
+    const randomMargin = Math.random() * 5;
+    placeholderImage.randomMargin = randomMargin;
+  });
 
   return {
     props: {
       headImage: headImage,
       placeholderImages: placeholderImages,
-      randomMargin: randomMargin,
     },
   };
 };
