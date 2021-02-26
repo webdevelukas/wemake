@@ -69,7 +69,10 @@ export default function ProjectPage({
               <ImageTextSection
                 key={index}
                 withText={Boolean(text)}
-                randomMargin={randomMargin}
+                style={{
+                  "--negativeMargin": `${-randomMargin}vw`,
+                  "--positiveMargin": `${randomMargin}vw`,
+                }}
               >
                 <ImageContainer>
                   <VideoDescription>
@@ -202,19 +205,16 @@ const ImagesTextSection = styled.section`
   }
 `;
 
-const ImageTextSection = styled.section<{
-  withText: boolean;
-  randomMargin: number;
-}>`
+const ImageTextSection = styled.section<{ withText: boolean }>`
   display: grid;
   grid-template-rows: ${({ withText }) => (withText ? "auto 1fr" : "auto")};
 
   :nth-of-type(odd) {
-    margin: 0 -${({ randomMargin }) => randomMargin}vw 0 ${({ randomMargin }) => randomMargin}vw;
+    margin: 0 var(--negativeMargin, 0) 0 var(--positiveMargin, 0);
   }
 
   :nth-of-type(even) {
-    margin: 0 ${({ randomMargin }) => randomMargin}vw 0 -${({ randomMargin }) => randomMargin}vw;
+    margin: 0 var(--positiveMargin, 0) 0 var(--negativeMargin, 0);
   }
 
   @media screen and (min-width: 820px) {
