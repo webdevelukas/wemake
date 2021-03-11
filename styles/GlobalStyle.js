@@ -11,7 +11,7 @@ const GlobalStyle = createGlobalStyle`
     --color-text: white;
     --color-primary: rgb(6,15,20);
     --color-primary-transparent: rgb(6,15,20,0.9);
-    --font-family-primary: Arial, Helvetica, sans-serif;
+    --font-family-primary: Roboto, sans-serif;
     --font-family-secondary: 'Spectral SC', serif;
 
     font-family: var(--font-family-primary);
@@ -40,6 +40,7 @@ const GlobalStyle = createGlobalStyle`
   p {
     margin: 0;
     font-size:1rem;
+    font-weight: 300;
 
     @media screen and (min-width: 820px) {
     font-size: 1.2rem;}
