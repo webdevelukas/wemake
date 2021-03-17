@@ -2,30 +2,40 @@ import { GetStaticProps } from "next";
 import NextImage from "next/image";
 import shuffleArray from "services/shuffleArray";
 import styled from "styled-components";
+import requestGraphCMS from "services/graphcms";
+import DOMPurify from "isomorphic-dompurify";
 
 type AboutProps = {
   teamMembers: [
     {
       name: string;
-      video: { mp4: { url: string }; webm: { url: string } };
-      image: { url: string; alt: string };
+      videos: [{ url: string; mimeType: string }];
+      placeholderImage: { url: string; alt: string };
     }
   ];
+  aboutPage: {
+    header: string;
+    description: { html: string };
+  };
 };
 
-export default function About({ teamMembers }: AboutProps) {
+export default function About({ teamMembers, aboutPage }: AboutProps) {
+  const { header, description } = aboutPage;
+  const purifiedDescription = DOMPurify.sanitize(description.html);
+
   return (
     <PageWrapper>
       <Container>
-        {teamMembers.map(({ name, video, image }, index) => (
+        {teamMembers.map(({ name, videos, placeholderImage }, index) => (
           <Wrapper key={index}>
             <Name>{name}</Name>
             <Video autoPlay loop muted playsInline>
-              <source src={video.webm?.url} type="video/webm" />
-              <source src={video.mp4?.url} type="video/mp4" />
+              {videos.map(({ url, mimeType }, index) => (
+                <source key={index} src={url} type={mimeType} />
+              ))}
               <NextImage
-                src={image.url}
-                alt={image.alt}
+                src={placeholderImage.url}
+                alt={placeholderImage.alt}
                 layout="fill"
                 quality={100}
               />
@@ -34,74 +44,41 @@ export default function About({ teamMembers }: AboutProps) {
         ))}
       </Container>
       <TextContainer>
-        <h1>About</h1>
-        <p>Wir sind Brüder seit 1989, und Filmemacher seit 2012.</p>
-        <p>
-          Unsere Arbeit verändert den Blick auf die Dinge. Und ab und an sogar
-          das Leben*. Als Filmemacher interessiert uns vor allem, wie eine
-          Geschichte erzählt wird und warum - und was man dabei denkt und fühlt.
-          Wir produzieren ehrlichen Content mit der Ambition, Ästhetik und
-          Aussage bestmöglich zu verschmelzen. Durch echte Inhalte, starke
-          Bilder, wirkungsvolle Musik und spürbare Sounds transportieren wir
-          Informationen und Emotionen kreativ an ihr Ziel. Egal wie die
-          Herangehensweise aussieht, am Ende steht ein stimmiges,
-          stimmungsvolles und authentisches Ergebnis. Und eine Geschichte, die
-          gehört werden will.
-        </p>
-        <p>
-          <small>
-            *2018 Crowdfunding-Video für Gebrüder Udsilauri
-            <br />
-            {"->"}{" "}
-            <a href="https://www.facebook.com/daniel.udsilauri?__cft__[0]=AZXMWd68_VdZc240URUEqmPS8cOi6XxOO2ZHvJRPO2ozUXz4sdUgKHAuQLASTNPowdK1q_Qrf3jWf75p9gqpcd4cMOpR6uRh2HNmEBA6v41_NOuc12NNtAUNCJyN5PV1ot2m9NY5dNLd3NgcCa8ccnpX6pxi25dZpS5UqnVgOTXBjg&__tn__=-]K-R">
-              Daniel Udsilauri
-            </a>{" "}
-            wird Deutscher Meister 2019 im U18-Judo
-          </small>
-        </p>
-        <p>
-          <small>
-            {" "}
-            *2019 Kampagnen-Video Europawahlkampf für{" "}
-            <a href="https://www.facebook.com/freundaniel?__cft__[0]=AZXMWd68_VdZc240URUEqmPS8cOi6XxOO2ZHvJRPO2ozUXz4sdUgKHAuQLASTNPowdK1q_Qrf3jWf75p9gqpcd4cMOpR6uRh2HNmEBA6v41_NOuc12NNtAUNCJyN5PV1ot2m9NY5dNLd3NgcCa8ccnpX6pxi25dZpS5UqnVgOTXBjg&__tn__=-]K-R">
-              Daniel Freund
-            </a>
-            <br />
-            {"->"} Daniel Freund zieht zusammen mit 20 anderen von{" "}
-            <a href="https://www.facebook.com/B90DieGruenen/?rf=1837152016509293">
-              Bündnis90/DieGrünen
-            </a>{" "}
-            ins Europaparlament ein
-          </small>
-        </p>
+        <h1>{header}</h1>
+        <TextContainer
+          dangerouslySetInnerHTML={{ __html: purifiedDescription }}
+        />
       </TextContainer>
     </PageWrapper>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const teamMembers = [
-    {
-      name: "Cornelius Bierer",
-      video: {
-        mp4: { url: "/placeholder/Cornelius-Bierer_loop.mp4" },
-        webm: { url: "/placeholder/Cornelius-Bierer_loop.webm" },
-      },
-      image: { url: "/placeholder/Cornelius-Bierer_loop.png", alt: "" },
-    },
-    {
-      name: "Matthias Bierer",
-      video: {
-        mp4: { url: "/placeholder/Matthias-Bierer_loop.mp4" },
-        webm: { url: "/placeholder/Matthias-Bierer_loop.webm" },
-      },
-      image: { url: "/placeholder/Matthias-Bierer_loop.png", alt: "" },
-    },
-  ];
+  const { aboutPage, teamMembers } = await requestGraphCMS(`{
+    aboutPage(where: {id: "cklkskuyw8a210a62h8xqzw15"}) {
+      header
+      description {
+        html
+      }
+    }
+    teamMembers {
+      name
+      videos {url mimeType}
+      placeholderImage {
+        url
+        alt
+      }
+    }
+  }`);
 
   const shuffledTeamMembers = shuffleArray(teamMembers);
 
-  return { props: { teamMembers: shuffledTeamMembers } };
+  return {
+    props: {
+      teamMembers: shuffledTeamMembers,
+      aboutPage: aboutPage,
+    },
+  };
 };
 
 const PageWrapper = styled.div`
@@ -173,7 +150,7 @@ const TextContainer = styled.div`
     max-width: 1200px;
   }
 
-  p {
+  > p {
     margin-bottom: 1rem;
   }
 `;
