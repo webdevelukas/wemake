@@ -2,10 +2,10 @@ import styled from "styled-components";
 import NextImage from "next/image";
 import { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
-import Player from "@vimeo/player";
+import { useState } from "react";
 import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
+import VideoGallery from "components/VideoGallery";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 
@@ -24,16 +24,6 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     teaser,
     vimeoVideos,
   } = project;
-
-  useEffect(() => {
-    vimeoVideos.map(({ vimeoUrl }, index) => {
-      new Player(`video-${index}`, {
-        url: vimeoUrl,
-        dnt: true,
-        responsive: true,
-      });
-    });
-  });
 
   return (
     <>
@@ -73,33 +63,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             <p>{teaser}</p>
           </div>
         </ImagesTextSection>
-        <Section>
-          {vimeoVideos.map(
-            ({ title, description, descriptionTitle, randomMargin }, index) => (
-              <ImageTextSection
-                key={index}
-                withText={Boolean(description)}
-                style={{
-                  "--negativeMargin": `${-randomMargin}vw`,
-                  "--positiveMargin": `${randomMargin}vw`,
-                }}
-              >
-                <ImageContainer>
-                  <VideoDescription>
-                    {index + 1} - {title}
-                  </VideoDescription>
-                  <div id={`video-${index}`} />
-                </ImageContainer>
-                {description && (
-                  <div>
-                    <h3>{descriptionTitle}</h3>
-                    <p>{description}</p>
-                  </div>
-                )}
-              </ImageTextSection>
-            )
-          )}
-        </Section>
+        <VideoGallery videos={vimeoVideos} />
         <CallToAction>
           You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
         </CallToAction>
@@ -204,17 +168,6 @@ const Article = styled.article`
   }
 `;
 
-const Section = styled.section`
-  display: grid;
-  grid-auto-rows: auto;
-  grid-auto-flow: row;
-  grid-row-gap: 8rem;
-
-  @media screen and (min-width: 820px) {
-    grid-row-gap: 4rem;
-  }
-`;
-
 const ImagesTextSection = styled.section`
   display: grid;
   grid-template-rows: auto auto;
@@ -223,27 +176,6 @@ const ImagesTextSection = styled.section`
     grid-template-rows: unset;
     grid-template-columns: 1fr 1fr;
     grid-column-gap: 6rem;
-  }
-`;
-
-const ImageTextSection = styled.section<{ withText: boolean }>`
-  display: grid;
-  grid-template-rows: ${({ withText }) => (withText ? "auto 1fr" : "auto")};
-
-  :nth-of-type(odd) {
-    margin: 0 var(--negativeMargin, 0) 0 var(--positiveMargin, 0);
-  }
-
-  :nth-of-type(even) {
-    margin: 0 var(--positiveMargin, 0) 0 var(--negativeMargin, 0);
-  }
-
-  @media screen and (min-width: 820px) {
-    grid-template-rows: unset;
-    grid-template-columns: ${({ withText }) =>
-      withText ? "2fr 1fr" : "80vmin"};
-    grid-column-gap: 3rem;
-    justify-content: center;
   }
 `;
 
@@ -269,31 +201,6 @@ const ImageWrapper = styled.div`
   :nth-of-type(2) {
     grid-row: span 2;
     margin: -4rem -1vw 4rem 1vw;
-  }
-`;
-
-const ImageContainer = styled.div`
-  position: relative;
-`;
-
-const VideoDescription = styled.div`
-  position: absolute;
-  text-align: center;
-  z-index: 10;
-  top: -2rem;
-  width: 100%;
-
-  p {
-    font-size: 0.9rem;
-  }
-
-  @media screen and (min-width: 820px) {
-    transform: rotate(-90deg) translate(-50%, -50%);
-    transform-origin: bottom left;
-    bottom: 50%;
-    max-width: 20vmax;
-    top: unset;
-    width: unset;
   }
 `;
 
