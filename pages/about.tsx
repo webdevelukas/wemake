@@ -2,8 +2,8 @@ import { GetStaticProps } from "next";
 import shuffleArray from "services/shuffleArray";
 import styled from "styled-components";
 import requestGraphCMS from "services/graphcms";
-import DOMPurify from "isomorphic-dompurify";
 import TeamMembers from "components/TeamMembers";
+import sanitizeHTML from "services/sanitizeHTML";
 
 type AboutProps = {
   teamMembers: [
@@ -21,7 +21,6 @@ type AboutProps = {
 
 export default function About({ teamMembers, aboutPage }: AboutProps) {
   const { header, description } = aboutPage;
-  const purifiedDescription = DOMPurify.sanitize(description.html);
 
   return (
     <PageWrapper>
@@ -29,7 +28,7 @@ export default function About({ teamMembers, aboutPage }: AboutProps) {
       <TextContainer>
         <h1>{header}</h1>
         <TextContainer
-          dangerouslySetInnerHTML={{ __html: purifiedDescription }}
+          dangerouslySetInnerHTML={{ __html: sanitizeHTML(description.html) }}
         />
       </TextContainer>
     </PageWrapper>
