@@ -1,6 +1,6 @@
 import { GraphQLClient } from "graphql-request";
 
-const requestGraphCMS = async (query: string) => {
+async function requestGraphCMS(query, variables) {
   const endpoint = process.env.GRAPHCMS_API || "";
   const apiToken = process.env.GRAPHCMS_API_TOKEN;
 
@@ -11,13 +11,13 @@ const requestGraphCMS = async (query: string) => {
       },
     });
 
-    const data = await graphQLClient.request(query);
+    const data = await graphQLClient.request(query, variables);
 
     return data;
   } catch (error) {
     console.error(error);
     return null;
   }
-};
+}
 
 export default requestGraphCMS;

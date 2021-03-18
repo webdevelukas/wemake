@@ -2,25 +2,38 @@ import styled from "styled-components";
 import NextImage from "next/image";
 import { GetStaticPaths, GetStaticProps } from "next";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Player from "@vimeo/player";
+import requestGraphCMS from "services/graphcms";
+import { Project, Video } from "types";
 
-const ContactOverlay = dynamic(
-  () => import("./../../components/ContactOverlay")
-);
+const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 
 type ProjectPageProps = {
-  headImage: {
-    url: string;
-    alt: string;
-  };
-  placeholderImages: [{ url: string; text?: string; randomMargin: number }];
+  project: Project;
 };
 
-export default function ProjectPage({
-  headImage,
-  placeholderImages,
-}: ProjectPageProps) {
+export default function ProjectPage({ project }: ProjectPageProps) {
   const [showContact, setShowContact] = useState<boolean>(false);
+  const {
+    headerImage,
+    customer,
+    title,
+    teaserImages,
+    teaserTitle,
+    teaser,
+    vimeoVideos,
+  } = project;
+
+  useEffect(() => {
+    vimeoVideos.map(({ vimeoUrl }, index) => {
+      new Player(`video-${index}`, {
+        url: vimeoUrl,
+        dnt: true,
+        responsive: true,
+      });
+    });
+  });
 
   return (
     <>
@@ -28,47 +41,44 @@ export default function ProjectPage({
         showContact={showContact}
         setShowContact={setShowContact}
       />
-      <Picture>
+      <HeaderPicture>
         <NextImage
-          src={headImage.url}
-          alt={headImage.alt}
+          src={headerImage.url}
+          alt={headerImage.alt}
           layout="fill"
           objectFit="cover"
           objectPosition="center"
         />
-      </Picture>
+      </HeaderPicture>
       <Article>
         <Header>
-          <Subtitle>TSV Erbach</Subtitle>
-          <h1>Udsilari-Zwillinge für Eliteschule Stuttgart </h1>
+          <Subtitle>{customer.name}</Subtitle>
+          <h1>{title}</h1>
         </Header>
         <ImagesTextSection>
           <ImageGallery>
-            {placeholderImages.slice(0, 3).map((image, index) => (
+            {teaserImages.map((image, index) => (
               <ImageWrapper key={index}>
-                <NextImage src={image.url} layout="fill" objectFit="cover" />
+                <NextImage
+                  src={image.url}
+                  alt={image.alt}
+                  layout="fill"
+                  objectFit="cover"
+                />
               </ImageWrapper>
             ))}
           </ImageGallery>
           <TextWrapper>
-            <h2>Teaser</h2>
-            <p>
-              Mit dem Projekt “Udsilauri-Zwillinge für Eliteschule Stuttgart”
-              unterstützt Ihr sowohl die sportliche als auch schulische Laufbahn
-              der Brüder George und Daniel Udsilauri. Beide Athleten der
-              Judo-Abteilung des TSV Erbach haben das Angebot bekommen, im
-              kommenden Schuljahr die 10.Klasse der Linden-Realschule in
-              Stuttgart-Untertürkheim zu besuchen.
-            </p>
+            <h2>{teaserTitle}</h2>
+            <p>{teaser}</p>
           </TextWrapper>
         </ImagesTextSection>
         <Section>
-          {placeholderImages
-            .slice(3)
-            .map(({ url, text, randomMargin }, index) => (
+          {vimeoVideos.map(
+            ({ title, description, descriptionTitle, randomMargin }, index) => (
               <ImageTextSection
                 key={index}
-                withText={Boolean(text)}
+                withText={Boolean(description)}
                 style={{
                   "--negativeMargin": `${-randomMargin}vw`,
                   "--positiveMargin": `${randomMargin}vw`,
@@ -76,23 +86,19 @@ export default function ProjectPage({
               >
                 <ImageContainer>
                   <VideoDescription>
-                    {index + 1} - Virtual Exhibition
+                    {index + 1} - {title}
                   </VideoDescription>
-                  <NextImage src={url} layout="fill" objectFit="cover" />
+                  <div id={`video-${index}`} />
                 </ImageContainer>
-                {text && (
+                {description && (
                   <TextWrapper>
-                    <h3>Teaser</h3>
-                    <p>
-                      Mit dem Projekt “Udsilauri-Zwillinge für Eliteschule
-                      Stuttgart” unterstützt Ihr sowohl die sportliche als auch
-                      schulische Laufbahn der Brüder George und Daniel
-                      Udsilauri.
-                    </p>
+                    <h3>{descriptionTitle}</h3>
+                    <p>{description}</p>
                   </TextWrapper>
                 )}
               </ImageTextSection>
-            ))}
+            )
+          )}
         </Section>
         <CallToAction>
           You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
@@ -102,46 +108,61 @@ export default function ProjectPage({
   );
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const headImage = {
-    url: "/placeholder/03.jpg",
-    alt: "",
-  };
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const { project } = await requestGraphCMS(
+    `query ProjectPageQuery($slug: String!) {
+        project(where: {slug: $slug}) {
+          headerImage {
+            url
+            alt
+          }
+          title
+          teaserTitle
+          teaser
+          teaserImages {
+            url
+            alt
+          }
+          customer {
+            name
+          }
+          vimeoVideos {
+            title
+            descriptionTitle
+            description
+            vimeoUrl
+          }
+        }
+  }`,
+    { slug: params?.slug }
+  );
 
-  const placeholderImages = [
-    { url: "/placeholder/01.jpg", text: "Hallo" },
-    { url: "/placeholder/02.jpg", text: "Hallo" },
-    { url: "/placeholder/03.jpg" },
-    { url: "/placeholder/04.jpg", text: "Hallo" },
-    { url: "/placeholder/05.jpg" },
-    { url: "/placeholder/06.jpg", text: "Hallo" },
-    { url: "/placeholder/07.jpg" },
-    { url: "/placeholder/08.jpg" },
-    { url: "/placeholder/09.jpg", text: "Hallo" },
-    { url: "/placeholder/10.jpg", text: "Hallo" },
-  ];
-
-  placeholderImages.map((placeholderImage) => {
+  project.vimeoVideos.map((vimeoVideo: Video) => {
     const randomMargin = Math.random() * 5;
-    placeholderImage.randomMargin = randomMargin;
+    vimeoVideo.randomMargin = randomMargin;
   });
 
   return {
     props: {
-      headImage: headImage,
-      placeholderImages: placeholderImages,
+      project: project,
     },
   };
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
+  const { projects } = await requestGraphCMS(`{projects {slug}}`);
+
+  const paths = projects.map((project: Project) => ({
+    params: { slug: project.slug },
+  }));
+
   return {
-    paths: [{ params: { uid: "hallo" } }],
+    paths,
     fallback: false,
   };
 };
 
-const Picture = styled.picture`
+const HeaderPicture = styled.picture`
   position: relative;
   display: block;
   width: 100%;
@@ -253,7 +274,6 @@ const ImageWrapper = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  padding-bottom: 60%;
 `;
 
 const VideoDescription = styled.div`
@@ -283,7 +303,7 @@ const CallToAction = styled.p`
   font-weight: bold;
   font-size: 14vmin;
   line-height: 1.1;
-  margin: 20vmin auto;
+  margin: 20vmin auto 30vmin;
 
   @media screen and (min-width: 420px) {
     font-size: 10vmin;
