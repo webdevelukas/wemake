@@ -4,6 +4,7 @@ import styled from "styled-components";
 import requestGraphCMS from "services/graphcms";
 import TeamMembers from "components/TeamMembers";
 import sanitizeHTML from "services/sanitizeHTML";
+import { gql } from "graphql-request";
 
 type AboutProps = {
   teamMembers: [
@@ -36,22 +37,27 @@ export default function About({ teamMembers, aboutPage }: AboutProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { aboutPage, teamMembers } = await requestGraphCMS(`{
-    aboutPage(where: {id: "cklkskuyw8a210a62h8xqzw15"}) {
-      header
-      description {
-        html
+  const { aboutPage, teamMembers } = await requestGraphCMS(gql`
+    {
+      aboutPage(where: { id: "cklkskuyw8a210a62h8xqzw15" }) {
+        header
+        description {
+          html
+        }
+      }
+      teamMembers {
+        name
+        videos {
+          url
+          mimeType
+        }
+        placeholderImage {
+          url
+          alt
+        }
       }
     }
-    teamMembers {
-      name
-      videos {url mimeType}
-      placeholderImage {
-        url
-        alt
-      }
-    }
-  }`);
+  `);
 
   const shuffledTeamMembers = shuffleArray(teamMembers);
 

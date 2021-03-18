@@ -6,6 +6,7 @@ import { useState } from "react";
 import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
 import VideoGallery from "components/VideoGallery";
+import { gql } from "graphql-request";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 
@@ -114,7 +115,15 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const { projects } = await requestGraphCMS(`{projects {slug}}`);
+  const { projects } = await requestGraphCMS(
+    gql`
+      {
+        projects {
+          slug
+        }
+      }
+    `
+  );
 
   const paths = projects.map((project: Project) => ({
     params: { slug: project.slug },
