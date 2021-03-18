@@ -68,10 +68,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
               </ImageWrapper>
             ))}
           </ImageGallery>
-          <TextWrapper>
+          <div>
             <h2>{teaserTitle}</h2>
             <p>{teaser}</p>
-          </TextWrapper>
+          </div>
         </ImagesTextSection>
         <Section>
           {vimeoVideos.map(
@@ -91,10 +91,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
                   <div id={`video-${index}`} />
                 </ImageContainer>
                 {description && (
-                  <TextWrapper>
+                  <div>
                     <h3>{descriptionTitle}</h3>
                     <p>{description}</p>
-                  </TextWrapper>
+                  </div>
                 )}
               </ImageTextSection>
             )
@@ -296,8 +296,6 @@ const VideoDescription = styled.div`
     width: unset;
   }
 `;
-
-const TextWrapper = styled.div``;
 
 const CallToAction = styled.p`
   font-weight: bold;
