@@ -8,11 +8,11 @@ interface ImageTextSectionProps extends CSSProperties {
   "--positiveMargin": string | 0 | undefined;
 }
 
-type VideoGalleryProps = {
+type VimeoGalleryProps = {
   videos: Videos;
 };
 
-function VideoGallery({ videos }: VideoGalleryProps) {
+function VimeoGallery({ videos }: VimeoGalleryProps) {
   useEffect(() => {
     videos.map(({ vimeoUrl }, index) => {
       new Player(`video-${index}`, {
@@ -58,7 +58,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
   );
 }
 
-export default VideoGallery;
+export default VimeoGallery;
 
 const Section = styled.section`
   display: grid;

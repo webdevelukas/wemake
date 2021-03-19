@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
-import VideoGallery from "components/VideoGallery";
+import VimeoGallery from "components/galleries/VimeoGallery";
 import { gql } from "graphql-request";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
@@ -64,7 +64,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
             <p>{teaser}</p>
           </div>
         </ImagesTextSection>
-        <VideoGallery videos={vimeoVideos} />
+        <VimeoGallery videos={vimeoVideos} />
         <CallToAction>
           You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
         </CallToAction>
