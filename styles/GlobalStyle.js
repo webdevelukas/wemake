@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
     --color-primary-transparent: rgb(6,15,20,0.9);
     --font-family-primary: 'Karla', sans-serif;
     --font-family-secondary: 'Spectral SC', serif;
+    --max-content-width: 1200px;
 
     font-family: var(--font-family-primary);
     font-size: 16px;
@@ -39,11 +40,12 @@ const GlobalStyle = createGlobalStyle`
 
   p {
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 300;
+    line-height: 1.5rem;
 
     @media screen and (min-width: 820px) {
-    font-size: 1.2rem;}
+    font-size: 1.25rem;}
   }
 
   h1, h2, h3 {

@@ -5,6 +5,7 @@ import requestGraphCMS from "services/graphcms";
 import TeamMembers from "components/TeamMembers";
 import sanitizeHTML from "services/sanitizeHTML";
 import { gql } from "graphql-request";
+import TextContainer from "elements/TextContainer";
 
 type AboutProps = {
   teamMembers: [
@@ -78,20 +79,5 @@ const PageWrapper = styled.div`
 
   @media screen and (min-width: 600px) {
     padding-top: 30vh;
-  }
-`;
-
-const TextContainer = styled.div`
-  @media screen and (min-width: 600px) {
-    width: 80vw;
-    margin: 0 auto;
-  }
-
-  @media screen and (min-width: 820px) {
-    max-width: 1200px;
-  }
-
-  > p {
-    margin-bottom: 1rem;
   }
 `;

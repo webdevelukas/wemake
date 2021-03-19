@@ -173,7 +173,7 @@ const Article = styled.article`
   margin: 0 auto;
 
   @media screen and (min-width: 820px) {
-    max-width: 1200px;
+    max-width: var(--max-content-width);
   }
 `;
 

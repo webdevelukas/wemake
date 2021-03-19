@@ -46,7 +46,7 @@ const Container = styled.div`
   @media screen and (min-width: 820px) {
     grid-template-columns: 1fr 1fr;
     height: 70vh;
-    max-width: 1200px;
+    max-width: var(--max-content-width);
   }
 `;
 
