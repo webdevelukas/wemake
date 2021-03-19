@@ -19,7 +19,7 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
       </NextLink>
       <Navigation role="navigation">
         {isNotMobile && (
-          <NextLink href="/#work">
+          <NextLink href="/">
             <a className={pathname === "/" ? "active" : ""}>Work</a>
           </NextLink>
         )}
@@ -71,7 +71,7 @@ const Navigation = styled.nav`
   grid-auto-columns: auto;
   grid-auto-flow: column;
   grid-column-gap: 5vw;
-  text-transform: uppercase;
+  text-transform: lowercase;
 
   @media screen and (min-width: 600px) {
     grid-column-gap: 2rem;
