@@ -1,19 +1,61 @@
+import TextContainer from "elements/TextContainer";
+import { gql } from "graphql-request";
+import { GetStaticProps } from "next";
+import requestGraphCMS from "services/graphcms";
+import sanitizeHTML from "services/sanitizeHTML";
 import styled from "styled-components";
 
-export default function Impressum() {
+type ImprintPageProps = {
+  imprintPage: {
+    htmlContent: string;
+  };
+};
+
+export default function ImprintPage({ imprintPage }: ImprintPageProps) {
+  const { htmlContent } = imprintPage;
+
   return (
-    <>
-      <Wrapper />
-      <Span>Hey, impressum of we make.</Span>
-    </>
+    <PageWrapper>
+      <TextContainer
+        dangerouslySetInnerHTML={{
+          __html: sanitizeHTML(htmlContent),
+        }}
+      />
+    </PageWrapper>
   );
 }
 
-const Wrapper = styled.div`
-  height: 100vh;
-  width: 100%;
-`;
+export const getStaticProps: GetStaticProps = async () => {
+  const { imprintPage } = await requestGraphCMS(gql`
+    {
+      imprintPage(where: { id: "ckmg7xwc81fft0e521pfox0jb" }) {
+        htmlContent
+      }
+    }
+  `);
 
-const Span = styled.div`
-  height: 600px;
+  return {
+    props: {
+      imprintPage: imprintPage,
+    },
+  };
+};
+
+const PageWrapper = styled.div`
+  padding: 24vh 1rem;
+
+  @media screen and (max-width: 600px) {
+    ${TextContainer} {
+      > h1 {
+        font-size: 2rem;
+      }
+      > h2 {
+        font-size: 1.5rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: 600px) {
+    padding-top: 30vh;
+  }
 `;
