@@ -7,6 +7,7 @@ export type Video = {
   customer?: {
     name: string;
   };
+  thumbnailUrl: string;
 };
 
 export type Videos = [Video];
