@@ -8,6 +8,9 @@ export type Video = {
     name: string;
   };
   thumbnailUrl: string;
+  project?: {
+    slug: string;
+  };
 };
 
 export type Videos = [Video];

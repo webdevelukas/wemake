@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import elementIsInView from "services/elementIsInView";
 import styled from "styled-components";
-import { Videos } from "types";
+import { Video, Videos } from "types";
 import NextImage from "next/image";
+import NextLink from "next/link";
 
 type PreviewProps = {
   show: boolean;
@@ -18,6 +19,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     show: false,
     index: -1,
   });
+  const [overlay, setOverlay] = useState({ show: false, index: -1 });
 
   useEffect(() => {
     const galleryItems = Array.from(
@@ -37,6 +39,14 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     addClassOnElementInView();
   });
 
+  function handleVideoClick(video: Video, index: number) {
+    if (video.project === null) {
+      console.log("Play Video");
+    } else {
+      setOverlay({ show: true, index: index });
+    }
+  }
+
   return (
     <GridContainer>
       {videos.map((video, index) => (
@@ -45,7 +55,20 @@ function VideoGallery({ videos }: VideoGalleryProps) {
           key={index}
           onMouseEnter={() => setPreview({ show: true, index: index })}
           onMouseLeave={() => setPreview({ show: false, index: index })}
+          onClick={() => handleVideoClick(video, index)}
         >
+          {overlay.show && overlay.index === index && (
+            <VideoOverlay>
+              <PlayVideoArea onClick={() => console.log("Play Video")}>
+                <PlayButton src="/play-button.svg" />
+              </PlayVideoArea>
+              <NextLink href={`/projekte/${video.project?.slug}`} passHref>
+                <a>
+                  <GoToProjectArea>Zum Projekt</GoToProjectArea>
+                </a>
+              </NextLink>
+            </VideoOverlay>
+          )}
           <VideoDescription>
             <p>
               <Title>{video.title}</Title>
@@ -66,6 +89,35 @@ function VideoGallery({ videos }: VideoGalleryProps) {
 }
 
 export default VideoGallery;
+
+const PlayButton = styled.img`
+  width: 30px;
+`;
+
+const VideoOverlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  z-index: 10;
+  cursor: pointer;
+`;
+
+const PlayVideoArea = styled.div`
+  background-color: rgba(var(--color-primary), 0.5);
+  display: flex;
+  justify-content: center;
+`;
+
+const GoToProjectArea = styled.div`
+  background-color: var(--color-primary-transparent);
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+`;
 
 const GridContainer = styled.article`
   width: 100%;
