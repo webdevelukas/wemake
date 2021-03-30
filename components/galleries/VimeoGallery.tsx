@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import styled, { CSSProperties } from "styled-components";
 import { Videos } from "types";
 
-interface ImageTextSectionProps extends CSSProperties {
+interface VideoTextSectionProps extends CSSProperties {
   "--negativeMargin": string | 0 | undefined;
   "--positiveMargin": string | 0 | undefined;
+  "--size": string | 0 | undefined;
 }
 
 type VimeoGalleryProps = {
@@ -26,31 +27,35 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
   return (
     <Section>
       {videos.map(
-        ({ title, description, descriptionTitle, randomMargin }, index) => {
-          const style: ImageTextSectionProps = {
+        (
+          { title, description, descriptionTitle, hasPriority, randomMargin },
+          index
+        ) => {
+          const style: VideoTextSectionProps = {
             "--negativeMargin": randomMargin && -randomMargin + "vw",
             "--positiveMargin": randomMargin && randomMargin + "vw",
+            "--size": hasPriority ? "60%" : "50%",
           };
 
           return (
-            <ImageTextSection
+            <VideoTextSection
               key={index}
               withText={Boolean(description)}
               style={style}
             >
-              <ImageContainer>
+              <VideoContainer>
                 <VideoDescription>
                   {index + 1} - {title}
                 </VideoDescription>
                 <div id={`video-${index}`} />
-              </ImageContainer>
+              </VideoContainer>
               {description && (
                 <div>
                   <h3>{descriptionTitle}</h3>
                   <p>{description}</p>
                 </div>
               )}
-            </ImageTextSection>
+            </VideoTextSection>
           );
         }
       )}
@@ -64,14 +69,10 @@ const Section = styled.section`
   display: grid;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-row-gap: 8rem;
-
-  @media screen and (min-width: 820px) {
-    grid-row-gap: 4rem;
-  }
+  grid-row-gap: 4rem;
 `;
 
-const ImageTextSection = styled.section<{ withText: boolean }>`
+const VideoTextSection = styled.section<{ withText: boolean }>`
   display: grid;
   grid-template-rows: ${({ withText }) => (withText ? "auto 1fr" : "auto")};
 
@@ -86,13 +87,13 @@ const ImageTextSection = styled.section<{ withText: boolean }>`
   @media screen and (min-width: 820px) {
     grid-template-rows: unset;
     grid-template-columns: ${({ withText }) =>
-      withText ? "2fr 1fr" : "80vmin"};
+      withText ? "var(--size, 50%) minmax(auto, 30%)" : "var(--size, 50%)"};
     grid-column-gap: 3rem;
     justify-content: center;
   }
 `;
 
-const ImageContainer = styled.div`
+const VideoContainer = styled.div`
   position: relative;
 `;
 

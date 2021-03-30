@@ -43,8 +43,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </HeaderPicture>
       <Article>
         <Header>
-          <Subtitle>{customer.name}</Subtitle>
           <h1>{title}</h1>
+          <Subtitle>{customer.name}</Subtitle>
         </Header>
         <ImagesTextSection>
           <ImageGallery>
@@ -96,6 +96,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             descriptionTitle
             description
             vimeoUrl
+          hasPriority
           }
         }
   }`,
@@ -103,7 +104,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   );
 
   project.vimeoVideos.map((vimeoVideo: Video) => {
-    const randomMargin = Math.random() * 5;
+    const randomMargin = Math.random() * 0.75;
     vimeoVideo.randomMargin = randomMargin;
   });
 
@@ -140,7 +141,6 @@ const HeaderPicture = styled.picture`
   display: block;
   width: 100%;
   height: 35vh;
-
   margin-bottom: 5rem;
 `;
 
@@ -153,13 +153,14 @@ const Header = styled.header`
 const Subtitle = styled.p`
   font-size: 14vmin;
   line-height: 1.1;
+  padding-left: 1rem;
 
   @media screen and (min-width: 420px) {
     font-size: 10vmin;
   }
 
   @media screen and (min-width: 820px) {
-    font-size: 4rem;
+    font-size: 2rem;
   }
 `;
 
@@ -169,7 +170,7 @@ const Article = styled.article`
   grid-auto-rows: auto;
   grid-auto-flow: row;
   grid-row-gap: 10rem;
-  width: 80vw;
+  width: 90vw;
   margin: 0 auto;
 
   @media screen and (min-width: 820px) {
@@ -184,7 +185,7 @@ const ImagesTextSection = styled.section`
   @media screen and (min-width: 820px) {
     grid-template-rows: unset;
     grid-template-columns: 1fr 1fr;
-    grid-column-gap: 6rem;
+    grid-column-gap: 4rem;
   }
 `;
 
@@ -192,7 +193,7 @@ const ImageGallery = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
-  grid-gap: 1rem;
+  grid-gap: 0.25rem;
   min-height: 300px;
 
   @media screen and (min-width: 820px) {
