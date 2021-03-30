@@ -4,7 +4,8 @@ import NextImage from "next/image";
 type TeamMembersProps = {
   teamMembers: [
     {
-      name: string;
+      firstName: string;
+      lastName: string;
       videos: [{ url: string; mimeType: string }];
       placeholderImage: { url: string; alt: string };
     }
@@ -14,22 +15,28 @@ type TeamMembersProps = {
 function TeamMembers({ teamMembers }: TeamMembersProps) {
   return (
     <Container>
-      {teamMembers.map(({ name, videos, placeholderImage }, index) => (
-        <Wrapper key={index}>
-          <Name>{name}</Name>
-          <Video autoPlay loop muted playsInline>
-            {videos.map(({ url, mimeType }, index) => (
-              <source key={index} src={url} type={mimeType} />
-            ))}
-            <NextImage
-              src={placeholderImage.url}
-              alt={placeholderImage.alt}
-              layout="fill"
-              quality={100}
-            />
-          </Video>
-        </Wrapper>
-      ))}
+      {teamMembers.map(
+        ({ firstName, lastName, videos, placeholderImage }, index) => (
+          <Wrapper key={index}>
+            <Name>
+              {firstName}
+              <br />
+              {lastName}
+            </Name>
+            <Video autoPlay loop muted playsInline>
+              {videos.map(({ url, mimeType }, index) => (
+                <source key={index} src={url} type={mimeType} />
+              ))}
+              <NextImage
+                src={placeholderImage.url}
+                alt={placeholderImage.alt}
+                layout="fill"
+                quality={100}
+              />
+            </Video>
+          </Wrapper>
+        )
+      )}
     </Container>
   );
 }
@@ -46,32 +53,45 @@ const Container = styled.div`
   @media screen and (min-width: 820px) {
     grid-template-columns: 1fr 1fr;
     height: 70vh;
-    max-width: var(--max-content-width);
-  }
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  height: 50vh;
-
-  @media screen and (min-width: 820px) {
-    height: 80vh;
-
-    :last-of-type {
-      margin: 6rem 0 -6rem;
-    }
+    max-width: 70vmax;
   }
 `;
 
 const Name = styled.p`
   position: absolute;
-  text-align: center;
   z-index: 10;
-  transform: rotate(-90deg) translate(-50%, -50%);
-  transform-origin: bottom left;
-  bottom: 50%;
-  max-width: 70vh;
+  font-family: var(--font-family-secondary);
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  line-height: 2.875rem;
+  font-style: italic;
+`;
+
+const Wrapper = styled.div`
+  position: relative;
+  width: 100%;
+  height: auto;
+  padding-bottom: 140%;
+
+  @media screen and (min-width: 820px) {
+    :last-of-type {
+      margin: 6rem 0 -6rem;
+    }
+  }
+
+  :first-of-type {
+    ${Name} {
+      bottom: 5rem;
+      left: -7.5%;
+    }
+  }
+
+  :last-of-type {
+    ${Name} {
+      bottom: -3rem;
+      left: -7.5%;
+    }
+  }
 `;
 
 const Video = styled.video`
