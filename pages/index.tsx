@@ -58,6 +58,11 @@ export const getStaticProps: GetStaticProps = async () => {
             name
           }
           vimeoUrl
+          project {
+            slug
+            callToAction
+          }
+          callToAction
         }
       }
     }

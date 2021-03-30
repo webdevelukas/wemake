@@ -10,7 +10,10 @@ export type Video = {
   thumbnailUrl: string;
   project?: {
     slug: string;
+    callToAction: string;
   };
+  callToAction?: string;
+  hasPriority: boolean;
 };
 
 export type Videos = [Video];

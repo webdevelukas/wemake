@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import elementIsInView from "services/elementIsInView";
 import styled from "styled-components";
-import { Video, Videos } from "types";
+import { Videos } from "types";
 import NextImage from "next/image";
 import NextLink from "next/link";
+
+const placeholderVideo = {
+  webm: { url: "/placeholder.webm" },
+  mp4: { url: "/placeholder.mp4" },
+};
 
 type PreviewProps = {
   show: boolean;
@@ -19,7 +24,6 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     show: false,
     index: -1,
   });
-  const [overlay, setOverlay] = useState({ show: false, index: -1 });
 
   useEffect(() => {
     const galleryItems = Array.from(
@@ -39,75 +43,86 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     addClassOnElementInView();
   });
 
-  function handleVideoClick(video: Video, index: number) {
-    if (video.project === null) {
-      console.log("Play Video");
-    } else {
-      setOverlay({ show: true, index: index });
-    }
-  }
-
   return (
     <GridContainer>
-      {videos.map((video, index) => (
-        <VideoContainer
-          className="gallery-item"
-          key={index}
-          onMouseEnter={() => setPreview({ show: true, index: index })}
-          onMouseLeave={() => setPreview({ show: false, index: index })}
-          onClick={() => handleVideoClick(video, index)}
-        >
-          {overlay.show && overlay.index === index && (
-            <VideoOverlay>
-              <PlayVideoArea onClick={() => console.log("Play Video")}>
-                <PlayButton src="/play-button.svg" />
-              </PlayVideoArea>
-              <NextLink href={`/projekte/${video.project?.slug}`} passHref>
-                <a>
-                  <GoToProjectArea>Zum Projekt</GoToProjectArea>
-                </a>
-              </NextLink>
-            </VideoOverlay>
-          )}
-          <VideoDescription>
-            <p>
-              <Title>{video.title}</Title>
-              {video.customer && ` | ${video.customer.name}`}
-            </p>
-          </VideoDescription>
-          {preview.show && preview.index === index && (
-            <VideoPreview autoPlay loop muted playsInline>
-              {/* <source src={video.webm?.url} type="video/webm" />
-                <source src={video.mp4?.url} type="video/mp4" /> */}
-            </VideoPreview>
-          )}
-          <NextImage src={video.thumbnailUrl} layout="fill" objectFit="cover" />
-        </VideoContainer>
-      ))}
+      {videos.map((video, index) => {
+        const { title, customer, project, thumbnailUrl, callToAction } = video;
+
+        return (
+          <VideoContainer
+            className="gallery-item"
+            key={index}
+            onMouseEnter={() => setPreview({ show: true, index: index })}
+            onMouseLeave={() => setPreview({ show: false, index: index })}
+          >
+            {preview.show && preview.index === index && (
+              <VideoOverlay withCallToAction={Boolean(callToAction)}>
+                <PlayVideoArea onClick={() => console.log("Play Video")}>
+                  <PlayButton src="/play-button.svg" />
+                </PlayVideoArea>
+                <NextLink href={`/projekte/${project?.slug}`} passHref>
+                  <a>
+                    <GoToProjectArea>
+                      -{">"} {project?.callToAction}
+                    </GoToProjectArea>
+                  </a>
+                </NextLink>
+              </VideoOverlay>
+            )}
+            <VideoDescription>
+              <p>
+                <Title>{title}</Title>
+                {customer && ` | ${customer.name}`}
+              </p>
+            </VideoDescription>
+            {preview.show && preview.index === index && (
+              <VideoPreview autoPlay loop muted playsInline>
+                <source src={placeholderVideo.webm?.url} type="video/webm" />
+                <source src={placeholderVideo.mp4?.url} type="video/mp4" />
+              </VideoPreview>
+            )}
+            <NextImage src={thumbnailUrl} layout="fill" objectFit="cover" />
+            {callToAction && <SpecialText>{callToAction}</SpecialText>}
+          </VideoContainer>
+        );
+      })}
     </GridContainer>
   );
 }
 
 export default VideoGallery;
 
+const SpecialText = styled.p`
+  position: absolute;
+  z-index: 10;
+  font-family: var(--font-family-secondary);
+  text-transform: uppercase;
+  font-size: 2.5rem;
+  line-height: 2.875rem;
+  font-style: italic;
+  bottom: -2rem;
+  left: 2%;
+`;
+
 const PlayButton = styled.img`
   width: 30px;
 `;
 
-const VideoOverlay = styled.div`
+const VideoOverlay = styled.div<{ withCallToAction: boolean }>`
   position: absolute;
   width: 100%;
   height: 100%;
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: ${({ withCallToAction }) =>
+    withCallToAction ? "column-reverse" : "column"};
   z-index: 10;
   cursor: pointer;
 `;
 
 const PlayVideoArea = styled.div`
-  background-color: rgba(var(--color-primary), 0.5);
   display: flex;
   justify-content: center;
+  flex-grow: 1;
 `;
 
 const GoToProjectArea = styled.div`
@@ -120,11 +135,11 @@ const GoToProjectArea = styled.div`
 `;
 
 const GridContainer = styled.article`
-  width: 100%;
+  width: 90%;
   display: grid;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-row-gap: 6rem;
+  grid-row-gap: 5rem;
   margin: 8rem auto;
 
   @media screen and (min-width: 820px) {
@@ -153,7 +168,13 @@ const VideoDescription = styled.div`
   width: 100%;
 
   p {
+    display: -webkit-box;
     font-size: 0.75rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
   }
 
   @media screen and (min-width: 820px) {
@@ -169,13 +190,15 @@ const VideoDescription = styled.div`
 const Title = styled.span`
   font-family: var(--font-family-secondary);
   font-style: italic;
-  font-size: 0.9rem;
+  font-size: 1.2rem;
+  text-transform: lowercase;
 `;
 
 const VideoContainer = styled.div`
   position: relative;
   min-height: 60vw;
   transform: translateY(200px);
+  cursor: pointer;
 
   &.is-or-was-visible {
     animation: slide-in 0.8s ease forwards;

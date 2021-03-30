@@ -9,6 +9,7 @@ export type Project = {
   customer: { name: string };
   teaserImages: [{ url: string; alt: string }];
   vimeoVideos: Videos;
+  callToAction: string;
 };
 
 export type Projects = [Project];
