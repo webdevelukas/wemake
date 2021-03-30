@@ -24,7 +24,7 @@ function MainLayout({ children }: MainLayoutProps) {
       />
       <InstagramLink isNotMobile={isNotMobile} />
       <main>{children}</main>
-      <Footer />
+      <Footer showMail />
     </>
   );
 }

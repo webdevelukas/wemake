@@ -1,15 +1,26 @@
 import NextLink from "next/link";
 import styled from "styled-components";
 
-function Footer() {
+type FooterProps = {
+  showMail?: boolean;
+};
+
+function Footer({ showMail }: FooterProps) {
   return (
     <FooterContainer>
-      <Mail>
-        <a href="mailto:hey@wemake.de">hey@wemake.de </a>
-      </Mail>
+      {showMail && (
+        <Mail>
+          <a href="mailto:hey@wemake.de">hey@wemake.de </a>
+        </Mail>
+      )}
       <span>
-        <NextLink href="/impressum">Impressum</NextLink> |{" "}
-        <NextLink href="/datenschutz">Datenschutz</NextLink>
+        <NextLink href="/impressum">
+          <a>Impressum</a>
+        </NextLink>{" "}
+        |{" "}
+        <NextLink href="/datenschutz">
+          <a>Datenschutz</a>
+        </NextLink>
       </span>
       <span>© wemake 2021</span>
     </FooterContainer>
@@ -33,10 +44,6 @@ const FooterContainer = styled.footer`
     justify-items: left;
     margin-left: 1.5rem;
   }
-
-  a {
-    font-family: var(--font-family-primary);
-  }
 `;
 
 const Mail = styled.b`
@@ -44,4 +51,8 @@ const Mail = styled.b`
   transform: rotate(-1deg);
   margin-bottom: 1rem;
   font-style: italic;
+
+  a {
+    font-family: var(--font-family-primary);
+  }
 `;

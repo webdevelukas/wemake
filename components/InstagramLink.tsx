@@ -50,7 +50,6 @@ const Wrapper = styled.div`
   display: grid;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-row-gap: 0.25rem;
 
   span {
     font-size: 0.75rem;

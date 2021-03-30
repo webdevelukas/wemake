@@ -1,9 +1,7 @@
-import dynamic from "next/dynamic";
 import styled from "styled-components";
 import useScrollPosition from "hooks/useScrollPosition";
 import { useEffect } from "react";
-
-const Footer = dynamic(() => import("./Footer"));
+import Footer from "./Footer";
 
 type ContactOverlayProps = {
   showContact: boolean;
@@ -43,6 +41,9 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
             <p>Matthias in Köln</p>
             <PhoneNumber>+49 179 / 920 44 45</PhoneNumber>
           </Wrapper>
+          <Mail>
+            <a href="mailto:hey@wemake.de">hey@wemake.de </a>
+          </Mail>
         </ContactWrapper>
         <Footer />
       </GridContainer>
@@ -114,4 +115,15 @@ const Wrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+`;
+
+const Mail = styled.b`
+  font-size: 1.875rem;
+  transform: rotate(-1deg);
+  font-style: italic;
+  padding-top: 1rem;
+
+  a {
+    font-family: var(--font-family-primary);
+  }
 `;
