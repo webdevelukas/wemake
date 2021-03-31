@@ -80,6 +80,7 @@ export const getStaticProps: GetStaticProps = async () => {
   );
 
   return {
+    revalidate: 1,
     props: {
       homePage: homePage,
     },

@@ -65,6 +65,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const shuffledTeamMembers = shuffleArray(teamMembers);
 
   return {
+    revalidate: 1,
     props: {
       teamMembers: shuffledTeamMembers,
       aboutPage: aboutPage,
