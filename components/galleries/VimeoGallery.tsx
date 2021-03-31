@@ -103,10 +103,10 @@ const VideoDescription = styled.div`
   z-index: 10;
   top: -2rem;
   width: 100%;
-
-  p {
-    font-size: 0.9rem;
-  }
+  font-family: var(--font-family-secondary);
+  font-style: italic;
+  font-size: 1.2rem;
+  text-transform: lowercase;
 
   @media screen and (min-width: 820px) {
     transform: rotate(-90deg) translate(-50%, -50%);
