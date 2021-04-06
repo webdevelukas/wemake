@@ -24,7 +24,14 @@ export default function HomePage({ homePage }: HomePageProps) {
 
   return (
     <>
-      <HeaderVideo autoPlay loop muted playsInline>
+      <HeaderVideo
+        autoPlay
+        loop
+        muted
+        playsInline
+        poster={fallbackImage.url}
+        disablePictureInPicture
+      >
         {fullscreenVideos.map((video, index) => (
           <source key={index} src={video.url} type={video.mimeType} />
         ))}
