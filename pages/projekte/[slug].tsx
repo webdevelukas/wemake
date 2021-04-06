@@ -5,10 +5,12 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
-import VimeoGallery from "components/galleries/VimeoGallery";
 import { gql } from "graphql-request";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
+const VimeoGallery = dynamic(
+  () => import("../../components/galleries/VimeoGallery")
+);
 
 type ProjectPageProps = {
   project: Project;
@@ -39,6 +41,8 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           layout="fill"
           objectFit="cover"
           objectPosition="center"
+          quality={100}
+          priority
         />
       </HeaderPicture>
       <Article>
