@@ -48,11 +48,11 @@ const GlobalStyle = createGlobalStyle`
     font-family: var(--font-family-secondary);
     font-weight: unset;
     font-style: italic;
+    line-height: 1.0;
   }
 
   h1 {
     font-size: 14vmin;
-    line-height: 1.0;
     margin-bottom: 1rem;
     text-transform: uppercase;
 
