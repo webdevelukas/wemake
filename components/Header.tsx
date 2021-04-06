@@ -74,6 +74,21 @@ const Navigation = styled.nav`
   text-transform: uppercase;
   font-size: 1.1rem;
 
+  a {
+    padding-right: 4px;
+    background: linear-gradient(currentColor 0 0) 100% 100% / var(--width, 0)
+      1px no-repeat;
+    transition: 0.5s;
+
+    &:hover {
+      --width: 80%;
+    }
+
+    &.active {
+      --width: 40%;
+    }
+  }
+
   @media screen and (min-width: 600px) {
     grid-column-gap: 2rem;
   }
