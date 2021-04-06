@@ -5,11 +5,6 @@ import { Videos } from "types";
 import NextImage from "next/image";
 import NextLink from "next/link";
 
-const placeholderVideo = {
-  webm: { url: "/placeholder.webm" },
-  mp4: { url: "/placeholder.mp4" },
-};
-
 type PreviewProps = {
   show: boolean;
   index: number;
@@ -46,7 +41,14 @@ function VideoGallery({ videos }: VideoGalleryProps) {
   return (
     <GridContainer>
       {videos.map((video, index) => {
-        const { title, customer, project, thumbnailUrl, callToAction } = video;
+        const {
+          title,
+          customer,
+          project,
+          thumbnailUrl,
+          callToAction,
+          previewVideos,
+        } = video;
 
         return (
           <VideoContainer
@@ -58,15 +60,17 @@ function VideoGallery({ videos }: VideoGalleryProps) {
             {preview.show && preview.index === index && (
               <VideoOverlay withCallToAction={Boolean(callToAction)}>
                 <PlayVideoArea onClick={() => console.log("Play Video")}>
-                  <PlayButton src="/play-button.svg" />
+                  {project && <PlayButton src="/play-button.svg" />}
                 </PlayVideoArea>
-                <NextLink href={`/projekte/${project?.slug}`} passHref>
-                  <a>
-                    <GoToProjectArea>
-                      -{">"} {project?.callToAction}
-                    </GoToProjectArea>
-                  </a>
-                </NextLink>
+                {project && (
+                  <NextLink href={`/projekte/${project?.slug}`} passHref>
+                    <a>
+                      <GoToProjectArea>
+                        -{">"} {project?.callToAction}
+                      </GoToProjectArea>
+                    </a>
+                  </NextLink>
+                )}
               </VideoOverlay>
             )}
             <VideoDescription>
@@ -75,10 +79,11 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                 {customer && ` | ${customer.name}`}
               </p>
             </VideoDescription>
-            {preview.show && preview.index === index && (
+            {preview.show && preview.index === index && previewVideos && (
               <VideoPreview autoPlay loop muted playsInline>
-                <source src={placeholderVideo.webm?.url} type="video/webm" />
-                <source src={placeholderVideo.mp4?.url} type="video/mp4" />
+                {previewVideos.map(({ url, mimeType }, index) => (
+                  <source key={index} src={url} type={mimeType} />
+                ))}
               </VideoPreview>
             )}
             <NextImage src={thumbnailUrl} layout="fill" objectFit="cover" />
@@ -216,45 +221,42 @@ const VideoContainer = styled.div`
   @media screen and (min-width: 820px) {
     min-height: 20vmax;
 
-    :nth-of-type(1) {
+    :nth-of-type(10n + 1) {
       margin: 0 2rem 0 -2rem;
     }
 
-    :nth-of-type(2) {
+    :nth-of-type(10n + 2) {
       grid-row: span 2;
-      margin: -4rem -1rem 4rem 1rem;
+      margin: -2rem -1rem 2rem 1rem;
     }
 
-    :nth-of-type(3) {
-    }
-
-    :nth-of-type(4) {
+    :nth-of-type(10n + 4) {
       grid-column: span 2;
       min-height: 30vmax;
     }
 
-    :nth-of-type(5) {
+    :nth-of-type(10n + 5) {
       margin: -1rem 2rem 1rem -2rem;
     }
 
-    :nth-of-type(6) {
+    :nth-of-type(10n + 6) {
       margin: 0 -4rem 0 4rem;
     }
 
-    :nth-of-type(7) {
+    :nth-of-type(10n + 7) {
       margin: -1rem 0 1rem 0;
     }
 
-    :nth-of-type(8) {
+    :nth-of-type(10n + 8) {
       grid-row: span 2;
       margin: 0 -2rem 0 2rem;
     }
 
-    :nth-of-type(9) {
+    :nth-of-type(10n + 9) {
       margin: 0 4rem 0 -4rem;
     }
 
-    :nth-of-type(10) {
+    :nth-of-type(10n + 10) {
       grid-column: span 2;
       min-height: 30vmax;
     }

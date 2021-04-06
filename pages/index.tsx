@@ -54,6 +54,10 @@ export const getStaticProps: GetStaticProps = async () => {
         }
         vimeoVideos {
           title
+          previewVideos(orderBy: mimeType_DESC) {
+            url
+            mimeType
+          }
           customer {
             name
           }

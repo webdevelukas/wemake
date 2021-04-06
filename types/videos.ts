@@ -14,6 +14,7 @@ export type Video = {
   };
   callToAction?: string;
   hasPriority: boolean;
+  previewVideos: [{ url: string; mimeType: string }];
 };
 
 export type Videos = [Video];
