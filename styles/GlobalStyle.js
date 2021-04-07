@@ -25,6 +25,25 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     margin: 0;
     background-color: rgb(var(--color-primary));
+
+    &:after {
+    animation: grain 6s steps(10) infinite;
+    background-image: url('/grain.png');
+    background-repeat: repeat;
+    content: '';
+    height: 300%;
+    left: -100%;
+    opacity: 0;
+    pointer-events: none;
+    position: fixed;
+    top: -100%;
+    transition: opacity 0.4s ease;
+    width: 300%;
+    will-change: transform;
+    z-index: 10;
+    opacity: 0.06;
+  }
+ 
   }
 
   a {
@@ -95,8 +114,19 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  
-
+  @keyframes grain {
+  0% { transform: translate(20%, -15%) }
+  10% { transform: translate(-20%, -15%) }
+  20% { transform: translate(20%, -5%) }
+  30% { transform: translate(-20%, -5%) }
+  40% { transform: translate(20%, 5%) }
+  50% { transform: translate(-20%, 5%) }
+  60% { transform: translate(20%, 15%) }
+  70% { transform: translate(-20%, 15%) }
+  80% { transform: translate(20%, 5%) }
+  90% { transform: translate(-20%, 5%) }
+  100% { transform: translate(20%, -5%) }
+}
 `;
 
 export default GlobalStyle;
