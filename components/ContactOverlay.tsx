@@ -13,23 +13,27 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
 
   useEffect(() => {
     const body = document.body;
+    const header = document.getElementById("header");
 
     if (typeof window !== "undefined" && showContact) {
       body.style.position = "fixed";
       body.style.overflowY = "scroll";
       body.style.top = `-${scrollPosition}px`;
+      if (header) header.style.top = `0`;
     }
     if (typeof window !== "undefined" && !showContact) {
       const scrollY = body.style.top;
       body.style.position = "";
       body.style.top = "";
+      if (header) header.style.top = "";
+
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
   }, [showContact]);
 
   return (
     <Container showContact={showContact}>
-      <Button onClick={() => setShowContact(false)}>X Close</Button>
+      <CloseButton onClick={() => setShowContact(false)}>X Close</CloseButton>
       <GridContainer>
         <ContactWrapper>
           <h1>Hey, contact us.</h1>
@@ -42,7 +46,9 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
             <PhoneNumber>+49 179 / 920 44 45</PhoneNumber>
           </Wrapper>
           <Mail>
-            <a href="mailto:hey@wemake.de">hey@wemake.de </a>
+            <a href="mailto:hey@wemake.de" target="_blank">
+              hey@wemake.de{" "}
+            </a>
           </Mail>
         </ContactWrapper>
         <Footer />
@@ -65,13 +71,14 @@ const Container = styled.div<{ showContact: boolean }>`
   overflow-y: scroll;
 `;
 
-const Button = styled.a`
+const CloseButton = styled.a`
   position: absolute;
   top: 9.5vw;
   right: 8vw;
+  font-size: 1.6rem;
 
   @media screen and (min-width: 600px) {
-    top: 3.6rem;
+    top: 3rem;
     right: 3rem;
   }
 `;

@@ -11,7 +11,7 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
   const { pathname } = useRouter();
 
   return (
-    <Container>
+    <Container id="header">
       <NextLink href="/" passHref>
         <a>
           <Logo src="/wemake-logo.svg" />
@@ -40,7 +40,7 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
 export default Header;
 
 const Container = styled.header`
-  z-index: 10;
+  z-index: 20;
   position: fixed;
   width: 100%;
   display: grid;
