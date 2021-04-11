@@ -42,8 +42,7 @@ const GlobalStyle = createGlobalStyle`
     will-change: transform;
     z-index: 10;
     opacity: 0.06;
-  }
- 
+    }
   }
 
   a {
@@ -61,6 +60,7 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.75rem;
     font-weight: 300;
     letter-spacing: 0.3px;
+    z-index: 15;
   }
 
   h1, h2, h3 {
@@ -68,6 +68,7 @@ const GlobalStyle = createGlobalStyle`
     font-weight: unset;
     font-style: italic;
     line-height: 1.0;
+    z-index: 15;
   }
 
   h1 {
@@ -115,18 +116,18 @@ const GlobalStyle = createGlobalStyle`
   }
 
   @keyframes grain {
-  0% { transform: translate(20%, -15%) }
-  10% { transform: translate(-20%, -15%) }
-  20% { transform: translate(20%, -5%) }
-  30% { transform: translate(-20%, -5%) }
-  40% { transform: translate(20%, 5%) }
-  50% { transform: translate(-20%, 5%) }
-  60% { transform: translate(20%, 15%) }
-  70% { transform: translate(-20%, 15%) }
-  80% { transform: translate(20%, 5%) }
-  90% { transform: translate(-20%, 5%) }
-  100% { transform: translate(20%, -5%) }
-}
+    0% { transform: translate(20%, -15%) }
+    10% { transform: translate(-20%, -15%) }
+    20% { transform: translate(20%, -5%) }
+    30% { transform: translate(-20%, -5%) }
+    40% { transform: translate(20%, 5%) }
+    50% { transform: translate(-20%, 5%) }
+    60% { transform: translate(20%, 15%) }
+    70% { transform: translate(-20%, 15%) }
+    80% { transform: translate(20%, 5%) }
+    90% { transform: translate(-20%, 5%) }
+    100% { transform: translate(20%, -5%) }
+    }
 `;
 
 export default GlobalStyle;
