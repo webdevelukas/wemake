@@ -70,6 +70,7 @@ const Section = styled.section`
   grid-auto-rows: auto;
   grid-auto-flow: row;
   grid-row-gap: 4rem;
+  z-index: 15;
 `;
 
 const VideoTextSection = styled.section<{ withText: boolean }>`
@@ -97,7 +98,7 @@ const VideoContainer = styled.div`
   position: relative;
 `;
 
-const VideoDescription = styled.div`
+const VideoDescription = styled.p`
   position: absolute;
   text-align: center;
   z-index: 10;
@@ -107,6 +108,12 @@ const VideoDescription = styled.div`
   font-style: italic;
   font-size: 1.2rem;
   text-transform: lowercase;
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
 
   @media screen and (min-width: 820px) {
     transform: rotate(-90deg) translate(-50%, -50%);
