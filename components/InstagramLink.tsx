@@ -25,7 +25,7 @@ function InstagramLink({ isNotMobile }: InstagramProps) {
 export default InstagramLink;
 
 const Container = styled.div`
-  z-index: 10;
+  z-index: 25;
   position: fixed;
   display: grid;
   grid-auto-columns: auto;
