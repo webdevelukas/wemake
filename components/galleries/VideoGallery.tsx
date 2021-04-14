@@ -84,7 +84,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
             )}
             <VideoDescription>
               <p>
-                <Title>{title}</Title>
+                <Title>{project?.homePageVideoTitle || title}</Title>
                 {customer && ` | ${customer.name}`}
               </p>
             </VideoDescription>

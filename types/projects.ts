@@ -4,6 +4,7 @@ export type Project = {
   slug: string;
   headerImage: { url: string; alt: string };
   title: string;
+  homePageVideoTitle: string;
   teaserTitle: string;
   teaser: string;
   customer: { name: string };

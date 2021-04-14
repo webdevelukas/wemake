@@ -75,6 +75,7 @@ export const getStaticProps: GetStaticProps = async () => {
           project {
             slug
             callToAction
+            homePageVideoTitle
           }
           callToAction
         }

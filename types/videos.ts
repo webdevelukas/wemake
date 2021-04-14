@@ -1,3 +1,5 @@
+import { Project } from "./projects";
+
 export type Video = {
   title: string;
   vimeoUrl: string;
@@ -8,10 +10,7 @@ export type Video = {
     name: string;
   };
   thumbnailUrl: string;
-  project?: {
-    slug: string;
-    callToAction: string;
-  };
+  project?: Project;
   callToAction?: string;
   hasPriority: boolean;
   previewVideos: [{ url: string; mimeType: string }];
