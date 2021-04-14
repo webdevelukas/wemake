@@ -8,6 +8,7 @@ import VideoGallery from "components/galleries/VideoGallery";
 
 type HomePageProps = {
   homePage: {
+    title: string;
     fullscreenVideos: [
       {
         url: string;
@@ -20,10 +21,11 @@ type HomePageProps = {
 };
 
 export default function HomePage({ homePage }: HomePageProps) {
-  const { fullscreenVideos, fallbackImage, vimeoVideos } = homePage;
+  const { title, fullscreenVideos, fallbackImage, vimeoVideos } = homePage;
 
   return (
     <>
+      {title && <Title>{title}</Title>}
       <HeaderVideo
         autoPlay
         loop
@@ -51,6 +53,7 @@ export const getStaticProps: GetStaticProps = async () => {
   const { homePage } = await requestGraphCMS(gql`
     {
       homePage(where: { id: "ckmgldv6g28f90b00iybywgv1" }) {
+        title
         fullscreenVideos {
           url
           mimeType
@@ -104,6 +107,15 @@ function replaceImageType(url: string) {
 
   return modifiedUrl;
 }
+
+const Title = styled.h1`
+  position: absolute;
+  left: 50%;
+  top: 40vh;
+  transform: translate(-50%, -40%);
+  margin: 0;
+  text-align: center;
+`;
 
 const HeaderVideo = styled.video`
   width: 100%;
