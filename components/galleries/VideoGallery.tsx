@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import elementIsInView from "services/elementIsInView";
-import styled from "styled-components";
+import styled, { CSSProperties } from "styled-components";
 import { Videos } from "types";
 import NextImage from "next/image";
 import NextLink from "next/link";
+
+interface VideoContainerProps extends CSSProperties {
+  "--onTopOfGrain": string | 0 | undefined;
+}
 
 type PreviewProps = {
   show: boolean;
@@ -49,19 +53,24 @@ function VideoGallery({ videos }: VideoGalleryProps) {
           callToAction,
           previewVideos,
         } = video;
+        const VideoContainerStyle: VideoContainerProps = {
+          "--onTopOfGrain": `${
+            preview.show && preview.index === index ? 15 : 0
+          }`,
+        };
 
         return (
           <VideoContainer
             className="gallery-item"
             key={index}
-            onMouseEnter={() => setPreview({ show: true, index: index })}
-            onMouseLeave={() => setPreview({ show: false, index: index })}
+            style={VideoContainerStyle}
           >
             {preview.show && preview.index === index && (
-              <VideoOverlay withCallToAction={Boolean(callToAction)}>
-                <PlayVideoArea onClick={() => console.log("Play Video")}>
-                  {project && <PlayButton src="/play-button.svg" />}
-                </PlayVideoArea>
+              <VideoOverlay
+                withCallToAction={Boolean(callToAction)}
+                onMouseLeave={() => setPreview({ show: false, index: index })}
+              >
+                <PlayVideoArea onClick={() => console.log("Play Video")} />
                 {project && (
                   <NextLink href={`/projekte/${project?.slug}`} passHref>
                     <a>
@@ -86,7 +95,12 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                 ))}
               </VideoPreview>
             )}
-            <NextImage src={thumbnailUrl} layout="fill" objectFit="cover" />
+            <NextImage
+              src={thumbnailUrl}
+              layout="fill"
+              objectFit="cover"
+              onMouseEnter={() => setPreview({ show: true, index: index })}
+            />
             {callToAction && <SpecialText>{callToAction}</SpecialText>}
           </VideoContainer>
         );
@@ -109,10 +123,6 @@ const SpecialText = styled.p`
   left: 2%;
 `;
 
-const PlayButton = styled.img`
-  width: 30px;
-`;
-
 const VideoOverlay = styled.div<{ withCallToAction: boolean }>`
   position: absolute;
   width: 100%;
@@ -120,7 +130,7 @@ const VideoOverlay = styled.div<{ withCallToAction: boolean }>`
   display: flex;
   flex-direction: ${({ withCallToAction }) =>
     withCallToAction ? "column-reverse" : "column"};
-  z-index: 10;
+  z-index: 20;
   cursor: pointer;
 `;
 
@@ -134,7 +144,7 @@ const GoToProjectArea = styled.div`
   background-color: var(--color-primary-transparent);
   display: flex;
   justify-content: center;
-  padding: 1rem;
+  padding: 1.5rem 1rem;
   font-size: 0.8rem;
   text-transform: uppercase;
 `;
@@ -163,7 +173,7 @@ const VideoPreview = styled.video`
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  z-index: 5;
+  z-index: 15;
 `;
 const VideoDescription = styled.div`
   position: absolute;
@@ -203,7 +213,7 @@ const VideoContainer = styled.div`
   position: relative;
   min-height: 60vw;
   transform: translateY(200px);
-  cursor: pointer;
+  z-index: var(--onTopOfGrain, 0);
 
   &.is-or-was-visible {
     animation: slide-in 0.8s ease forwards;
