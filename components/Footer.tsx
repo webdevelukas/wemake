@@ -36,7 +36,7 @@ const FooterContainer = styled.footer`
   grid-row-gap: 0.25rem;
   justify-content: center;
   justify-items: center;
-  margin: 6rem auto 2rem;
+  margin: 0 auto 2rem;
   font-size: 0.75rem;
 
   @media screen and (max-width: 280px) {

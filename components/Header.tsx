@@ -11,7 +11,7 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
   const { pathname } = useRouter();
 
   return (
-    <Container id="header">
+    <>
       <NextLink href="/" passHref>
         <a>
           <Logo src="/wemake-logo.svg" />
@@ -33,46 +33,40 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
           Contact
         </a>
       </Navigation>
-    </Container>
+    </>
   );
 }
 
 export default Header;
 
-const Container = styled.header`
-  z-index: 20;
-  position: fixed;
-  width: 100%;
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-items: end;
-  align-items: center;
-  justify-content: space-between;
-  padding: 8vw 8vw 0;
-
-  @media screen and (min-width: 600px) {
-    padding: 3rem 3rem 0;
-  }
-`;
-
 const Logo = styled.img`
+  position: fixed;
   height: auto;
   width: 30vw;
+  z-index: 20;
+  top: 8vw;
+  left: 8vw;
 
   @media screen and (min-width: 600px) {
     width: 10vw;
     min-width: 150px;
     max-width: 250px;
+    top: 3rem;
+    left: 3rem;
   }
 `;
 
 const Navigation = styled.nav`
+  position: fixed;
   display: grid;
   grid-auto-columns: auto;
   grid-auto-flow: column;
   grid-column-gap: 5vw;
   text-transform: uppercase;
   font-size: 1.1rem;
+  z-index: 20;
+  top: 8vw;
+  right: 8vw;
 
   a {
     padding-right: 4px;
@@ -91,5 +85,7 @@ const Navigation = styled.nav`
 
   @media screen and (min-width: 600px) {
     grid-column-gap: 2rem;
+    top: 3rem;
+    right: 3rem;
   }
 `;

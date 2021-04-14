@@ -13,19 +13,16 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
 
   useEffect(() => {
     const body = document.body;
-    const header = document.getElementById("header");
 
     if (typeof window !== "undefined" && showContact) {
       body.style.position = "fixed";
       body.style.overflowY = "scroll";
       body.style.top = `-${scrollPosition}px`;
-      if (header) header.style.top = `0`;
     }
     if (typeof window !== "undefined" && !showContact) {
       const scrollY = body.style.top;
       body.style.position = "";
       body.style.top = "";
-      if (header) header.style.top = "";
 
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
@@ -73,12 +70,12 @@ const Container = styled.div<{ showContact: boolean }>`
 
 const CloseButton = styled.a`
   position: absolute;
-  top: 9.5vw;
+  top: 6.5vw;
   right: 8vw;
   font-size: 1.6rem;
 
   @media screen and (min-width: 600px) {
-    top: 3rem;
+    top: 2.6rem;
     right: 3rem;
   }
 `;
@@ -102,6 +99,7 @@ const ContactWrapper = styled.div`
   grid-auto-rows: auto;
   grid-auto-flow: row;
   grid-row-gap: 1rem;
+  transform: translate(0, -5%);
 
   @media screen and (min-width: 600px) {
     justify-items: center;
