@@ -88,6 +88,13 @@ export const getStaticProps: GetStaticProps = async () => {
     })
   );
 
+  homePage.vimeoVideos.map((video: Video) => {
+    const groupOfNumbers = /([0-9]+)/;
+    const groupsOfNumbers = video.vimeoUrl.match(groupOfNumbers);
+
+    if (groupsOfNumbers) video.vimeoVideoID = groupsOfNumbers[0];
+  });
+
   return {
     revalidate: 1,
     props: {
