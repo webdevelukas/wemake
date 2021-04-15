@@ -66,6 +66,7 @@ const Container = styled.div<{ showContact: boolean }>`
   max-height: ${({ showContact }) => (showContact ? "100%" : 0)};
   transition: all 0.3s ease-in-out;
   overflow-y: scroll;
+  backdrop-filter: blur(2px);
 `;
 
 const CloseButton = styled.a`
