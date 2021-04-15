@@ -36,14 +36,30 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
           <h1>Hey, contact us.</h1>
           <Wrapper>
             <p>Cornelius in Stuttgart</p>
-            <PhoneNumber>+49 176 / 600 26 485</PhoneNumber>
+            <PhoneNumber
+              href="tel:+4917660026485"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              +49 176 / 600 26 485
+            </PhoneNumber>
           </Wrapper>
           <Wrapper>
             <p>Matthias in Köln</p>
-            <PhoneNumber>+49 179 / 920 44 45</PhoneNumber>
+            <PhoneNumber
+              href="tel:+491799204445"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              +49 179 / 920 44 45
+            </PhoneNumber>
           </Wrapper>
           <Mail>
-            <a href="mailto:hey@wemake.de" target="_blank">
+            <a
+              href="mailto:hey@wemake.de"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               hey@wemake.de{" "}
             </a>
           </Mail>
@@ -107,9 +123,8 @@ const ContactWrapper = styled.div`
   }
 `;
 
-const PhoneNumber = styled.p`
+const PhoneNumber = styled.a`
   font-family: var(--font-family-secondary);
-  font-style: bold;
   font-size: 1.8rem;
 
   @media screen and (min-width: 600px) {

@@ -7,7 +7,11 @@ type InstagramProps = {
 function InstagramLink({ isNotMobile }: InstagramProps) {
   return (
     <aside>
-      <a href="https://www.instagram.com/heywemake/" target="_blank">
+      <a
+        href="https://www.instagram.com/heywemake/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <Container>
           <InstagramLogo src="/instagram-icon.svg" />
           {isNotMobile && (
