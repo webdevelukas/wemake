@@ -1,23 +1,41 @@
+import PageMeta from "components/PageMeta";
 import styled from "styled-components";
 
 export default function ContactPage() {
+  const MetaData = {
+    title: "Kontakt",
+    description: "",
+    keywords: "",
+    image: "",
+    url: "",
+  };
+
   return (
-    <GridContainer>
-      <ContactWrapper>
-        <h1>Hey, contact us.</h1>
-        <Wrapper>
-          <p>Cornelius in Stuttgart</p>
-          <PhoneNumber>+49 176 / 600 26 485</PhoneNumber>
-        </Wrapper>
-        <Wrapper>
-          <p>Matthias in Köln</p>
-          <PhoneNumber>+49 179 / 920 44 45</PhoneNumber>
-        </Wrapper>
-        <Mail>
-          <a href="mailto:hey@wemake.de">hey@wemake.de </a>
-        </Mail>
-      </ContactWrapper>
-    </GridContainer>
+    <>
+      <PageMeta MetaData={MetaData} />
+      <GridContainer>
+        <ContactWrapper>
+          <h1>Hey, contact us.</h1>
+          <Wrapper>
+            <p>Cornelius in Stuttgart</p>
+            <PhoneNumber href="tel:+4917660026485" target="_blank">
+              +49 176 / 600 26 485
+            </PhoneNumber>
+          </Wrapper>
+          <Wrapper>
+            <p>Matthias in Köln</p>
+            <PhoneNumber href="tel:+491799204445" target="_blank">
+              +49 179 / 920 44 45
+            </PhoneNumber>
+          </Wrapper>
+          <Mail>
+            <a href="mailto:hey@wemake.de" target="_blank">
+              hey@wemake.de{" "}
+            </a>
+          </Mail>
+        </ContactWrapper>
+      </GridContainer>
+    </>
   );
 }
 
@@ -47,9 +65,8 @@ const ContactWrapper = styled.div`
   }
 `;
 
-const PhoneNumber = styled.p`
+const PhoneNumber = styled.a`
   font-family: var(--font-family-secondary);
-  font-style: bold;
   font-size: 1.8rem;
   margin-left: 1rem;
 `;

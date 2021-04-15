@@ -6,6 +6,7 @@ import { useState } from "react";
 import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
 import { gql } from "graphql-request";
+import PageMeta from "components/PageMeta";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 const VimeoGallery = dynamic(
@@ -28,8 +29,17 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     vimeoVideos,
   } = project;
 
+  const MetaData = {
+    title: title,
+    description: teaser,
+    keywords: "",
+    image: headerImage.url,
+    url: "",
+  };
+
   return (
     <>
+      <PageMeta MetaData={MetaData} />
       <ContactOverlay
         showContact={showContact}
         setShowContact={setShowContact}

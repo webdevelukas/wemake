@@ -1,3 +1,4 @@
+import PageMeta from "components/PageMeta";
 import TextContainer from "elements/TextContainer";
 import { gql } from "graphql-request";
 import { GetStaticProps } from "next";
@@ -13,15 +14,25 @@ type ImprintPageProps = {
 
 export default function ImprintPage({ imprintPage }: ImprintPageProps) {
   const { htmlContent } = imprintPage;
+  const MetaData = {
+    title: "Kontakt",
+    description: "",
+    keywords: "",
+    image: "",
+    url: "",
+  };
 
   return (
-    <PageWrapper>
-      <TextContainer
-        dangerouslySetInnerHTML={{
-          __html: sanitizeHTML(htmlContent),
-        }}
-      />
-    </PageWrapper>
+    <>
+      <PageMeta MetaData={MetaData} />
+      <PageWrapper>
+        <TextContainer
+          dangerouslySetInnerHTML={{
+            __html: sanitizeHTML(htmlContent),
+          }}
+        />
+      </PageWrapper>
+    </>
   );
 }
 

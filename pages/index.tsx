@@ -4,6 +4,7 @@ import requestGraphCMS from "services/graphcms";
 import { gql } from "graphql-request";
 import { Video, Videos } from "types";
 import VideoGallery from "components/galleries/VideoGallery";
+import PageMeta from "components/PageMeta";
 
 type HomePageProps = {
   homePage: {
@@ -22,8 +23,17 @@ type HomePageProps = {
 export default function HomePage({ homePage }: HomePageProps) {
   const { title, fullscreenVideos, fallbackImage, vimeoVideos } = homePage;
 
+  const MetaData = {
+    title: title,
+    description: "",
+    keywords: "",
+    image: fallbackImage.url,
+    url: "",
+  };
+
   return (
     <>
+      <PageMeta MetaData={MetaData} />
       {title && <Title>{title}</Title>}
       <HeaderVideo
         autoPlay

@@ -6,6 +6,7 @@ import TeamMembers from "components/TeamMembers";
 import sanitizeHTML from "services/sanitizeHTML";
 import { gql } from "graphql-request";
 import TextContainer from "elements/TextContainer";
+import PageMeta from "components/PageMeta";
 
 type AboutProps = {
   teamMembers: [
@@ -18,23 +19,34 @@ type AboutProps = {
   ];
   aboutPage: {
     header: string;
-    description: { html: string };
+    description: { html: string; text: string };
   };
 };
 
 export default function About({ teamMembers, aboutPage }: AboutProps) {
   const { header, description } = aboutPage;
 
+  const MetaData = {
+    title: header,
+    description: description.text,
+    keywords: "",
+    image: "",
+    url: "",
+  };
+
   return (
-    <PageWrapper>
-      <TeamMembers teamMembers={teamMembers} />
-      <TextContainer>
-        <h1>{header}</h1>
-        <HTMLTextContainer
-          dangerouslySetInnerHTML={{ __html: sanitizeHTML(description.html) }}
-        />
-      </TextContainer>
-    </PageWrapper>
+    <>
+      <PageMeta MetaData={MetaData} />
+      <PageWrapper>
+        <TeamMembers teamMembers={teamMembers} />
+        <TextContainer>
+          <h1>{header}</h1>
+          <HTMLTextContainer
+            dangerouslySetInnerHTML={{ __html: sanitizeHTML(description.html) }}
+          />
+        </TextContainer>
+      </PageWrapper>
+    </>
   );
 }
 
@@ -45,6 +57,7 @@ export const getStaticProps: GetStaticProps = async () => {
         header
         description {
           html
+          text
         }
       }
       teamMembers {
