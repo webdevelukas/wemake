@@ -47,7 +47,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </HeaderPicture>
       <Article>
         <Header>
-          <h1>{title}</h1>
+          <h1 lang="de">{title}</h1>
           {customer && <Subtitle>{customer.name}</Subtitle>}
         </Header>
         <ImagesTextSection>
@@ -156,7 +156,7 @@ const Header = styled.header`
 `;
 
 const Subtitle = styled.p`
-  font-size: 14vmin;
+  font-size: 12vmin;
   line-height: 1.1;
   padding-left: 1rem;
 

@@ -72,9 +72,10 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    font-size: 14vmin;
+    font-size: 12vmin;
     margin-bottom: 1rem;
     text-transform: uppercase;
+    hyphens: auto;
 
     @media screen and (min-width: 420px) {
       font-size: 10vmin;
