@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import NextImage from "next/image";
 import { GetStaticProps } from "next";
 import requestGraphCMS from "services/graphcms";
 import { gql } from "graphql-request";
@@ -38,12 +37,6 @@ export default function HomePage({ homePage }: HomePageProps) {
         {fullscreenVideos.map((video, index) => (
           <source key={index} src={video.url} type={video.mimeType} />
         ))}
-        <NextImage
-          src={fallbackImage.url}
-          alt={fallbackImage.alt}
-          layout="fill"
-          objectFit="cover"
-        />
       </HeaderVideo>
       <VideoGallery videos={vimeoVideos} />
     </>
