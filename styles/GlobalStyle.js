@@ -19,6 +19,11 @@ const GlobalStyle = createGlobalStyle`
     font-size: 16px;
     color: var(--color-text);
   }
+
+  html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   
   body {
     width: 100%;
@@ -69,13 +74,13 @@ const GlobalStyle = createGlobalStyle`
     font-style: italic;
     line-height: 1.0;
     z-index: 15;
+    hyphens: auto;
   }
 
   h1 {
     font-size: 12vmin;
     margin-bottom: 1rem;
     text-transform: uppercase;
-    hyphens: auto;
 
     @media screen and (min-width: 420px) {
       font-size: 10vmin;
