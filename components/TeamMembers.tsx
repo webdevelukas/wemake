@@ -23,16 +23,16 @@ function TeamMembers({ teamMembers }: TeamMembersProps) {
               <br />
               {lastName}
             </Name>
-            <Video autoPlay loop muted playsInline>
+            <Video
+              autoPlay
+              loop
+              muted
+              playsInline
+              poster={placeholderImage.url}
+            >
               {videos.map(({ url, mimeType }, index) => (
                 <source key={index} src={url} type={mimeType} />
               ))}
-              <NextImage
-                src={placeholderImage.url}
-                alt={placeholderImage.alt}
-                layout="fill"
-                quality={100}
-              />
             </Video>
           </Wrapper>
         )
