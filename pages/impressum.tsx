@@ -9,22 +9,21 @@ import styled from "styled-components";
 type ImprintPageProps = {
   imprintPage: {
     htmlContent: string;
+    metaData: {
+      title: string;
+      description: string;
+      keywords: string;
+      image: { url: string };
+    };
   };
 };
 
 export default function ImprintPage({ imprintPage }: ImprintPageProps) {
-  const { htmlContent } = imprintPage;
-  const MetaData = {
-    title: "Kontakt",
-    description: "",
-    keywords: "",
-    image: "",
-    url: "",
-  };
+  const { htmlContent, metaData } = imprintPage;
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       <PageWrapper>
         <TextContainer
           dangerouslySetInnerHTML={{
@@ -41,6 +40,14 @@ export const getStaticProps: GetStaticProps = async () => {
     {
       imprintPage(where: { id: "ckmg7xwc81fft0e521pfox0jb" }) {
         htmlContent
+        metaData {
+          title
+          description
+          keywords
+          image {
+            url
+          }
+        }
       }
     }
   `);

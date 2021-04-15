@@ -20,23 +20,21 @@ type AboutProps = {
   aboutPage: {
     header: string;
     description: { html: string; text: string };
+    metaData: {
+      title: string;
+      description: string;
+      keywords: string;
+      image: { url: string };
+    };
   };
 };
 
 export default function About({ teamMembers, aboutPage }: AboutProps) {
-  const { header, description } = aboutPage;
-
-  const MetaData = {
-    title: header,
-    description: description.text,
-    keywords: "",
-    image: "",
-    url: "",
-  };
+  const { header, description, metaData } = aboutPage;
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       <PageWrapper>
         <TeamMembers teamMembers={teamMembers} />
         <TextContainer>
@@ -58,6 +56,14 @@ export const getStaticProps: GetStaticProps = async () => {
         description {
           html
           text
+        }
+        metaData {
+          title
+          description
+          keywords
+          image {
+            url
+          }
         }
       }
       teamMembers {

@@ -29,17 +29,16 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     vimeoVideos,
   } = project;
 
-  const MetaData = {
+  const metaData = {
     title: title,
     description: teaser,
     keywords: "",
-    image: headerImage.url,
-    url: "",
+    image: { url: headerImage.url },
   };
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       <ContactOverlay
         showContact={showContact}
         setShowContact={setShowContact}
@@ -89,8 +88,9 @@ export default function ProjectPage({ project }: ProjectPageProps) {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { project } = await requestGraphCMS(
-    `query ProjectPageQuery($slug: String!) {
-        project(where: {slug: $slug}) {
+    gql`
+      query ProjectPageQuery($slug: String!) {
+        project(where: { slug: $slug }) {
           headerImage {
             url
             alt
@@ -110,10 +110,11 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             descriptionTitle
             description
             vimeoUrl
-          hasPriority
+            hasPriority
           }
         }
-  }`,
+      }
+    `,
     { slug: params?.slug }
   );
 

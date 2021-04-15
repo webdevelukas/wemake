@@ -9,22 +9,21 @@ import styled from "styled-components";
 type PrivacyPageProps = {
   privacyPage: {
     htmlContent: string;
+    metaData: {
+      title: string;
+      description: string;
+      keywords: string;
+      image: { url: string };
+    };
   };
 };
 
 export default function PrivacyPage({ privacyPage }: PrivacyPageProps) {
-  const { htmlContent } = privacyPage;
-  const MetaData = {
-    title: "Kontakt",
-    description: "",
-    keywords: "",
-    image: "",
-    url: "",
-  };
+  const { htmlContent, metaData } = privacyPage;
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       <PageWrapper>
         <TextContainer
           dangerouslySetInnerHTML={{
@@ -41,6 +40,14 @@ export const getStaticProps: GetStaticProps = async () => {
     {
       privacyPage(where: { id: "ckmg89uw81k1c0e52l8dlv4oh" }) {
         htmlContent
+        metaData {
+          title
+          description
+          keywords
+          image {
+            url
+          }
+        }
       }
     }
   `);

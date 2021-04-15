@@ -17,23 +17,27 @@ type HomePageProps = {
     ];
     fallbackImage: { url: string; alt: string };
     vimeoVideos: Videos;
+    metaData: {
+      title: string;
+      description: string;
+      keywords: string;
+      image: { url: string };
+    };
   };
 };
 
 export default function HomePage({ homePage }: HomePageProps) {
-  const { title, fullscreenVideos, fallbackImage, vimeoVideos } = homePage;
-
-  const MetaData = {
-    title: title,
-    description: "",
-    keywords: "",
-    image: fallbackImage.url,
-    url: "",
-  };
+  const {
+    title,
+    fullscreenVideos,
+    fallbackImage,
+    vimeoVideos,
+    metaData,
+  } = homePage;
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       {title && <Title>{title}</Title>}
       <HeaderVideo
         autoPlay
@@ -65,6 +69,14 @@ export const getStaticProps: GetStaticProps = async () => {
         fallbackImage {
           url
           alt
+        }
+        metaData {
+          title
+          description
+          keywords
+          image {
+            url
+          }
         }
         vimeoVideos {
           title

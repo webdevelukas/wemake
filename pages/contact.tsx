@@ -2,17 +2,16 @@ import PageMeta from "components/PageMeta";
 import styled from "styled-components";
 
 export default function ContactPage() {
-  const MetaData = {
+  const metaData = {
     title: "Kontakt",
     description: "",
     keywords: "",
-    image: "",
-    url: "",
+    image: { url: "" },
   };
 
   return (
     <>
-      <PageMeta MetaData={MetaData} />
+      <PageMeta metaData={metaData} />
       <GridContainer>
         <ContactWrapper>
           <h1>Hey, contact us.</h1>
