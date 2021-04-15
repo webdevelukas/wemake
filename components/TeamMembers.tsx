@@ -59,7 +59,7 @@ const Container = styled.div`
 
 const Name = styled.p`
   position: absolute;
-  z-index: 10;
+  z-index: 15;
   font-family: var(--font-family-secondary);
   text-transform: uppercase;
   font-size: 2.5rem;
