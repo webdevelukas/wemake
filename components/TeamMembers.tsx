@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import NextImage from "next/image";
 
 type TeamMembersProps = {
   teamMembers: [
