@@ -4,6 +4,7 @@ import styled, { CSSProperties } from "styled-components";
 import { Videos } from "types";
 import NextImage from "next/image";
 import NextLink from "next/link";
+import { CSSTransition } from "react-transition-group";
 
 interface VideoContainerProps extends CSSProperties {
   "--onTopOfGrain": string | 0 | undefined;
@@ -12,6 +13,11 @@ interface VideoContainerProps extends CSSProperties {
 type PreviewProps = {
   show: boolean;
   index: number;
+};
+
+type VideoProps = {
+  show: boolean;
+  vimeoVideoID: string | undefined;
 };
 
 type VideoGalleryProps = {
@@ -23,6 +29,10 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     show: false,
     index: -1,
   });
+  const [video, setVideo] = useState<VideoProps>({
+    show: false,
+    vimeoVideoID: "",
+  });
 
   useEffect(() => {
     const galleryItems = Array.from(
@@ -30,7 +40,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     );
 
     function addClassOnElementInView() {
-      galleryItems.forEach((galleryItem) => {
+      galleryItems.forEach((galleryItem, index) => {
         if (elementIsInView(galleryItem)) {
           galleryItem.classList.add("is-or-was-visible");
         }
@@ -43,77 +53,168 @@ function VideoGallery({ videos }: VideoGalleryProps) {
   });
 
   return (
-    <GridContainer>
-      {videos.map((video, index) => {
-        const {
-          title,
-          customer,
-          project,
-          thumbnailUrl,
-          callToAction,
-          previewVideos,
-        } = video;
-        const VideoContainerStyle: VideoContainerProps = {
-          "--onTopOfGrain": `${
-            preview.show && preview.index === index ? 15 : 0
-          }`,
-        };
+    <>
+      {video.show && (
+        <CSSTransition
+          in={video.show}
+          timeout={200}
+          classNames="vimeo-video-overlay"
+        >
+          <VimeoVideoOverlay>
+            <CloseButton
+              onClick={() => setVideo({ show: false, vimeoVideoID: "" })}
+            >
+              X Close
+            </CloseButton>
+            <CSSTransition in={video.show} timeout={0} classNames="vimeo-video">
+              <Wrapper>
+                <VimeoPlayer
+                  src={`https://player.vimeo.com/video/${video.vimeoVideoID}`}
+                  data-vimeo-responsive={true}
+                  data-vimeo-dnt={true}
+                  data-vimeo-playsinline={false}
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen
+                ></VimeoPlayer>
+              </Wrapper>
+            </CSSTransition>
+          </VimeoVideoOverlay>
+        </CSSTransition>
+      )}
+      <GridContainer>
+        {videos.map((video, index) => {
+          const {
+            title,
+            customer,
+            project,
+            thumbnailUrl,
+            callToAction,
+            previewVideos,
+            vimeoVideoID,
+          } = video;
+          const VideoContainerStyle: VideoContainerProps = {
+            "--onTopOfGrain": `${
+              preview.show && preview.index === index ? 15 : 0
+            }`,
+          };
 
-        return (
-          <VideoContainer
-            className="gallery-item"
-            key={index}
-            style={VideoContainerStyle}
-          >
-            {preview.show && preview.index === index && (
-              <VideoOverlay
-                withCallToAction={Boolean(callToAction)}
-                onMouseLeave={() => setPreview({ show: false, index: index })}
-              >
-                <PlayVideoArea onClick={() => console.log("Play Video")} />
-                {project && (
-                  <NextLink href={`/projekte/${project?.slug}`} passHref>
-                    <a>
-                      <GoToProjectArea>
-                        -{">"} {project?.callToAction}
-                      </GoToProjectArea>
-                    </a>
-                  </NextLink>
-                )}
-              </VideoOverlay>
-            )}
-            <VideoDescription>
-              <p>
-                <Title>{project?.homePageVideoTitle || title}</Title>
-                {customer && ` | ${customer.name}`}
-              </p>
-            </VideoDescription>
-            {preview.show && preview.index === index && previewVideos && (
-              <VideoPreview autoPlay loop muted playsInline>
-                {previewVideos.map(({ url, mimeType }, index) => (
-                  <source key={index} src={url} type={mimeType} />
-                ))}
-              </VideoPreview>
-            )}
-            <NextImage
-              src={thumbnailUrl}
-              layout="fill"
-              objectFit="cover"
-              onMouseEnter={() => setPreview({ show: true, index: index })}
-            />
-            {callToAction && <SpecialText>{callToAction}</SpecialText>}
-          </VideoContainer>
-        );
-      })}
-    </GridContainer>
+          return (
+            <VideoContainer
+              className="gallery-item"
+              key={index}
+              style={VideoContainerStyle}
+            >
+              {preview.show && preview.index === index && (
+                <VideoOverlay
+                  withCallToAction={Boolean(callToAction)}
+                  onMouseLeave={() => setPreview({ show: false, index: index })}
+                >
+                  <PlayVideoArea
+                    onMouseDown={() =>
+                      setVideo({ show: true, vimeoVideoID: vimeoVideoID })
+                    }
+                  />
+                  {project && (
+                    <NextLink href={`/projekte/${project?.slug}`} passHref>
+                      <a>
+                        <GoToProjectArea>
+                          -{">"} {project?.callToAction}
+                        </GoToProjectArea>
+                      </a>
+                    </NextLink>
+                  )}
+                </VideoOverlay>
+              )}
+              <VideoDescription>
+                <p>
+                  <Title>{project?.homePageVideoTitle || title}</Title>
+                  {customer && ` | ${customer.name}`}
+                </p>
+              </VideoDescription>
+              {preview.show && preview.index === index && previewVideos && (
+                <VideoPreview autoPlay loop muted playsInline>
+                  {previewVideos.map(({ url, mimeType }, index) => (
+                    <source key={index} src={url} type={mimeType} />
+                  ))}
+                </VideoPreview>
+              )}
+              <NextImage
+                src={thumbnailUrl}
+                layout="fill"
+                objectFit="cover"
+                onClick={(event) => {
+                  event.preventDefault();
+                  setVideo({ show: true, vimeoVideoID: vimeoVideoID });
+                }}
+                onMouseEnter={() => setPreview({ show: true, index: index })}
+              />
+              {callToAction && <SpecialText>{callToAction}</SpecialText>}
+            </VideoContainer>
+          );
+        })}
+      </GridContainer>
+    </>
   );
 }
 
 export default VideoGallery;
 
+const VimeoPlayer = styled.iframe`
+  width: 100%;
+  height: 100%;
+`;
+
+const CloseButton = styled.a`
+  position: absolute;
+  top: 6.5vw;
+  right: 8vw;
+  font-size: 1.6rem;
+
+  @media screen and (min-width: 600px) {
+    top: 2.6rem;
+    right: 3rem;
+  }
+`;
+const Wrapper = styled.div`
+  width: 80%;
+  height: 80%;
+  margin: 0 auto;
+`;
+
+const VimeoVideoOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 25;
+  background: var(--color-primary-transparent);
+  backdrop-filter: blur(2px);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  align-content: center;
+
+  .vimeo-video-container-enter & .vimeo-video-enter {
+    opacity: 0;
+  }
+  .vimeo-video-container-enter-active & .vimeo-video-enter-active {
+    opacity: 1;
+    transition: opacity 400ms;
+  }
+  .vimeo-video-container-exit & .vimeo-video-exit {
+    opacity: 1;
+  }
+  .vimeo-video-container-exit-active & .vimeo-video-exit-active {
+    opacity: 0;
+    transition: opacity 400ms;
+  }
+`;
+
 const SpecialText = styled.p`
   position: absolute;
-  z-index: 10;
+  z-index: 25;
   font-family: var(--font-family-secondary);
   text-transform: uppercase;
   font-size: 2.5rem;
