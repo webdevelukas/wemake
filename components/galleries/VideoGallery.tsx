@@ -40,7 +40,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     );
 
     function addClassOnElementInView() {
-      galleryItems.forEach((galleryItem, index) => {
+      galleryItems.forEach((galleryItem) => {
         if (elementIsInView(galleryItem)) {
           galleryItem.classList.add("is-or-was-visible");
         }
