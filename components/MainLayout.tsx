@@ -3,6 +3,7 @@ import useMediaQuery from "hooks/useMediaQuery";
 import Header from "./Header";
 import InstagramLink from "./InstagramLink";
 import { useState } from "react";
+import Head from "next/head";
 
 const Footer = dynamic(() => import("./Footer"));
 const ContactOverlay = dynamic(() => import("./ContactOverlay"));
@@ -17,6 +18,14 @@ function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <>
+      <Head>
+        <script
+          async
+          defer
+          data-domain="wemake.vercel.app"
+          src="https://plausible.io/js/plausible.js"
+        />
+      </Head>
       <Header isNotMobile={isNotMobile} setShowContact={setShowContact} />
       <ContactOverlay
         showContact={showContact}
