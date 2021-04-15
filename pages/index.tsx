@@ -33,6 +33,7 @@ export default function HomePage({ homePage }: HomePageProps) {
         playsInline
         poster={fallbackImage.url}
         disablePictureInPicture
+        preload="auto"
       >
         {fullscreenVideos.map((video, index) => (
           <source key={index} src={video.url} type={video.mimeType} />
