@@ -10,7 +10,13 @@ function Footer({ showMail }: FooterProps) {
     <FooterContainer>
       {showMail && (
         <Mail>
-          <a href="mailto:hey@wemake.de">hey@wemake.de </a>
+          <a
+            href="mailto:hey@wemake.de"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            hey@wemake.de{" "}
+          </a>
         </Mail>
       )}
       <span>
