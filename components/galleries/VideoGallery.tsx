@@ -83,7 +83,6 @@ function VideoGallery({ videos }: VideoGalleryProps) {
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
-          webkitallowfullscreen
           id="vimeoMobile"
         />
       )}
