@@ -83,6 +83,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
+          webkitallowfullscreen
           id="vimeoMobile"
         />
       )}
@@ -149,7 +150,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                   <PlayVideoArea
                     onClick={() => handleGalleryItemClick(vimeoVideoID)}
                   />
-                  {project && (
+                  {isDesktop && project && (
                     <NextLink href={`/projekte/${project?.slug}`} passHref>
                       <a>
                         <GoToProjectArea>
@@ -192,7 +193,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
 export default VideoGallery;
 
 const VideoMobile = styled.iframe`
-  display: none;
+  /* display: none; */
 `;
 
 const VimeoPlayer = styled.iframe`
