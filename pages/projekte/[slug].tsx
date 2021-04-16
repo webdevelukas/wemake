@@ -58,7 +58,7 @@ export default function ProjectPage({ project }: ProjectPageProps) {
       </HeaderPicture>
       <Article>
         <Header>
-          <h1 lang="de">{title}</h1>
+          <h1>{title}</h1>
           {customer && <Subtitle>{customer.name}</Subtitle>}
         </Header>
         <ImagesTextSection>

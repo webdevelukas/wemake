@@ -49,25 +49,26 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
           return (
             <VideoTextSection
               key={index}
-              withText={Boolean(description)}
+              withText={Boolean(description) || Boolean(descriptionNew?.html)}
               style={style}
             >
               <VideoContainer>
                 <VideoDescription>{title}</VideoDescription>
                 <div id={`video-${index}`} />
               </VideoContainer>
-              {description && (
-                <div>
-                  <h3>{descriptionTitle}</h3>
-                  {(descriptionNew?.html && (
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: sanitizeHTML(descriptionNew.html),
-                      }}
-                    />
-                  )) || <p>{description}</p>}
-                </div>
-              )}
+              {description ||
+                (descriptionNew?.html && (
+                  <div>
+                    <h3>{descriptionTitle}</h3>
+                    {(descriptionNew?.html && (
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: sanitizeHTML(descriptionNew.html),
+                        }}
+                      />
+                    )) || <p>{description}</p>}
+                  </div>
+                ))}
             </VideoTextSection>
           );
         }
