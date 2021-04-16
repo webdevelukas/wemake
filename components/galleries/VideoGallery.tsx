@@ -81,7 +81,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
           data-vimeo-dnt={true}
           data-vimeo-playsinline={false}
           frameBorder="0"
-          allow="autoplay; encrypted-media"
+          allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
           id="vimeoMobile"
         />
@@ -109,7 +109,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                   data-vimeo-dnt={true}
                   data-vimeo-autoplay={true}
                   frameBorder="0"
-                  allow="autoplay; encrypted-media"
+                  allow="autoplay; fullscreen; picture-in-picture"
                   allowFullScreen
                   id="vimeoDesktop"
                 ></VimeoPlayer>
