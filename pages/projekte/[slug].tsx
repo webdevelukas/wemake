@@ -7,6 +7,7 @@ import requestGraphCMS from "services/graphcms";
 import { Project, Video } from "types";
 import { gql } from "graphql-request";
 import PageMeta from "components/PageMeta";
+import sanitizeHTML from "services/sanitizeHTML";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 const VimeoGallery = dynamic(
@@ -26,12 +27,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
     teaserImages,
     teaserTitle,
     teaser,
+    teaserNew,
     vimeoVideos,
   } = project;
 
   const metaData = {
     title: title,
-    description: teaser,
+    description: teaserNew?.text || teaser,
     keywords: "",
     image: { url: headerImage.url },
   };
@@ -74,7 +76,13 @@ export default function ProjectPage({ project }: ProjectPageProps) {
           </ImageGallery>
           <div>
             <h2>{teaserTitle}</h2>
-            <p>{teaser}</p>
+            {teaserNew?.html && (
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: sanitizeHTML(teaserNew.html),
+                }}
+              />
+            )}
           </div>
         </ImagesTextSection>
         <VimeoGallery videos={vimeoVideos} />
@@ -98,6 +106,10 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
           title
           teaserTitle
           teaser
+          teaserNew {
+            html
+            text
+          }
           teaserImages {
             url
             alt
@@ -109,6 +121,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
             title
             descriptionTitle
             description
+            descriptionNew {
+              html
+            }
             vimeoUrl
             hasPriority
           }

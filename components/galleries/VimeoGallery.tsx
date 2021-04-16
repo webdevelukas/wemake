@@ -1,5 +1,6 @@
 import Player from "@vimeo/player";
 import { useEffect } from "react";
+import sanitizeHTML from "services/sanitizeHTML";
 import styled, { CSSProperties } from "styled-components";
 import { Videos } from "types";
 
@@ -20,6 +21,7 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
         url: vimeoUrl,
         dnt: true,
         responsive: true,
+        playsinline: false,
       });
     });
   });
@@ -28,7 +30,14 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
     <Section>
       {videos.map(
         (
-          { title, description, descriptionTitle, hasPriority, randomMargin },
+          {
+            title,
+            description,
+            descriptionNew,
+            descriptionTitle,
+            hasPriority,
+            randomMargin,
+          },
           index
         ) => {
           const style: VideoTextSectionProps = {
@@ -44,15 +53,19 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
               style={style}
             >
               <VideoContainer>
-                <VideoDescription>
-                  {index + 1} - {title}
-                </VideoDescription>
+                <VideoDescription>{title}</VideoDescription>
                 <div id={`video-${index}`} />
               </VideoContainer>
               {description && (
                 <div>
                   <h3>{descriptionTitle}</h3>
-                  <p>{description}</p>
+                  {(descriptionNew?.html && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHTML(descriptionNew.html),
+                      }}
+                    />
+                  )) || <p>{description}</p>}
                 </div>
               )}
             </VideoTextSection>
