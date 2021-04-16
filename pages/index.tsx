@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps = async () => {
           mimeType
         }
         fallbackImage {
-          url
+          url(transformation: { document: { output: { format: webp } } })
           alt
         }
         metaData {

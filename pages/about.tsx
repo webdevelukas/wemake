@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async () => {
           mimeType
         }
         placeholderImage {
-          url
+          url(transformation: { document: { output: { format: webp } } })
           alt
         }
       }
