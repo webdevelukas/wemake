@@ -7,6 +7,7 @@ export type Project = {
   homePageVideoTitle: string;
   teaserTitle: string;
   teaser: string;
+  teaserNew: { html: string; text: string };
   customer: { name: string };
   teaserImages: [{ url: string; alt: string }];
   vimeoVideos: Videos;

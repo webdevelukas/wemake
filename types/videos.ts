@@ -5,6 +5,7 @@ export type Video = {
   vimeoUrl: string;
   descriptionTitle?: string;
   description?: string;
+  descriptionNew?: { html: string };
   randomMargin?: number;
   customer?: {
     name: string;
@@ -14,7 +15,7 @@ export type Video = {
   callToAction?: string;
   hasPriority: boolean;
   previewVideos: [{ url: string; mimeType: string }];
-  vimeoVideoID?: string;
+  vimeoVideoID: string;
 };
 
 export type Videos = [Video];
