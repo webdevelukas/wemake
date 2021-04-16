@@ -5,6 +5,8 @@ import { Videos } from "types";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import { CSSTransition } from "react-transition-group";
+import Player from "@vimeo/player";
+import useMediaQuery from "hooks/useMediaQuery";
 
 interface VideoContainerProps extends CSSProperties {
   "--onTopOfGrain": string | 0 | undefined;
@@ -15,9 +17,9 @@ type PreviewProps = {
   index: number;
 };
 
-type VideoProps = {
-  show: boolean;
-  vimeoVideoID: string | undefined;
+type ShowVideoProps = {
+  active: boolean;
+  vimeoVideoID: string;
 };
 
 type VideoGalleryProps = {
@@ -25,13 +27,14 @@ type VideoGalleryProps = {
 };
 
 function VideoGallery({ videos }: VideoGalleryProps) {
+  const [isDesktop] = useMediaQuery("(min-width: 601px)");
   const [preview, setPreview] = useState<PreviewProps>({
     show: false,
     index: -1,
   });
-  const [video, setVideo] = useState<VideoProps>({
-    show: false,
-    vimeoVideoID: "",
+  const [showVideo, setShowVideo] = useState<ShowVideoProps>({
+    active: false,
+    vimeoVideoID: "537221599",
   });
 
   useEffect(() => {
@@ -52,30 +55,63 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     addClassOnElementInView();
   });
 
+  const handleGalleryItemClick = (vimeoVideoID: string) => {
+    setShowVideo({ active: true, vimeoVideoID: vimeoVideoID });
+
+    if (!isDesktop && showVideo.active && showVideo.vimeoVideoID) {
+      async function playVideo() {
+        const iframe = await document.getElementById("vimeoMobile");
+
+        if (iframe) {
+          const player = await new Player(iframe);
+          player.play();
+        }
+      }
+
+      playVideo();
+    }
+  };
+
   return (
     <>
-      {video.show && (
+      {!isDesktop && showVideo.vimeoVideoID && (
+        <VideoMobile
+          src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?playsinline=0`}
+          data-vimeo-responsive={true}
+          data-vimeo-dnt={true}
+          data-vimeo-playsinline={false}
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          allowFullScreen
+          id="vimeoMobile"
+        />
+      )}
+      {isDesktop && showVideo.active && (
         <CSSTransition
-          in={video.show}
+          in={showVideo.active}
           timeout={200}
           classNames="vimeo-video-overlay"
         >
           <VimeoVideoOverlay>
             <CloseButton
-              onClick={() => setVideo({ show: false, vimeoVideoID: "" })}
+              onClick={() => setShowVideo({ active: false, vimeoVideoID: "" })}
             >
               X Close
             </CloseButton>
-            <CSSTransition in={video.show} timeout={0} classNames="vimeo-video">
+            <CSSTransition
+              in={showVideo.active}
+              timeout={0}
+              classNames="vimeo-video"
+            >
               <Wrapper>
                 <VimeoPlayer
-                  src={`https://player.vimeo.com/video/${video.vimeoVideoID}`}
-                  data-vimeo-responsive={true}
+                  src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}`}
                   data-vimeo-dnt={true}
-                  data-vimeo-playsinline={false}
+                  data-vimeo-autoplay={true}
                   frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture"
+                  allow="autoplay; encrypted-media"
                   allowFullScreen
+                  id="vimeoDesktop"
                 ></VimeoPlayer>
               </Wrapper>
             </CSSTransition>
@@ -111,9 +147,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                   onMouseLeave={() => setPreview({ show: false, index: index })}
                 >
                   <PlayVideoArea
-                    onMouseDown={() =>
-                      setVideo({ show: true, vimeoVideoID: vimeoVideoID })
-                    }
+                    onClick={() => handleGalleryItemClick(vimeoVideoID)}
                   />
                   {project && (
                     <NextLink href={`/projekte/${project?.slug}`} passHref>
@@ -143,10 +177,7 @@ function VideoGallery({ videos }: VideoGalleryProps) {
                 src={thumbnailUrl}
                 layout="fill"
                 objectFit="cover"
-                onClick={(event) => {
-                  event.preventDefault();
-                  setVideo({ show: true, vimeoVideoID: vimeoVideoID });
-                }}
+                onClick={() => handleGalleryItemClick(vimeoVideoID)}
                 onMouseEnter={() => setPreview({ show: true, index: index })}
               />
               {callToAction && <SpecialText>{callToAction}</SpecialText>}
@@ -159,6 +190,10 @@ function VideoGallery({ videos }: VideoGalleryProps) {
 }
 
 export default VideoGallery;
+
+const VideoMobile = styled.iframe`
+  display: none;
+`;
 
 const VimeoPlayer = styled.iframe`
   width: 100%;
