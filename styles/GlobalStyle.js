@@ -22,7 +22,6 @@ const GlobalStyle = createGlobalStyle`
 
   html, body {
     max-width: 100%;
-    overflow-x: hidden;
   }
   
   body {
