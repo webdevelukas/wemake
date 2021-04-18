@@ -5,11 +5,18 @@ import { gql } from "graphql-request";
 import { Video, Videos } from "types";
 import VideoGallery from "components/galleries/VideoGallery";
 import PageMeta from "components/PageMeta";
+import useMediaQuery from "hooks/useMediaQuery";
 
 type HomePageProps = {
   homePage: {
     title: string;
     fullscreenVideos: [
+      {
+        url: string;
+        mimeType: string;
+      }
+    ];
+    mobileFullscreenVideos: [
       {
         url: string;
         mimeType: string;
@@ -27,9 +34,11 @@ type HomePageProps = {
 };
 
 export default function HomePage({ homePage }: HomePageProps) {
+  const [isDesktop] = useMediaQuery("(min-width: 992px)");
   const {
     title,
     fullscreenVideos,
+    mobileFullscreenVideos,
     fallbackImage,
     vimeoVideos,
     metaData,
@@ -39,19 +48,39 @@ export default function HomePage({ homePage }: HomePageProps) {
     <>
       <PageMeta metaData={metaData} />
       {title && <Title>{title}</Title>}
-      <HeaderVideo
-        autoPlay
-        loop
-        muted
-        playsInline
-        poster={fallbackImage.url}
-        disablePictureInPicture
-        preload="auto"
-      >
-        {fullscreenVideos.map((video, index) => (
-          <source key={index} src={video.url} type={video.mimeType} />
-        ))}
-      </HeaderVideo>
+      <HeaderVideoContainer>
+        {!isDesktop && (
+          <HeaderVideo
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={fallbackImage.url}
+            disablePictureInPicture
+            preload="auto"
+          >
+            {mobileFullscreenVideos.map((video, index) => (
+              <source key={index} src={video.url} type={video.mimeType} />
+            ))}
+          </HeaderVideo>
+        )}
+        {isDesktop && (
+          <HeaderVideo
+            autoPlay
+            loop
+            muted
+            playsInline
+            poster={fallbackImage.url}
+            disablePictureInPicture
+            preload="auto"
+          >
+            {isDesktop &&
+              fullscreenVideos.map((video, index) => (
+                <source key={index} src={video.url} type={video.mimeType} />
+              ))}
+          </HeaderVideo>
+        )}
+      </HeaderVideoContainer>
       <VideoGallery videos={vimeoVideos} />
     </>
   );
@@ -63,6 +92,10 @@ export const getStaticProps: GetStaticProps = async () => {
       homePage(where: { id: "ckmgldv6g28f90b00iybywgv1" }) {
         title
         fullscreenVideos {
+          url
+          mimeType
+        }
+        mobileFullscreenVideos {
           url
           mimeType
         }
@@ -141,10 +174,22 @@ const Title = styled.h1`
   text-align: center;
 `;
 
-const HeaderVideo = styled.video`
+const HeaderVideoContainer = styled.div`
+  position: relative;
   width: 100%;
-  height: 100vh;
+  height: auto;
+  padding-bottom: 125%;
+
+  @media screen and (min-width: 992px) {
+    padding-bottom: unset;
+    height: 100vh;
+  }
+`;
+
+const HeaderVideo = styled.video`
+  position: absolute;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center center;
-  z-index: 0;
 `;

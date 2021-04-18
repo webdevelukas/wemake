@@ -194,7 +194,7 @@ const GridContainer = styled.article`
   grid-auto-rows: auto;
   grid-auto-flow: row;
   grid-row-gap: 6rem;
-  margin: 8rem auto;
+  margin: 6rem auto;
 
   @media screen and (min-width: 820px) {
     width: 60vmax;
@@ -251,19 +251,22 @@ const Title = styled.span`
 const VideoContainer = styled.div`
   position: relative;
   min-height: 60vw;
-  transform: translateY(200px);
   z-index: var(--onTopOfGrain, 0);
 
-  &.is-or-was-visible {
-    animation: slide-in 0.8s ease forwards;
-  }
-  &.is-or-was-visible:nth-child(odd) {
-    animation-duration: 1s;
-  }
+  &:not(:first-of-type) {
+    transform: translateY(200px);
 
-  @keyframes slide-in {
-    to {
-      transform: translateY(0);
+    &.is-or-was-visible {
+      animation: slide-in 0.8s ease forwards;
+    }
+    &.is-or-was-visible:nth-child(odd) {
+      animation-duration: 1s;
+    }
+
+    @keyframes slide-in {
+      to {
+        transform: translateY(0);
+      }
     }
   }
 
