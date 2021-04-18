@@ -100,7 +100,7 @@ function VideoGalleryItems({
                   <NextLink href={`/projekte/${project?.slug}`} passHref>
                     <a>
                       <GoToProjectArea>
-                        -{">"} {project?.callToAction}
+                        -{">"} {project.callToAction}
                       </GoToProjectArea>
                     </a>
                   </NextLink>
@@ -128,6 +128,13 @@ function VideoGalleryItems({
               onMouseEnter={() => setPreview({ show: true, index: index })}
             />
             {callToAction && <SpecialText>{callToAction}</SpecialText>}
+            {!isDesktop && project && (
+              <NextLink href={`/projekte/${project?.slug}`} passHref>
+                <GoToProjectLink hasCallToAction={Boolean(callToAction)}>
+                  -{">"} {project.callToAction}
+                </GoToProjectLink>
+              </NextLink>
+            )}
           </VideoContainer>
         );
       })}
@@ -136,6 +143,12 @@ function VideoGalleryItems({
 }
 
 export default VideoGalleryItems;
+
+const GoToProjectLink = styled.a<{ hasCallToAction: boolean }>`
+  position: absolute;
+  bottom: ${({ hasCallToAction }) => (hasCallToAction ? "-3rem" : "-2.25rem")};
+  right: -0.25rem;
+`;
 
 const SpecialText = styled.p`
   position: absolute;
@@ -180,7 +193,7 @@ const GridContainer = styled.article`
   display: grid;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-row-gap: 5rem;
+  grid-row-gap: 6rem;
   margin: 8rem auto;
 
   @media screen and (min-width: 820px) {

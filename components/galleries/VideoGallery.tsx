@@ -19,7 +19,7 @@ type VideoGalleryProps = {
 };
 
 function VideoGallery({ videos }: VideoGalleryProps) {
-  const [isDesktop] = useMediaQuery("(min-width: 601px)");
+  const [isDesktop] = useMediaQuery("(min-width: 820px)");
   const [preview, setPreview] = useState<PreviewProps>({
     show: false,
     index: -1,
