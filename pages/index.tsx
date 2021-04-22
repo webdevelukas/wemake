@@ -6,6 +6,7 @@ import { Video, Videos } from "types";
 import VideoGallery from "components/galleries/VideoGallery";
 import PageMeta from "components/PageMeta";
 import useMediaQuery from "hooks/useMediaQuery";
+import getVimeoVideoID from "services/getVimeoVideoID";
 
 type HomePageProps = {
   homePage: {
@@ -137,18 +138,13 @@ export const getStaticProps: GetStaticProps = async () => {
       const videoThumbnail = await fetch(
         `https://vimeo.com/api/oembed.json?url=${video.vimeoUrl}`
       ).then((response) => response.json());
-
       const thumbnailUrl = replaceImageType(videoThumbnail.thumbnail_url);
+      const vimeoVideoID = getVimeoVideoID(video.vimeoUrl);
+
       video.thumbnailUrl = thumbnailUrl;
+      video.vimeoVideoID = vimeoVideoID;
     })
   );
-
-  homePage.vimeoVideos.map((video: Video) => {
-    const groupOfNumbers = /([0-9]+)/;
-    const groupsOfNumbers = video.vimeoUrl.match(groupOfNumbers);
-
-    if (groupsOfNumbers) video.vimeoVideoID = groupsOfNumbers[0];
-  });
 
   return {
     revalidate: 1,
