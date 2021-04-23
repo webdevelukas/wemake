@@ -37,13 +37,14 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
             descriptionTitle,
             hasPriority,
             randomMargin,
+            isVertical,
           },
           index
         ) => {
           const style: VideoTextSectionProps = {
             "--negativeMargin": randomMargin && -randomMargin + "vw",
             "--positiveMargin": randomMargin && randomMargin + "vw",
-            "--size": hasPriority ? "60%" : "50%",
+            "--size": isVertical ? "30%" : hasPriority ? "70%" : "60%",
           };
 
           return (
@@ -99,7 +100,7 @@ const VideoTextSection = styled.section<{ withText: boolean }>`
     margin: 0 var(--positiveMargin, 0) 0 var(--negativeMargin, 0);
   }
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     grid-template-rows: unset;
     grid-template-columns: ${({ withText }) =>
       withText ? "var(--size, 50%) minmax(auto, 30%)" : "var(--size, 50%)"};
@@ -129,7 +130,7 @@ const VideoDescription = styled.p`
   -webkit-line-clamp: 1;
   line-clamp: 1;
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     transform: rotate(-90deg) translate(-50%, -50%);
     transform-origin: bottom left;
     bottom: 50%;

@@ -16,6 +16,7 @@ export type Video = {
   hasPriority: boolean;
   previewVideos: [{ url: string; mimeType: string }];
   vimeoVideoID: string;
+  isVertical: boolean;
 };
 
 export type Videos = [Video];

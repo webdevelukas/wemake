@@ -8,6 +8,7 @@ import { Project, Video } from "types";
 import { gql } from "graphql-request";
 import PageMeta from "components/PageMeta";
 import sanitizeHTML from "services/sanitizeHTML";
+import getVimeoVideoID from "services/getVimeoVideoID";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 const VimeoGallery = dynamic(
@@ -134,9 +135,22 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   );
 
   project.vimeoVideos.map((vimeoVideo: Video) => {
+    const vimeoVideoID = getVimeoVideoID(vimeoVideo.vimeoUrl);
     const randomMargin = Math.random() * 0.75;
+
     vimeoVideo.randomMargin = randomMargin;
+    vimeoVideo.vimeoVideoID = vimeoVideoID;
   });
+
+  await Promise.all(
+    project.vimeoVideos.map(async (video: Video) => {
+      const vimeoVideo = await fetch(
+        `https://vimeo.com/api/oembed.json?url=${video.vimeoUrl}`
+      ).then((response) => response.json());
+
+      video.isVertical = vimeoVideo.height > vimeoVideo.width;
+    })
+  );
 
   return {
     revalidate: 1,
@@ -204,7 +218,7 @@ const Article = styled.article`
   width: 90vw;
   margin: 0 auto;
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     max-width: var(--max-content-width);
   }
 `;
