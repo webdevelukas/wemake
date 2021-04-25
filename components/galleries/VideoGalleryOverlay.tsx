@@ -2,62 +2,39 @@ import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
 
 type VideoOverlayProps = {
-  isDesktop: boolean;
   showVideo: { active: boolean; vimeoVideoID: string };
   setShowVideo: (showVideo: { active: boolean; vimeoVideoID: string }) => void;
 };
 
-function VideoGalleryOverlay({
-  isDesktop,
-  showVideo,
-  setShowVideo,
-}: VideoOverlayProps) {
+function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
   return (
     <>
-      {!isDesktop && (
-        <VideoMobile
-          src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?playsinline=0`}
-          data-vimeo-responsive={true}
-          data-vimeo-dnt={true}
-          data-vimeo-playsinline={false}
-          frameBorder="0"
-          allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-          allowFullScreen
-          id="vimeoMobile"
-        />
-      )}
-      {isDesktop && (
-        <CSSTransition
-          in={showVideo.active}
-          timeout={200}
-          classNames="vimeo-video-overlay"
-        >
-          <VimeoVideoOverlay>
-            <CloseButton
-              onClick={() => setShowVideo({ active: false, vimeoVideoID: "" })}
-            >
-              X Close
-            </CloseButton>
-            <CSSTransition
-              in={showVideo.active}
-              timeout={0}
-              classNames="vimeo-video"
-            >
-              <Wrapper>
-                <VimeoPlayer
-                  src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}`}
-                  data-vimeo-dnt={true}
-                  data-vimeo-autoplay={true}
-                  frameBorder="0"
-                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-                  allowFullScreen
-                  id="vimeoDesktop"
-                ></VimeoPlayer>
-              </Wrapper>
-            </CSSTransition>
-          </VimeoVideoOverlay>
-        </CSSTransition>
-      )}
+      <CSSTransition
+        in={showVideo.active}
+        timeout={200}
+        classNames="vimeo-video-overlay"
+      >
+        <VimeoVideoOverlay>
+          <CloseButton
+            onClick={() => setShowVideo({ active: false, vimeoVideoID: "" })}
+          >
+            X Close
+          </CloseButton>
+          <CSSTransition
+            in={showVideo.active}
+            timeout={0}
+            classNames="vimeo-video"
+          >
+            <Wrapper>
+              <VimeoPlayer
+                src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?autoplay=1&dnt=1&byline=0&title=0&portrait=0`}
+                frameBorder="0"
+                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+              ></VimeoPlayer>
+            </Wrapper>
+          </CSSTransition>
+        </VimeoVideoOverlay>
+      </CSSTransition>
     </>
   );
 }
@@ -94,10 +71,6 @@ const VimeoVideoOverlay = styled.div`
   }
 `;
 
-const VideoMobile = styled.iframe`
-  display: none;
-`;
-
 const VimeoPlayer = styled.iframe`
   width: 100%;
   height: 100%;
@@ -115,7 +88,11 @@ const CloseButton = styled.a`
   }
 `;
 const Wrapper = styled.div`
-  width: 80%;
+  width: 90%;
   height: 80%;
   margin: 0 auto;
+
+  @media screen and (min-width: 768px) {
+    width: 80%;
+  }
 `;

@@ -33,7 +33,6 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     <>
       {showVideo.active && (
         <VideoGalleryOverlay
-          isDesktop={isDesktop}
           showVideo={showVideo}
           setShowVideo={setShowVideo}
         />
