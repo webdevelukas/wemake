@@ -1,8 +1,11 @@
 import Player from "@vimeo/player";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import sanitizeHTML from "services/sanitizeHTML";
 import styled, { CSSProperties } from "styled-components";
 import { Videos } from "types";
+import NextImage from "next/image";
+import PlayButton from "elements/PlayButton";
+import useMediaQuery from "hooks/useMediaQuery";
 
 interface VideoTextSectionProps extends CSSProperties {
   "--negativeMargin": string | 0 | undefined;
@@ -15,70 +18,135 @@ type VimeoGalleryProps = {
 };
 
 function VimeoGallery({ videos }: VimeoGalleryProps) {
-  useEffect(() => {
-    videos.map(({ vimeoUrl }, index) => {
-      new Player(`video-${index}`, {
-        url: vimeoUrl,
-        dnt: true,
-        responsive: true,
-        playsinline: false,
-      });
-    });
+  const [isDesktop] = useMediaQuery("(min-width: 992px)");
+  const [activeButton, setActiveButton] = useState({
+    index: -1,
   });
+
+  useEffect(() => {
+    initializeVimeoPlayers(videos);
+  }, []);
 
   return (
     <Section>
-      {videos.map(
-        (
-          {
-            title,
-            description,
-            descriptionNew,
-            descriptionTitle,
-            hasPriority,
-            randomMargin,
-            isVertical,
-          },
-          index
-        ) => {
-          const style: VideoTextSectionProps = {
-            "--negativeMargin": randomMargin && -randomMargin + "vw",
-            "--positiveMargin": randomMargin && randomMargin + "vw",
-            "--size": isVertical ? "30%" : hasPriority ? "70%" : "60%",
-          };
+      {videos.map((video, index) => {
+        const {
+          title,
+          description,
+          descriptionNew,
+          descriptionTitle,
+          hasPriority,
+          randomMargin,
+          isVertical,
+          thumbnailUrl,
+        } = video;
+        const style: VideoTextSectionProps = {
+          "--negativeMargin": randomMargin && -randomMargin + "vw",
+          "--positiveMargin": randomMargin && randomMargin + "vw",
+          "--size": isVertical ? "30%" : hasPriority ? "70%" : "60%",
+        };
+        const buttonIsActive = activeButton.index === index;
 
-          return (
-            <VideoTextSection
-              key={index}
-              withText={Boolean(description) || Boolean(descriptionNew?.html)}
-              style={style}
-            >
-              <VideoContainer>
-                <VideoDescription>{title}</VideoDescription>
-                <div id={`video-${index}`} />
-              </VideoContainer>
-              {description ||
-                (descriptionNew?.html && (
-                  <div>
-                    <h3>{descriptionTitle}</h3>
-                    {(descriptionNew?.html && (
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: sanitizeHTML(descriptionNew.html),
-                        }}
-                      />
-                    )) || <p>{description}</p>}
-                  </div>
-                ))}
-            </VideoTextSection>
-          );
-        }
-      )}
+        return (
+          <VideoTextSection
+            key={index}
+            withText={Boolean(description) || Boolean(descriptionNew?.html)}
+            style={style}
+          >
+            <VideoContainer>
+              {isDesktop && (
+                <PlayVideoOverlay
+                  id={`videoOverlay-${index}`}
+                  onClick={(event) => handleVideoClick(event, index)}
+                  onMouseEnter={() => setActiveButton({ index: index })}
+                  onMouseLeave={() => setActiveButton({ index: -1 })}
+                >
+                  <PlayButton isActive={buttonIsActive} />
+                  <NextImage
+                    src={thumbnailUrl}
+                    layout="fill"
+                    objectFit="cover"
+                  />
+                </PlayVideoOverlay>
+              )}
+              <VideoDescription>{title}</VideoDescription>
+              <div id={`video-${index}`} data-vimeo-defer />
+            </VideoContainer>
+            {description ||
+              (descriptionNew?.html && (
+                <div>
+                  <h3>{descriptionTitle}</h3>
+                  {(descriptionNew?.html && (
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: sanitizeHTML(descriptionNew.html),
+                      }}
+                    />
+                  )) || <p>{description}</p>}
+                </div>
+              ))}
+          </VideoTextSection>
+        );
+      })}
     </Section>
   );
 }
 
 export default VimeoGallery;
+
+function initializeVimeoPlayers(videos: Videos) {
+  videos.map(({ vimeoUrl }, index) => {
+    const player = new Player(`video-${index}`, {
+      url: vimeoUrl,
+      dnt: true,
+      responsive: true,
+      playsinline: false,
+      byline: false,
+      title: false,
+      portrait: false,
+    });
+
+    player.on("play", () => pauseAllOtherVideos(videos, index));
+  });
+}
+
+function handleVideoClick(event: React.MouseEvent, index: number) {
+  event.stopPropagation();
+
+  const player = new Player(`video-${index}`);
+
+  player.ready().then(() => {
+    player.play().then(() => {
+      const playerElement = document.getElementById(`videoOverlay-${index}`);
+      playerElement?.classList.add("played");
+    });
+  });
+}
+
+function pauseAllOtherVideos(videos: Videos, currentVideoIndex: number) {
+  videos.map((_, index) => {
+    if (index !== currentVideoIndex) {
+      const player = new Player(`video-${index}`);
+
+      player.pause();
+    }
+  });
+}
+
+const PlayVideoOverlay = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+
+  &.played {
+    visibility: hidden;
+  }
+`;
 
 const Section = styled.section`
   display: grid;

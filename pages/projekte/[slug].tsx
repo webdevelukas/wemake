@@ -9,6 +9,7 @@ import { gql } from "graphql-request";
 import PageMeta from "components/PageMeta";
 import sanitizeHTML from "services/sanitizeHTML";
 import getVimeoVideoID from "services/getVimeoVideoID";
+import replaceImageType from "services/replaceImageType";
 
 const ContactOverlay = dynamic(() => import("../../components/ContactOverlay"));
 const VimeoGallery = dynamic(
@@ -147,7 +148,9 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       const vimeoVideo = await fetch(
         `https://vimeo.com/api/oembed.json?url=${video.vimeoUrl}`
       ).then((response) => response.json());
+      const thumbnailUrl = replaceImageType(vimeoVideo.thumbnail_url);
 
+      video.thumbnailUrl = thumbnailUrl;
       video.isVertical = vimeoVideo.height > vimeoVideo.width;
     })
   );
