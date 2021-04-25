@@ -7,6 +7,7 @@ import VideoGallery from "components/galleries/VideoGallery";
 import PageMeta from "components/PageMeta";
 import useMediaQuery from "hooks/useMediaQuery";
 import getVimeoVideoID from "services/getVimeoVideoID";
+import replaceImageType from "services/replaceImageType";
 
 type HomePageProps = {
   homePage: {
@@ -135,10 +136,10 @@ export const getStaticProps: GetStaticProps = async () => {
 
   await Promise.all(
     homePage.vimeoVideos.map(async (video: Video) => {
-      const videoThumbnail = await fetch(
+      const vimeoVideo = await fetch(
         `https://vimeo.com/api/oembed.json?url=${video.vimeoUrl}`
       ).then((response) => response.json());
-      const thumbnailUrl = replaceImageType(videoThumbnail.thumbnail_url);
+      const thumbnailUrl = replaceImageType(vimeoVideo.thumbnail_url);
       const vimeoVideoID = getVimeoVideoID(video.vimeoUrl);
 
       video.thumbnailUrl = thumbnailUrl;
@@ -153,13 +154,6 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   };
 };
-
-function replaceImageType(url: string) {
-  const allAfterUnderscore = /\_(.*)/;
-  const modifiedUrl = url.replace(allAfterUnderscore, ".webp");
-
-  return modifiedUrl;
-}
 
 const Title = styled.h1`
   position: absolute;
