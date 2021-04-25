@@ -1,7 +1,6 @@
 import styled, { CSSProperties } from "styled-components";
 import NextImage from "next/image";
 import NextLink from "next/link";
-import Player from "@vimeo/player";
 import { Video, Videos } from "types";
 import { useEffect } from "react";
 import elementIsInView from "services/elementIsInView";
@@ -35,7 +34,6 @@ function VideoGalleryItems({
   isDesktop,
   preview,
   setPreview,
-  showVideo,
   setShowVideo,
 }: VideoGallerItemsProps) {
   useEffect(() => {
@@ -76,7 +74,6 @@ function VideoGalleryItems({
           thumbnailUrl,
           callToAction,
           previewVideos,
-          vimeoVideoID,
         } = video;
         const VideoContainerStyle: VideoContainerProps = {
           "--onTopOfGrain": `${
