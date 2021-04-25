@@ -12,6 +12,7 @@ type PreviewProps = {
 type ShowVideoProps = {
   active: boolean;
   vimeoVideoID: string;
+  project: { slug: string | undefined; callToAction: string | undefined };
 };
 
 type VideoGalleryProps = {
@@ -26,7 +27,8 @@ function VideoGallery({ videos }: VideoGalleryProps) {
   });
   const [showVideo, setShowVideo] = useState<ShowVideoProps>({
     active: false,
-    vimeoVideoID: "537221599",
+    vimeoVideoID: "",
+    project: { slug: "", callToAction: "" },
   });
 
   return (

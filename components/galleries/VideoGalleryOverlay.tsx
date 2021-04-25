@@ -1,9 +1,18 @@
 import { CSSTransition } from "react-transition-group";
 import styled from "styled-components";
+import NextLink from "next/link";
 
 type VideoOverlayProps = {
-  showVideo: { active: boolean; vimeoVideoID: string };
-  setShowVideo: (showVideo: { active: boolean; vimeoVideoID: string }) => void;
+  showVideo: {
+    active: boolean;
+    vimeoVideoID: string;
+    project: { slug: string | undefined; callToAction: string | undefined };
+  };
+  setShowVideo: (showVideo: {
+    active: boolean;
+    vimeoVideoID: string;
+    project: { slug: string | undefined; callToAction: string | undefined };
+  }) => void;
 };
 
 function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
@@ -16,7 +25,13 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
       >
         <VimeoVideoOverlay>
           <CloseButton
-            onClick={() => setShowVideo({ active: false, vimeoVideoID: "" })}
+            onClick={() =>
+              setShowVideo({
+                active: false,
+                vimeoVideoID: "",
+                project: { slug: "", callToAction: "" },
+              })
+            }
           >
             X Close
           </CloseButton>
@@ -26,11 +41,23 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
             classNames="vimeo-video"
           >
             <Wrapper>
-              <VimeoPlayer
-                src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?autoplay=1&dnt=1&byline=0&title=0&portrait=0`}
-                frameBorder="0"
-                allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
-              ></VimeoPlayer>
+              {showVideo.vimeoVideoID && (
+                <VimeoPlayer
+                  src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?autoplay=1&dnt=1&byline=0&title=0&portrait=0&playsinline=0`}
+                  frameBorder="0"
+                  allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+                />
+              )}
+              {showVideo.project.slug && (
+                <NextLink
+                  href={`/projekte/${showVideo.project?.slug}`}
+                  passHref
+                >
+                  <GoToProjectLink>
+                    -{">"} {showVideo.project.callToAction}
+                  </GoToProjectLink>
+                </NextLink>
+              )}
             </Wrapper>
           </CSSTransition>
         </VimeoVideoOverlay>
@@ -40,6 +67,15 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
 }
 
 export default VideoGalleryOverlay;
+
+const GoToProjectLink = styled.a`
+  position: absolute;
+  bottom: 2.5%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  text-align: center;
+`;
 
 const VimeoVideoOverlay = styled.div`
   position: fixed;

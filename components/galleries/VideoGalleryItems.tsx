@@ -2,7 +2,7 @@ import styled, { CSSProperties } from "styled-components";
 import NextImage from "next/image";
 import NextLink from "next/link";
 import Player from "@vimeo/player";
-import { Videos } from "types";
+import { Video, Videos } from "types";
 import { useEffect } from "react";
 import elementIsInView from "services/elementIsInView";
 
@@ -18,8 +18,16 @@ type VideoGallerItemsProps = {
     index: number;
   };
   setPreview: (preview: { show: boolean; index: number }) => void;
-  showVideo: { active: boolean; vimeoVideoID: string };
-  setShowVideo: (showVideo: { active: boolean; vimeoVideoID: string }) => void;
+  showVideo: {
+    active: boolean;
+    vimeoVideoID: string;
+    project: { slug: string | undefined; callToAction: string | undefined };
+  };
+  setShowVideo: (showVideo: {
+    active: boolean;
+    vimeoVideoID: string;
+    project: { slug: string | undefined; callToAction: string | undefined };
+  }) => void;
 };
 
 function VideoGalleryItems({
@@ -48,22 +56,16 @@ function VideoGalleryItems({
     addClassOnElementInView();
   });
 
-  const handleGalleryItemClick = (vimeoVideoID: string) => {
-    setShowVideo({ active: true, vimeoVideoID: vimeoVideoID });
-
-    if (!isDesktop && showVideo.active && showVideo.vimeoVideoID) {
-      async function playVideo() {
-        const iframe = await document.getElementById("vimeoMobile");
-
-        if (iframe) {
-          const player = await new Player(iframe);
-          player.play();
-        }
-      }
-
-      playVideo();
-    }
-  };
+  function handleGalleryItemClick(video: Video) {
+    setShowVideo({
+      active: true,
+      vimeoVideoID: video.vimeoVideoID,
+      project: {
+        slug: video.project?.slug,
+        callToAction: video.project?.callToAction,
+      },
+    });
+  }
   return (
     <GridContainer>
       {videos.map((video, index) => {
@@ -93,9 +95,7 @@ function VideoGalleryItems({
                 withCallToAction={Boolean(callToAction)}
                 onMouseLeave={() => setPreview({ show: false, index: index })}
               >
-                <PlayVideoArea
-                  onClick={() => handleGalleryItemClick(vimeoVideoID)}
-                />
+                <PlayVideoArea onClick={() => handleGalleryItemClick(video)} />
                 {isDesktop && project && (
                   <NextLink href={`/projekte/${project?.slug}`} passHref>
                     <a>
@@ -124,7 +124,7 @@ function VideoGalleryItems({
               src={thumbnailUrl}
               layout="fill"
               objectFit="cover"
-              onClick={() => handleGalleryItemClick(vimeoVideoID)}
+              onClick={() => handleGalleryItemClick(video)}
               onMouseEnter={() => setPreview({ show: true, index: index })}
             />
             {callToAction && <SpecialText>{callToAction}</SpecialText>}
