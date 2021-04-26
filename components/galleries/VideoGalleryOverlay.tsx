@@ -75,6 +75,7 @@ const GoToProjectLink = styled.a`
   transform: translateX(-50%);
   width: 100%;
   text-align: center;
+  font-size: 1.6rem;
 `;
 
 const VimeoVideoOverlay = styled.div`
