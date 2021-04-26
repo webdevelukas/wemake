@@ -73,7 +73,6 @@ const GlobalStyle = createGlobalStyle`
     font-style: italic;
     line-height: 1.0;
     z-index: 15;
-    hyphens: auto;
   }
 
   h1 {

@@ -207,8 +207,9 @@ const Subtitle = styled.p`
     font-size: 10vmin;
   }
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 992px) {
     font-size: 2rem;
+    hyphens: unset;
   }
 `;
 
@@ -220,9 +221,15 @@ const Article = styled.article`
   grid-row-gap: 10rem;
   width: 90vw;
   margin: 0 auto;
+  hyphens: auto;
+  word-break: break-word;
 
   @media screen and (min-width: 768px) {
     max-width: var(--max-content-width);
+  }
+
+  @media screen and (min-width: 992px) {
+    hyphens: unset;
   }
 `;
 
