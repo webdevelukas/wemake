@@ -8,6 +8,7 @@ import PageMeta from "components/PageMeta";
 import useMediaQuery from "hooks/useMediaQuery";
 import getVimeoVideoID from "services/getVimeoVideoID";
 import replaceImageType from "services/replaceImageType";
+import getAspectRatio from "services/getAspectRatio";
 
 type HomePageProps = {
   homePage: {
@@ -141,9 +142,14 @@ export const getStaticProps: GetStaticProps = async () => {
       ).then((response) => response.json());
       const thumbnailUrl = replaceImageType(vimeoVideo.thumbnail_url);
       const vimeoVideoID = getVimeoVideoID(video.vimeoUrl);
+      const videoAspectRatio = getAspectRatio(
+        vimeoVideo.width,
+        vimeoVideo.height
+      );
 
       video.thumbnailUrl = thumbnailUrl;
       video.vimeoVideoID = vimeoVideoID;
+      video.aspectRatio = videoAspectRatio;
     })
   );
 

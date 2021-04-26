@@ -17,6 +17,7 @@ export type Video = {
   previewVideos: [{ url: string; mimeType: string }];
   vimeoVideoID: string;
   isVertical: boolean;
+  aspectRatio: string;
 };
 
 export type Videos = [Video];
