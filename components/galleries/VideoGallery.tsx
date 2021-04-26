@@ -12,6 +12,8 @@ type PreviewProps = {
 type ShowVideoProps = {
   active: boolean;
   vimeoVideoID: string;
+  vimeoUrl?: string;
+  aspectRatio: string;
   project: { slug: string | undefined; callToAction: string | undefined };
 };
 
@@ -28,6 +30,8 @@ function VideoGallery({ videos }: VideoGalleryProps) {
   const [showVideo, setShowVideo] = useState<ShowVideoProps>({
     active: false,
     vimeoVideoID: "",
+    vimeoUrl: "",
+    aspectRatio: "",
     project: { slug: "", callToAction: "" },
   });
 

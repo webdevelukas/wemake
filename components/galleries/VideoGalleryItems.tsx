@@ -20,11 +20,15 @@ type VideoGallerItemsProps = {
   showVideo: {
     active: boolean;
     vimeoVideoID: string;
+    vimeoUrl?: string;
+    aspectRatio: string;
     project: { slug: string | undefined; callToAction: string | undefined };
   };
   setShowVideo: (showVideo: {
     active: boolean;
     vimeoVideoID: string;
+    vimeoUrl?: string;
+    aspectRatio: string;
     project: { slug: string | undefined; callToAction: string | undefined };
   }) => void;
 };
@@ -58,6 +62,8 @@ function VideoGalleryItems({
     setShowVideo({
       active: true,
       vimeoVideoID: video.vimeoVideoID,
+      vimeoUrl: video.vimeoUrl,
+      aspectRatio: video.aspectRatio,
       project: {
         slug: video.project?.slug,
         callToAction: video.project?.callToAction,
@@ -157,6 +163,8 @@ const SpecialText = styled.p`
   font-style: italic;
   bottom: -2rem;
   left: 2%;
+  hyphens: auto;
+  word-break: break-word;
 `;
 
 const VideoOverlay = styled.div<{ withCallToAction: boolean }>`
