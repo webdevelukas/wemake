@@ -43,7 +43,7 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
             <Wrapper>
               {showVideo.vimeoVideoID && (
                 <VimeoPlayer
-                  src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?autoplay=1&dnt=1&byline=0&title=0&portrait=0&playsinline=0`}
+                  src={`https://player.vimeo.com/video/${showVideo.vimeoVideoID}?autoplay=1&dnt=1&byline=0&title=0&portrait=0`}
                   frameBorder="0"
                   allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
                 />

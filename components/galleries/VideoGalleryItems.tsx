@@ -87,13 +87,13 @@ function VideoGalleryItems({
             key={index}
             style={VideoContainerStyle}
           >
-            {preview.show && preview.index === index && (
+            {isDesktop && preview.index === index && (
               <VideoOverlay
                 withCallToAction={Boolean(callToAction)}
-                onMouseLeave={() => setPreview({ show: false, index: index })}
+                onMouseLeave={() => setPreview({ show: false, index: -1 })}
               >
                 <PlayVideoArea onClick={() => handleGalleryItemClick(video)} />
-                {isDesktop && project && (
+                {project && (
                   <NextLink href={`/projekte/${project?.slug}`} passHref>
                     <a>
                       <GoToProjectArea>
@@ -110,7 +110,7 @@ function VideoGalleryItems({
                 {customer && ` | ${customer.name}`}
               </p>
             </VideoDescription>
-            {preview.show && preview.index === index && previewVideos && (
+            {isDesktop && preview.index === index && previewVideos && (
               <VideoPreview autoPlay loop muted playsInline>
                 {previewVideos.map(({ url, mimeType }, index) => (
                   <source key={index} src={url} type={mimeType} />
