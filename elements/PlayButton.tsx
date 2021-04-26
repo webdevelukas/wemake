@@ -10,7 +10,7 @@ function PlayButton({ isActive }: PlayButtonProps) {
       <path
         d="M63.5-5.9h-95a5,5,0,0,0-5,5v55a5,5,0,0,0,5,5h95a5,5,0,0,0,5-5V-.9A5,5,0,0,0,63.5-5.9ZM4.36,41V12.16L31.64,26.6Z"
         transform="translate(36.5 5.9)"
-        fill={isActive ? "#00adef" : "#0c1216"}
+        fill={isActive ? "#5A86A3" : "#0c1216"}
         opacity="0.9"
       />
       <polygon
