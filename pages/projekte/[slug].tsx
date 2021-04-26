@@ -230,6 +230,7 @@ const Article = styled.article`
 
   @media screen and (min-width: 992px) {
     hyphens: unset;
+    word-break: unset;
   }
 `;
 
