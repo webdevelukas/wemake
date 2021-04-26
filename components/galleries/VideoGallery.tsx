@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Videos } from "types";
 import useMediaQuery from "hooks/useMediaQuery";
 import VideoGalleryItems from "./VideoGalleryItems";
 import VideoGalleryOverlay from "./VideoGalleryOverlay";
+import useScrollPosition from "hooks/useScrollPosition";
 
 type PreviewProps = {
   show: boolean;
@@ -23,6 +24,7 @@ type VideoGalleryProps = {
 
 function VideoGallery({ videos }: VideoGalleryProps) {
   const [isDesktop] = useMediaQuery("(min-width: 820px)");
+  const [scrollPosition] = useScrollPosition();
   const [preview, setPreview] = useState<PreviewProps>({
     show: false,
     index: -1,
@@ -34,6 +36,23 @@ function VideoGallery({ videos }: VideoGalleryProps) {
     aspectRatio: "",
     project: { slug: "", callToAction: "" },
   });
+
+  useEffect(() => {
+    const body = document.body;
+
+    if (typeof window !== "undefined" && showVideo.active) {
+      body.style.position = "fixed";
+      body.style.overflowY = "scroll";
+      body.style.top = `-${scrollPosition}px`;
+    }
+    if (typeof window !== "undefined" && !showVideo.active) {
+      const scrollY = body.style.top;
+      body.style.position = "";
+      body.style.top = "";
+
+      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+    }
+  }, [showVideo.active]);
 
   return (
     <>
