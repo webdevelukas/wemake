@@ -102,12 +102,13 @@ function getMaxVideoWidth(aspectRatio: string) {
 
 const GoToProjectLink = styled.a`
   position: absolute;
-  width: 100%;
   text-align: center;
   font-size: 1.6rem;
   line-height: 1.6rem;
-  transform: translateY(1rem);
+  left: 50%;
+  transform: translate(-50%, 1rem);
   transform-origin: top;
+  width: 100%;
 `;
 
 const VimeoVideoOverlay = styled.div`
@@ -152,7 +153,7 @@ const CloseButton = styled.a`
   }
 `;
 const Wrapper = styled.div`
+  position: relative;
   width: var(--maxVideoWidth, 80vmin);
   height: auto;
-  transform: translateY(-2.5%);
 `;
