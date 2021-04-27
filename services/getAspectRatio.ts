@@ -5,7 +5,6 @@ export default function getAspectRatio(width: number, height: number) {
     if (height === width) return "square";
   } catch (error) {
     throw new error("Can't define aspect ratio");
-  } finally {
-    return "";
   }
+  return "";
 }
