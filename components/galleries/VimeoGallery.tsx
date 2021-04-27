@@ -24,7 +24,8 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
   });
 
   useEffect(() => {
-    initializeVimeoPlayers(videos);
+    const players = initializeVimeoPlayers(videos);
+    return () => unmountVimeoPlayers(players);
   }, []);
 
   return (
@@ -95,7 +96,7 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
 export default VimeoGallery;
 
 function initializeVimeoPlayers(videos: Videos) {
-  videos.map(({ vimeoUrl }, index) => {
+  const players = videos.map(({ vimeoUrl }, index) => {
     const player = new Player(`video-${index}`, {
       url: vimeoUrl,
       dnt: true,
@@ -107,6 +108,17 @@ function initializeVimeoPlayers(videos: Videos) {
     });
 
     player.on("play", () => pauseAllOtherVideos(videos, index));
+
+    return player;
+  });
+
+  return players;
+}
+
+function unmountVimeoPlayers(players: Player[]) {
+  players.map((player) => {
+    player.off("play");
+    player.destroy();
   });
 }
 
