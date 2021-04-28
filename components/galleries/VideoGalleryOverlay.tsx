@@ -1,7 +1,6 @@
-import { CSSTransition } from "react-transition-group";
 import styled, { CSSProperties } from "styled-components";
 import NextLink from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Player from "@vimeo/player";
 
 interface VideoTextSectionProps extends CSSProperties {
@@ -26,12 +25,13 @@ type VideoOverlayProps = {
 };
 
 function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const videoStyle: VideoTextSectionProps = {
     "--maxVideoWidth": getMaxVideoWidth(showVideo.aspectRatio),
   };
 
   useEffect(() => {
-    new Player(`video`, {
+    const player = new Player(`video`, {
       url: showVideo.vimeoUrl,
       dnt: true,
       responsive: true,
@@ -40,50 +40,39 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
       portrait: false,
       autoplay: true,
     });
-  });
+
+    setIsLoading(true);
+    player.ready().then(() => setIsLoading(false));
+  }, []);
+
   return (
-    <>
-      <CSSTransition
-        in={showVideo.active}
-        timeout={200}
-        classNames="vimeo-video-overlay"
-      >
-        <VimeoVideoOverlay>
-          <CSSTransition
-            in={showVideo.active}
-            timeout={0}
-            classNames="vimeo-video"
+    <VimeoVideoOverlay>
+      <Wrapper style={videoStyle}>
+        {!isLoading && (
+          <CloseButton
+            onClick={() =>
+              setShowVideo({
+                active: false,
+                vimeoVideoID: "",
+                vimeoUrl: "",
+                aspectRatio: "",
+                project: { slug: "", callToAction: "" },
+              })
+            }
           >
-            <Wrapper style={videoStyle}>
-              <CloseButton
-                onClick={() =>
-                  setShowVideo({
-                    active: false,
-                    vimeoVideoID: "",
-                    vimeoUrl: "",
-                    aspectRatio: "",
-                    project: { slug: "", callToAction: "" },
-                  })
-                }
-              >
-                X Close
-              </CloseButton>
-              <div id={`video`} />
-              {showVideo.project.slug && (
-                <NextLink
-                  href={`/projekte/${showVideo.project?.slug}`}
-                  passHref
-                >
-                  <GoToProjectLink>
-                    -{">"} {showVideo.project.callToAction}
-                  </GoToProjectLink>
-                </NextLink>
-              )}
-            </Wrapper>
-          </CSSTransition>
-        </VimeoVideoOverlay>
-      </CSSTransition>
-    </>
+            X Close
+          </CloseButton>
+        )}
+        <div id={`video`} />
+        {!isLoading && showVideo.project.slug && (
+          <NextLink href={`/projekte/${showVideo.project?.slug}`} passHref>
+            <GoToProjectLink>
+              -{">"} {showVideo.project.callToAction}
+            </GoToProjectLink>
+          </NextLink>
+        )}
+      </Wrapper>
+    </VimeoVideoOverlay>
   );
 }
 
@@ -99,7 +88,6 @@ function getMaxVideoWidth(aspectRatio: string) {
       return "80vmin";
   }
 }
-
 const GoToProjectLink = styled.a`
   position: absolute;
   text-align: center;
@@ -125,21 +113,6 @@ const VimeoVideoOverlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .vimeo-video-container-enter & .vimeo-video-enter {
-    opacity: 0;
-  }
-  .vimeo-video-container-enter-active & .vimeo-video-enter-active {
-    opacity: 1;
-    transition: opacity 400ms;
-  }
-  .vimeo-video-container-exit & .vimeo-video-exit {
-    opacity: 1;
-  }
-  .vimeo-video-container-exit-active & .vimeo-video-exit-active {
-    opacity: 0;
-    transition: opacity 400ms;
-  }
 `;
 
 const CloseButton = styled.a`
