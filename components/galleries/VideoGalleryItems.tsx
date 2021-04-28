@@ -4,6 +4,7 @@ import NextLink from "next/link";
 import { Video, Videos } from "types";
 import { useEffect } from "react";
 import elementIsInView from "services/elementIsInView";
+import useMediaQuery from "hooks/useMediaQuery";
 
 interface VideoContainerProps extends CSSProperties {
   "--onTopOfGrain": string | 0 | undefined;
@@ -11,7 +12,6 @@ interface VideoContainerProps extends CSSProperties {
 
 type VideoGallerItemsProps = {
   videos: Videos;
-  isDesktop: boolean;
   preview: {
     show: boolean;
     index: number;
@@ -35,11 +35,12 @@ type VideoGallerItemsProps = {
 
 function VideoGalleryItems({
   videos,
-  isDesktop,
   preview,
   setPreview,
   setShowVideo,
 }: VideoGallerItemsProps) {
+  const [isDesktop] = useMediaQuery("(min-width: 992px)");
+
   useEffect(() => {
     const galleryItems = Array.from(
       document.getElementsByClassName("gallery-item")
@@ -56,7 +57,7 @@ function VideoGalleryItems({
     }
 
     addClassOnElementInView();
-  });
+  }, []);
 
   function handleGalleryItemClick(video: Video) {
     setShowVideo({

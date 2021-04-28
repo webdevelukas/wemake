@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Videos } from "types";
-import useMediaQuery from "hooks/useMediaQuery";
 import VideoGalleryItems from "./VideoGalleryItems";
 import VideoGalleryOverlay from "./VideoGalleryOverlay";
 import useScrollPosition from "hooks/useScrollPosition";
@@ -23,7 +22,6 @@ type VideoGalleryProps = {
 };
 
 function VideoGallery({ videos }: VideoGalleryProps) {
-  const [isDesktop] = useMediaQuery("(min-width: 820px)");
   const [scrollPosition] = useScrollPosition();
   const [preview, setPreview] = useState<PreviewProps>({
     show: false,
@@ -64,7 +62,6 @@ function VideoGallery({ videos }: VideoGalleryProps) {
       )}
       <VideoGalleryItems
         videos={videos}
-        isDesktop={isDesktop}
         preview={preview}
         setPreview={setPreview}
         showVideo={showVideo}
