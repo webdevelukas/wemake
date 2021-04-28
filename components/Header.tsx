@@ -14,7 +14,7 @@ function Header({ isNotMobile, setShowContact }: HeaderProps) {
     <>
       <NextLink href="/" passHref>
         <a>
-          <Logo src="/wemake-logo.svg" />
+          <Logo src="/wemake-logo.svg" alt="wemake logo" />
         </a>
       </NextLink>
       <Navigation role="navigation">

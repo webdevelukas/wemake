@@ -13,7 +13,7 @@ function InstagramLink({ isNotMobile }: InstagramProps) {
         rel="noopener noreferrer"
       >
         <Container>
-          <InstagramLogo src="/instagram-icon.svg" />
+          <InstagramLogo src="/instagram-icon.svg" alt="instagram logo" />
           {isNotMobile && (
             <Wrapper>
               <span>#wemakewednesday</span>
