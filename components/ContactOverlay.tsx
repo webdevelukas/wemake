@@ -2,6 +2,7 @@ import styled from "styled-components";
 import useScrollPosition from "hooks/useScrollPosition";
 import { useEffect } from "react";
 import Footer from "./Footer";
+import { CSSTransition } from "react-transition-group";
 
 type ContactOverlayProps = {
   showContact: boolean;
@@ -31,41 +32,43 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
   return (
     <Container showContact={showContact}>
       <CloseButton onClick={() => setShowContact(false)}>X Close</CloseButton>
-      <GridContainer>
-        <ContactWrapper>
-          <h1>Hey, contact us.</h1>
-          <Wrapper>
-            <p>Cornelius in Stuttgart</p>
-            <PhoneNumber
-              href="tel:+4917660026485"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              +49 176 / 600 26 485
-            </PhoneNumber>
-          </Wrapper>
-          <Wrapper>
-            <p>Matthias in Köln</p>
-            <PhoneNumber
-              href="tel:+491799204445"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              +49 179 / 920 44 45
-            </PhoneNumber>
-          </Wrapper>
-          <Mail>
-            <a
-              href="mailto:hey@wemake.de"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              hey@wemake.de{" "}
-            </a>
-          </Mail>
-        </ContactWrapper>
-        <Footer />
-      </GridContainer>
+      <CSSTransition in={showContact} timeout={1000} classNames="contact">
+        <GridContainer>
+          <ContactWrapper>
+            <h1>Hey, contact us.</h1>
+            <Wrapper>
+              <p>Cornelius in Stuttgart</p>
+              <PhoneNumber
+                href="tel:+4917660026485"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +49 176 / 600 26 485
+              </PhoneNumber>
+            </Wrapper>
+            <Wrapper>
+              <p>Matthias in Köln</p>
+              <PhoneNumber
+                href="tel:+491799204445"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                +49 179 / 920 44 45
+              </PhoneNumber>
+            </Wrapper>
+            <Mail>
+              <a
+                href="mailto:hey@wemake.de"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                hey@wemake.de{" "}
+              </a>
+            </Mail>
+          </ContactWrapper>
+          <Footer />
+        </GridContainer>
+      </CSSTransition>
     </Container>
   );
 }
@@ -108,6 +111,23 @@ const GridContainer = styled.div`
   @media screen and (min-width: 820px) {
     justify-items: center;
     text-align: center;
+  }
+
+  &.contact-enter {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  &.contact-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 1000ms, transform 1000ms;
+  }
+  &.contact-exit {
+    opacity: 1;
+    transition: opacity 1000ms;
+  }
+  &.contact-exit-active {
+    opacity: 0;
   }
 `;
 

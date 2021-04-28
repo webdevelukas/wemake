@@ -2,6 +2,7 @@ import styled, { CSSProperties } from "styled-components";
 import NextLink from "next/link";
 import { useEffect, useState } from "react";
 import Player from "@vimeo/player";
+import { CSSTransition } from "react-transition-group";
 
 interface VideoTextSectionProps extends CSSProperties {
   "--maxVideoWidth": string | 0 | undefined;
@@ -47,31 +48,37 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
 
   return (
     <VimeoVideoOverlay>
-      <Wrapper style={videoStyle}>
-        {!isLoading && (
-          <CloseButton
-            onClick={() =>
-              setShowVideo({
-                active: false,
-                vimeoVideoID: "",
-                vimeoUrl: "",
-                aspectRatio: "",
-                project: { slug: "", callToAction: "" },
-              })
-            }
-          >
-            X Close
-          </CloseButton>
-        )}
-        <div id={`video`} />
-        {!isLoading && showVideo.project.slug && (
-          <NextLink href={`/projekte/${showVideo.project?.slug}`} passHref>
-            <GoToProjectLink>
-              -{">"} {showVideo.project.callToAction}
-            </GoToProjectLink>
-          </NextLink>
-        )}
-      </Wrapper>
+      <CSSTransition
+        in={showVideo.active && !isLoading}
+        timeout={1000}
+        classNames="video"
+      >
+        <Wrapper style={videoStyle}>
+          {!isLoading && (
+            <CloseButton
+              onClick={() =>
+                setShowVideo({
+                  active: false,
+                  vimeoVideoID: "",
+                  vimeoUrl: "",
+                  aspectRatio: "",
+                  project: { slug: "", callToAction: "" },
+                })
+              }
+            >
+              X Close
+            </CloseButton>
+          )}
+          <div id={`video`} />
+          {!isLoading && showVideo.project.slug && (
+            <NextLink href={`/projekte/${showVideo.project?.slug}`} passHref>
+              <GoToProjectLink>
+                -{">"} {showVideo.project.callToAction}
+              </GoToProjectLink>
+            </NextLink>
+          )}
+        </Wrapper>
+      </CSSTransition>
     </VimeoVideoOverlay>
   );
 }
@@ -129,4 +136,21 @@ const Wrapper = styled.div`
   position: relative;
   width: var(--maxVideoWidth, 80vmin);
   height: auto;
+
+  &.video-enter {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  &.video-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: opacity 1000ms, transform 1000ms;
+  }
+  &.video-exit {
+    opacity: 1;
+    transition: opacity 1000ms;
+  }
+  &.video-exit-active {
+    opacity: 0;
+  }
 `;
