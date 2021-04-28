@@ -139,12 +139,10 @@ const Wrapper = styled.div`
 
   &.video-enter {
     opacity: 0;
-    transform: scale(0.95);
   }
   &.video-enter-active {
     opacity: 1;
-    transform: scale(1);
-    transition: opacity 1000ms, transform 1000ms;
+    transition: opacity 1000ms;
   }
   &.video-exit {
     opacity: 1;
