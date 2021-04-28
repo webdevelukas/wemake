@@ -1,3 +1,4 @@
+import PreloadedFonts from "elements/PreloadedFonts";
 import Document, { DocumentContext, Html } from "next/document";
 import { ServerStyleSheet } from "styled-components";
 
@@ -18,6 +19,7 @@ export default class MyDocument extends Document {
         ...initialProps,
         styles: (
           <Html lang="de">
+            <PreloadedFonts />
             {initialProps.styles}
             {sheet.getStyleElement()}
           </Html>
