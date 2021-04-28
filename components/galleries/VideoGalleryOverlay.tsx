@@ -146,7 +146,7 @@ const Wrapper = styled.div`
   }
   &.video-exit {
     opacity: 1;
-    transition: opacity 1000ms;
+    transition: opacity 500ms;
   }
   &.video-exit-active {
     opacity: 0;
