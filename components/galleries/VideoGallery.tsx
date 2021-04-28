@@ -3,6 +3,7 @@ import { Videos } from "types";
 import VideoGalleryItems from "./VideoGalleryItems";
 import VideoGalleryOverlay from "./VideoGalleryOverlay";
 import useScrollPosition from "hooks/useScrollPosition";
+import { useRouter } from "next/dist/client/router";
 
 type PreviewProps = {
   show: boolean;
@@ -22,6 +23,7 @@ type VideoGalleryProps = {
 };
 
 function VideoGallery({ videos }: VideoGalleryProps) {
+  const router = useRouter();
   const [scrollPosition] = useScrollPosition();
   const [preview, setPreview] = useState<PreviewProps>({
     show: false,
@@ -50,6 +52,28 @@ function VideoGallery({ videos }: VideoGalleryProps) {
 
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
+
+    router.events.on("beforeHistoryChange", () => {
+      if (showVideo.active) {
+        const scrollY = body.style.top;
+        body.style.position = "";
+        body.style.top = "";
+
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    });
+
+    return () => {
+      router.events.off("beforeHistoryChange", () => {
+        if (showVideo.active) {
+          const scrollY = body.style.top;
+          body.style.position = "";
+          body.style.top = "";
+
+          window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        }
+      });
+    };
   }, [showVideo.active]);
 
   return (
