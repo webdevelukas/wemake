@@ -3,6 +3,7 @@ import useScrollPosition from "hooks/useScrollPosition";
 import { useEffect } from "react";
 import Footer from "./Footer";
 import { CSSTransition } from "react-transition-group";
+import { useRouter } from "next/router";
 
 type ContactOverlayProps = {
   showContact: boolean;
@@ -10,6 +11,7 @@ type ContactOverlayProps = {
 };
 
 function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
+  const router = useRouter();
   const [scrollPosition] = useScrollPosition();
 
   useEffect(() => {
@@ -27,6 +29,30 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
 
       window.scrollTo(0, parseInt(scrollY || "0") * -1);
     }
+
+    router.events.on("beforeHistoryChange", () => {
+      if (showContact) {
+        const scrollY = body.style.top;
+        body.style.position = "";
+        body.style.top = "";
+
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+        setShowContact(false);
+      }
+    });
+
+    return () => {
+      router.events.off("beforeHistoryChange", () => {
+        if (showContact) {
+          const scrollY = body.style.top;
+          body.style.position = "";
+          body.style.top = "";
+
+          window.scrollTo(0, parseInt(scrollY || "0") * -1);
+          setShowContact(false);
+        }
+      });
+    };
   }, [showContact]);
 
   return (

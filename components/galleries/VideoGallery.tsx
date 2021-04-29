@@ -3,7 +3,7 @@ import { Videos } from "types";
 import VideoGalleryItems from "./VideoGalleryItems";
 import VideoGalleryOverlay from "./VideoGalleryOverlay";
 import useScrollPosition from "hooks/useScrollPosition";
-import { useRouter } from "next/dist/client/router";
+import { useRouter } from "next/router";
 
 type PreviewProps = {
   show: boolean;
