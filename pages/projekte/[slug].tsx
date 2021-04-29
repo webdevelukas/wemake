@@ -89,7 +89,10 @@ export default function ProjectPage({ project }: ProjectPageProps) {
         </ImagesTextSection>
         <VimeoGallery videos={vimeoVideos} />
         <CallToAction>
-          You like it? <a onClick={() => setShowContact(true)}>Contact</a> us.
+          You like it?{" "}
+          <NoWrap>
+            <a onClick={() => setShowContact(true)}>Contact</a> us.
+          </NoWrap>
         </CallToAction>
       </Article>
     </>
@@ -199,16 +202,15 @@ const Header = styled.header`
 `;
 
 const Subtitle = styled.p`
-  font-size: 12vmin;
+  font-size: 2rem;
   line-height: 1.1;
   padding-left: 1rem;
 
   @media screen and (min-width: 420px) {
-    font-size: 10vmin;
+    font-size: 2.5rem;
   }
 
   @media screen and (min-width: 992px) {
-    font-size: 2rem;
     hyphens: unset;
   }
 `;
@@ -222,7 +224,7 @@ const Article = styled.article`
   width: 90vw;
   margin: 0 auto;
   hyphens: auto;
-  word-break: break-word;
+  line-break: normal;
 
   @media screen and (min-width: 768px) {
     max-width: var(--max-content-width);
@@ -230,7 +232,7 @@ const Article = styled.article`
 
   @media screen and (min-width: 992px) {
     hyphens: unset;
-    word-break: unset;
+    line-break: unset;
   }
 `;
 
@@ -272,20 +274,25 @@ const ImageWrapper = styled.div`
 
 const CallToAction = styled.p`
   font-weight: bold;
-  font-size: 14vmin;
+  font-size: 2rem;
   line-height: 1.1;
-  margin: 20vmin auto 30vmin;
+  margin: 3vmin auto 5vmin;
+  text-align: center;
 
   @media screen and (min-width: 420px) {
-    font-size: 10vmin;
+    font-size: 2.5rem;
   }
 
   @media screen and (min-width: 820px) {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 
   a {
     font-style: italic;
     font-weight: lighter;
   }
+`;
+
+const NoWrap = styled.span`
+  white-space: nowrap;
 `;
