@@ -136,11 +136,12 @@ const GridContainer = styled.div`
   width: 100%;
   height: 100%;
   align-items: center;
-  padding: 0 2rem;
+  padding: 2rem 2rem 0;
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     justify-items: center;
     text-align: center;
+    padding-top: 0;
   }
 
   &.contact-enter {
@@ -166,7 +167,7 @@ const ContactWrapper = styled.div`
   grid-row-gap: 1rem;
   transform: translate(0, -5%);
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 768px) {
     justify-items: center;
   }
 `;
@@ -175,7 +176,7 @@ const PhoneNumber = styled.a`
   font-family: var(--font-family-secondary);
   font-size: 1.8rem;
 
-  @media screen and (min-width: 600px) {
+  @media screen and (min-width: 768px) {
     margin-left: 1rem;
   }
 `;
