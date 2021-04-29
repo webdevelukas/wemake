@@ -96,7 +96,6 @@ function VideoGalleryItems({
           >
             {isDesktop && preview.index === index && (
               <VideoOverlay
-                withCallToAction={Boolean(callToAction)}
                 onMouseLeave={() => setPreview({ show: false, index: -1 })}
               >
                 <PlayVideoArea onClick={() => handleGalleryItemClick(video)} />
@@ -168,13 +167,12 @@ const SpecialText = styled.p`
   word-break: break-word;
 `;
 
-const VideoOverlay = styled.div<{ withCallToAction: boolean }>`
+const VideoOverlay = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: ${({ withCallToAction }) =>
-    withCallToAction ? "column-reverse" : "column"};
+  flex-direction: column;
   z-index: 20;
   cursor: pointer;
 `;
