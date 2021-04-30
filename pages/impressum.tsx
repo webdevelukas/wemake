@@ -62,6 +62,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
 const PageWrapper = styled.div`
   padding: 24vh 1rem;
+  hyphens: auto;
+  line-break: normal;
 
   @media screen and (max-width: 600px) {
     ${TextContainer} {
