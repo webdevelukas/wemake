@@ -82,6 +82,17 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
           )}
         </Wrapper>
       </CSSTransition>
+      <CloseOverlayArea
+        onClick={() =>
+          setShowVideo({
+            active: false,
+            vimeoVideoID: "",
+            vimeoUrl: "",
+            aspectRatio: "",
+            project: { slug: "", callToAction: "" },
+          })
+        }
+      />
     </VimeoVideoOverlay>
   );
 }
@@ -98,6 +109,16 @@ function getMaxVideoWidth(aspectRatio: string) {
       return "80vmin";
   }
 }
+
+const CloseOverlayArea = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 26;
+`;
+
 const GoToProjectLink = styled.a`
   position: absolute;
   text-align: center;
@@ -139,6 +160,7 @@ const Wrapper = styled.div`
   position: relative;
   width: var(--maxVideoWidth, 80vmin);
   height: auto;
+  z-index: 27;
 
   &.video-enter {
     opacity: 0;

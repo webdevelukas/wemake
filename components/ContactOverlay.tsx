@@ -95,11 +95,21 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
           <Footer />
         </GridContainer>
       </CSSTransition>
+      <CloseOverlayArea onClick={() => setShowContact(false)} />
     </Container>
   );
 }
 
 export default ContactOverlay;
+
+const CloseOverlayArea = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 21;
+`;
 
 const Container = styled.div<{ showContact: boolean }>`
   z-index: 20;
@@ -119,6 +129,7 @@ const CloseButton = styled.a`
   top: 6.5vw;
   right: 8vw;
   font-size: 1.6rem;
+  z-index: 22;
 
   @media screen and (min-width: 600px) {
     top: 2.6rem;
@@ -133,6 +144,10 @@ const GridContainer = styled.div`
   height: 100%;
   align-items: center;
   padding: 2rem 2rem 0;
+
+  footer {
+    z-index: 22;
+  }
 
   @media screen and (min-width: 768px) {
     justify-items: center;
@@ -162,6 +177,7 @@ const ContactWrapper = styled.div`
   grid-auto-flow: row;
   grid-row-gap: 1rem;
   transform: translate(0, -5%);
+  z-index: 22;
 
   @media screen and (min-width: 768px) {
     justify-items: center;
