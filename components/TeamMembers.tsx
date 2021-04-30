@@ -79,7 +79,7 @@ const Wrapper = styled.div`
 
   :first-of-type {
     ${Name} {
-      top: 65%;
+      top: 70%;
       left: -7.5%;
 
       @media screen and (min-width: 768px) {
@@ -90,7 +90,7 @@ const Wrapper = styled.div`
 
   :last-of-type {
     ${Name} {
-      top: 55%;
+      top: 60%;
       right: -7.5%;
 
       @media screen and (min-width: 768px) {
