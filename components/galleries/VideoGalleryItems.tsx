@@ -158,11 +158,12 @@ const SpecialText = styled.p`
   z-index: 25;
   font-family: var(--font-family-secondary);
   text-transform: uppercase;
-  font-size: 2rem;
+  font-size: 2.25rem;
   font-style: italic;
   bottom: -1.25rem;
   left: 2%;
   hyphens: auto;
+  line-break: normal;
   word-break: break-word;
 
   @media screen and (min-width: 992px) {
