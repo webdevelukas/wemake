@@ -44,14 +44,13 @@ export default TeamMembers;
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr;
   grid-gap: 6rem;
   width: 80vw;
   margin: 0 auto;
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     grid-template-columns: 1fr 1fr;
-    height: 70vh;
     max-width: 70vmax;
   }
 `;
@@ -72,23 +71,33 @@ const Wrapper = styled.div`
   height: auto;
   padding-bottom: 140%;
 
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 768px) {
     :last-of-type {
-      margin: 6rem 0 -6rem;
+      margin: 4rem 0 -4rem;
     }
   }
 
   :first-of-type {
     ${Name} {
-      bottom: 5rem;
+      top: 65%;
       left: -7.5%;
+
+      @media screen and (min-width: 768px) {
+        top: 75%;
+      }
     }
   }
 
   :last-of-type {
     ${Name} {
-      bottom: -3rem;
-      left: -7.5%;
+      top: 55%;
+      right: -7.5%;
+
+      @media screen and (min-width: 768px) {
+        top: calc(75% - 4rem);
+        right: -15%;
+        transform: translateY(-50%);
+      }
     }
   }
 `;

@@ -96,7 +96,7 @@ const PageWrapper = styled.div`
   display: grid;
   grid-auto-rows: auto;
   grid-auto-flow: row;
-  grid-row-gap: 16vmax;
+  grid-row-gap: 8vmax;
   padding: 16vh 1rem;
 `;
 
