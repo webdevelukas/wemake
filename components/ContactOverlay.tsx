@@ -58,11 +58,7 @@ function ContactOverlay({ showContact, setShowContact }: ContactOverlayProps) {
   return (
     <Container showContact={showContact}>
       <CloseButton onClick={() => setShowContact(false)}>X Close</CloseButton>
-      <CSSTransition
-        in={showContact}
-        timeout={{ enter: 1000, exit: 500 }}
-        classNames="contact"
-      >
+      <CSSTransition in={showContact} timeout={300} classNames="contact">
         <GridContainer>
           <ContactWrapper>
             <h1>Hey, contact us.</h1>
@@ -149,7 +145,7 @@ const GridContainer = styled.div`
   }
   &.contact-enter-active {
     opacity: 1;
-    transition: opacity 1000ms;
+    transition: opacity 300ms;
   }
   &.contact-exit {
     opacity: 1;
