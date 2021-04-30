@@ -40,12 +40,12 @@ function VideoGalleryOverlay({ showVideo, setShowVideo }: VideoOverlayProps) {
       title: false,
       portrait: false,
       autoplay: true,
+      playsinline: false,
     });
 
     setIsLoading(true);
     player.ready().then(() => {
       setIsLoading(false);
-      player.play();
     });
   }, []);
 
