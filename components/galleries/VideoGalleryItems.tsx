@@ -158,13 +158,18 @@ const SpecialText = styled.p`
   z-index: 25;
   font-family: var(--font-family-secondary);
   text-transform: uppercase;
-  font-size: 2.5rem;
-  line-height: 2.875rem;
+  font-size: 2rem;
   font-style: italic;
-  bottom: -2rem;
+  bottom: -1.25rem;
   left: 2%;
   hyphens: auto;
   word-break: break-word;
+
+  @media screen and (min-width: 992px) {
+    bottom: -2rem;
+    font-size: 2.5rem;
+    line-height: 2.875rem;
+  }
 `;
 
 const VideoOverlay = styled.div`
@@ -199,6 +204,10 @@ const GridContainer = styled.article`
   grid-auto-flow: row;
   grid-row-gap: 6rem;
   margin: 6rem auto;
+
+  @media screen and (min-width: 576px) {
+    width: 90%;
+  }
 
   @media screen and (min-width: 820px) {
     width: 60vmax;
