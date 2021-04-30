@@ -122,12 +122,17 @@ const CloseOverlayArea = styled.div`
 const GoToProjectLink = styled.a`
   position: absolute;
   text-align: center;
-  font-size: 1.6rem;
-  line-height: 1.6rem;
+  font-size: 1.2rem;
+  line-height: 1.2rem;
   left: 50%;
   transform: translate(-50%, 1rem);
   transform-origin: top;
   width: 100%;
+
+  @media screen and (min-width: 768px) {
+    font-size: 1.6rem;
+    line-height: 1.6rem;
+  }
 `;
 
 const VimeoVideoOverlay = styled.div`
@@ -150,10 +155,11 @@ const CloseButton = styled.a`
   position: absolute;
   top: -2.5rem;
   right: -2vmin;
-  font-size: 1.6rem;
+  font-size: 1.2rem;
 
   @media screen and (min-width: 768px) {
     top: -3rem;
+    font-size: 1.6rem;
   }
 `;
 const Wrapper = styled.div`
