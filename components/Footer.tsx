@@ -20,11 +20,11 @@ function Footer({ showMail }: FooterProps) {
         </Mail>
       )}
       <span>
-        <NextLink href="/impressum">
+        <NextLink href="/impressum" passHref>
           <a>Impressum</a>
         </NextLink>{" "}
         |{" "}
-        <NextLink href="/datenschutz">
+        <NextLink href="/datenschutz" passHref>
           <a>Datenschutz</a>
         </NextLink>
       </span>
