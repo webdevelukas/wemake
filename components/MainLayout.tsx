@@ -23,7 +23,7 @@ function MainLayout({ children }: MainLayoutProps) {
         <script
           async
           defer
-          data-domain="wemake.vercel.app"
+          data-domain="wemake.de"
           src="https://plausible.io/js/plausible.js"
         />
       </Head>
