@@ -39,7 +39,7 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
           hasPriority,
           randomMargin,
           isVertical,
-          thumbnailUrl,
+          thumbnail,
         } = video;
         const style: VideoTextSectionProps = {
           "--negativeMargin": randomMargin && -randomMargin + "vw",
@@ -64,7 +64,8 @@ function VimeoGallery({ videos }: VimeoGalleryProps) {
                 >
                   <PlayButton isActive={buttonIsActive} />
                   <NextImage
-                    src={thumbnailUrl}
+                    src={thumbnail.url}
+                    alt={thumbnail.alt}
                     layout="fill"
                     objectFit="cover"
                   />

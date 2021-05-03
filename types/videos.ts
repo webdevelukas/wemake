@@ -10,7 +10,7 @@ export type Video = {
   customer?: {
     name: string;
   };
-  thumbnailUrl: string;
+  thumbnail: { url: string; alt: string };
   project?: Project;
   callToAction?: string;
   hasPriority: boolean;

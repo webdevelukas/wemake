@@ -78,7 +78,7 @@ function VideoGalleryItems({
           title,
           customer,
           project,
-          thumbnailUrl,
+          thumbnail,
           callToAction,
           previewVideos,
         } = video;
@@ -124,7 +124,8 @@ function VideoGalleryItems({
               </VideoPreview>
             )}
             <NextImage
-              src={thumbnailUrl}
+              src={thumbnail.url}
+              alt={thumbnail.alt}
               layout="fill"
               objectFit="cover"
               onClick={() => handleGalleryItemClick(video)}

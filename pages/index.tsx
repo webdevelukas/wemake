@@ -147,7 +147,7 @@ export const getStaticProps: GetStaticProps = async () => {
         vimeoVideo.height
       );
 
-      video.thumbnailUrl = thumbnailUrl;
+      video.thumbnail = { url: thumbnailUrl, alt: vimeoVideo.title };
       video.vimeoVideoID = vimeoVideoID;
       video.aspectRatio = videoAspectRatio;
     })

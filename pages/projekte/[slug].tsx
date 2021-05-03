@@ -153,7 +153,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       ).then((response) => response.json());
       const thumbnailUrl = replaceImageType(vimeoVideo.thumbnail_url);
 
-      video.thumbnailUrl = thumbnailUrl;
+      video.thumbnail = { url: thumbnailUrl, alt: vimeoVideo.title };
       video.isVertical = vimeoVideo.height > vimeoVideo.width;
     })
   );
