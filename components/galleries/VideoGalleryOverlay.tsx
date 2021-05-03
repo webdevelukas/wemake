@@ -122,8 +122,8 @@ const CloseOverlayArea = styled.div`
 const GoToProjectLink = styled.a`
   position: absolute;
   text-align: center;
-  font-size: 1.2rem;
-  line-height: 1.2rem;
+  font-size: 1rem;
+  line-height: 1rem;
   left: 50%;
   transform: translate(-50%, 1rem);
   transform-origin: top;
@@ -155,7 +155,7 @@ const CloseButton = styled.a`
   position: absolute;
   top: -2.5rem;
   right: -2vmin;
-  font-size: 1.2rem;
+  font-size: 1rem;
 
   @media screen and (min-width: 768px) {
     top: -3rem;
