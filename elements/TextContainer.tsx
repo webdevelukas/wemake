@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 const TextContainer = styled.div`
+  z-index: 15;
+
   @media screen and (min-width: 600px) {
     width: 80vw;
     margin: 0 auto;
