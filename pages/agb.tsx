@@ -73,6 +73,9 @@ const PageWrapper = styled.div`
       > h2 {
         font-size: 1.5rem;
       }
+      > h3 {
+        font-size: 1.25rem;
+      }
     }
   }
 
