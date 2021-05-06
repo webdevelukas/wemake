@@ -26,7 +26,7 @@ module.exports = {
       },
       {
         source: "/wemake/:slug*",
-        destination: "/about",
+        destination: "/",
         permanent: true,
       },
     ];
