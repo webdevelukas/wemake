@@ -20,7 +20,7 @@ function MainLayout({ children }: MainLayoutProps) {
     <>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script defer data-domain="wemake.de" src="/js/script.js" />
+        <script async defer data-domain="wemake.de" src="/js/script.js" />
       </Head>
       <Header isNotMobile={isNotMobile} setShowContact={setShowContact} />
       <ContactOverlay
